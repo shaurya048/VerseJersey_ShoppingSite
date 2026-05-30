@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Verse Jersey | Detailed Shopping Cart</title>
+    
+    <!-- Tailwind CSS & Icons -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="styles.css" rel="stylesheet"/>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#CCFF00",
+                        secondary: "#1C1C24",
+                        tertiary: "#0B0B0F",
+                        textWhite: "#FFFFFF",
+                        textSlate: "#8F8F9F"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    fontFamily: {
+                        headline: ["Outfit", "sans-serif"],
+                        body: ["Geist", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body antialiased bg-tertiary text-white overflow-x-hidden pt-20">
+
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-tertiary/90 backdrop-blur-md border-b border-white/10 shadow-2xl">
+        <div class="flex justify-between items-center w-full px-6 py-4 max-w-screen-2xl mx-auto">
+            <div class="flex items-center gap-8">
+                <a class="text-2xl font-black italic tracking-tighter text-primary font-headline" href="index.html">VERSE JERSEY</a>
+                <div class="hidden md:flex gap-6 font-headline font-bold uppercase tracking-wider text-sm">
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="index.html#collections">COLLECTIONS</a>
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="collection.html">KITS</a>
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="customize.html">CUSTOMIZER</a>
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="about.html">TECH Specs</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <!-- Actions -->
+                <button class="text-white hover:text-primary transition-colors active:scale-95 relative" id="cart-btn">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="absolute -top-1 -right-1 bg-primary text-tertiary text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center" id="cart-badge">0</span>
+                </button>
+                <button class="text-white hover:text-primary transition-colors active:scale-95">
+                    <span class="material-symbols-outlined">person</span>
+                </button>
+                <!-- Mobile Menu Toggle -->
+                <button class="md:hidden text-white hover:text-primary transition-colors" id="mobile-menu-toggle">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Dropdown Navigation -->
+        <div class="hidden bg-tertiary border-b border-white/10 p-6 flex-col gap-4 font-headline font-bold text-lg uppercase tracking-wider" id="mobile-nav">
+            <a class="text-white/70 hover:text-primary transition-colors" href="index.html#collections">Collections</a>
+            <a class="text-white/70 hover:text-primary transition-colors" href="collection.html">Kits Collection</a>
+            <a class="text-white/70 hover:text-primary transition-colors" href="customize.html">Customizer</a>
+            <a class="text-white/70 hover:text-primary transition-colors" href="about.html">Tech Specifications</a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-screen-2xl mx-auto px-6 py-8 relative z-10 w-full min-h-screen">
+        
+        <!-- Background glows -->
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            <div class="absolute top-1/4 left-1/4 w-80 h-80 bg-primary/5 rounded-full blur-[100px]"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[120px]"></div>
+        </div>
+
+        <!-- Breadcrumbs -->
+        <nav class="flex text-xs text-textSlate uppercase tracking-wider gap-2 mb-8 font-headline relative z-10">
+            <a class="hover:text-white transition-colors" href="index.html">Home</a>
+            <span>/</span>
+            <span class="text-white font-bold">Shopping Cart</span>
+        </nav>
+
+        <header class="mb-10 relative z-10">
+            <h1 class="text-4xl md:text-5xl font-black font-headline tracking-tighter uppercase mb-2">
+                YOUR <span class="text-primary italic">SHOPPING CART</span>
+            </h1>
+            <p class="text-textSlate text-sm max-w-xl font-body">
+                Review your items, customize print namesets, select quantities, and apply discount coupons before checking out.
+            </p>
+        </header>
+
+        <!-- Cart Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
+            
+            <!-- Left Side: Cart Items List -->
+            <div class="lg:col-span-8 space-y-4" id="cart-page-items-list">
+                <!-- Injected dynamically via JS -->
+            </div>
+
+            <!-- Right Side: Order Summary Panel -->
+            <div class="lg:col-span-4 space-y-6">
+                <div class="glass-card rounded-2xl p-6 border border-white/5 bg-secondary/15 space-y-6 shadow-2xl">
+                    <h3 class="font-headline font-black italic text-lg uppercase tracking-wider text-white border-b border-white/5 pb-3">Order Summary</h3>
+                    
+                    <div class="space-y-3 font-body text-sm text-textSlate">
+                        <div class="flex justify-between">
+                            <span>Subtotal</span>
+                            <span class="text-white font-headline font-bold" id="cart-page-subtotal">$0.00</span>
+                        </div>
+                        <div class="flex justify-between" id="cart-page-discount-row">
+                            <span>Coupon Discount</span>
+                            <span class="text-primary font-headline font-bold" id="cart-page-discount">-$0.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Shipping</span>
+                            <span class="text-white font-headline font-bold" id="cart-page-shipping">$0.00</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span>Estimated Tax</span>
+                            <span class="text-white font-headline font-bold" id="cart-page-tax">$0.00</span>
+                        </div>
+                        <div class="flex justify-between border-t border-white/5 pt-4 text-base font-bold text-white">
+                            <span>Total</span>
+                            <span class="text-primary font-headline font-black text-2xl" id="cart-page-total">$0.00</span>
+                        </div>
+                    </div>
+
+                    <!-- Coupon Code Input -->
+                    <div class="border-t border-white/5 pt-6 space-y-2">
+                        <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block">Apply Discount Code</label>
+                        <div class="flex gap-2">
+                            <input class="w-full bg-tertiary border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors uppercase placeholder-textSlate/30" id="coupon-code-input" placeholder="ENTER CODE" type="text"/>
+                            <button class="bg-primary text-tertiary hover:bg-white px-6 py-2.5 rounded-lg font-headline font-black italic uppercase tracking-wider text-xs transition-all active:scale-95" id="btn-apply-coupon">
+                                Apply
+                            </button>
+                        </div>
+                        <p class="text-[9px] text-textSlate">Enter code <span class="text-primary font-bold">VERSE10</span> for 10% off your entire kit order.</p>
+                    </div>
+
+                    <!-- Checkout CTA Button -->
+                    <a class="w-full bg-primary text-tertiary hover:bg-white py-4 rounded-xl font-headline font-black italic uppercase text-center block tracking-wider transition-all transform active:scale-95 neon-btn flex items-center justify-center gap-2" href="checkout.html" id="btn-cart-checkout">
+                        Proceed to Checkout
+                        <span class="material-symbols-outlined text-sm font-black">arrow_forward</span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Suggested Products Section -->
+        <section class="py-20 mt-16 border-t border-white/5 relative z-10">
+            <h2 class="text-3xl font-black font-headline tracking-tighter uppercase mb-8">Kits Suggested <span class="text-primary italic">For You</span></h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6" id="cart-page-suggestions">
+                <!-- Dynamically loaded via JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary/50 w-full py-12 px-6 border-t border-white/5 mt-12">
+        <div class="max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-body text-white/30 uppercase tracking-widest">
+            <p>© 2026 VERSE JERSEY. ALL RIGHTS RESERVED.</p>
+            <div class="flex gap-6 font-headline font-bold text-white/40">
+                <a class="hover:text-primary transition-colors" href="support.html">SUPPORT</a>
+                <a class="hover:text-primary transition-colors" href="support.html#faq-accordions-list">FAQs</a>
+                <a class="hover:text-primary transition-colors" href="about.html">ABOUT</a>
+            </div>
+            <div class="flex gap-4">
+                <span>Visa</span>
+                <span>Mastercard</span>
+                <span>Apple Pay</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Overlay & Slide Drawer (Inherited drawer, handles page links) -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-drawer flex flex-col" id="cart-drawer">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center">
+            <h3 class="font-headline font-black italic text-xl uppercase text-white tracking-wider">Shopping Cart</h3>
+            <button class="text-white hover:text-primary transition-colors flex items-center justify-center" id="cart-close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <div class="flex-grow overflow-y-auto p-6 space-y-4" id="cart-items-container">
+            <p class="text-textSlate text-sm italic font-body text-center mt-8">Your cart is empty.</p>
+        </div>
+        
+        <div class="p-6 border-t border-white/10 bg-secondary/40 space-y-4">
+            <div class="flex justify-between items-center">
+                <span class="text-textSlate text-xs font-label uppercase tracking-wider">Subtotal</span>
+                <span class="font-headline font-black text-2xl text-primary" id="cart-subtotal">$0.00</span>
+            </div>
+            <a class="w-full bg-primary text-tertiary hover:bg-white py-4 rounded-xl font-headline font-black italic uppercase text-center block tracking-wider transition-all transform active:scale-95 neon-btn flex items-center justify-center gap-2" href="cart.html">
+                View Cart Details
+                <span class="material-symbols-outlined text-sm font-black">arrow_forward</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Core App Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>

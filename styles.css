@@ -1,0 +1,195 @@
+/* Verse Jersey - World Cup 2026 E-Commerce Stylesheet */
+
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=Geist:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --color-bg: #0B0B0F;
+    --color-surface: #121218;
+    --color-card: rgba(28, 28, 36, 0.4);
+    --color-primary: #CCFF00; /* Neon Volt */
+    --color-primary-glow: rgba(204, 255, 0, 0.35);
+    --color-white: #FFFFFF;
+    --color-slate: #8F8F9F;
+    --border-radius: 4px;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-white);
+    font-family: 'Geist', sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+    background: #1C1C24;
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-primary);
+}
+
+/* Glassmorphism Panels */
+.glass-card {
+    background: var(--color-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-neon {
+    background: var(--color-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(204, 255, 0, 0.15);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-card-neon:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 0 25px rgba(204, 255, 0, 0.1);
+}
+
+/* Neon Volt Highlights */
+.neon-text-glow {
+    text-shadow: 0 0 12px var(--color-primary-glow);
+}
+
+.neon-btn {
+    background-color: var(--color-primary);
+    color: #000;
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    box-shadow: 0 0 20px var(--color-primary-glow);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.neon-btn:hover {
+    background-color: var(--color-white);
+    color: #000;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.4);
+    transform: translateY(-1px);
+}
+
+.neon-btn:active {
+    transform: translateY(1px);
+}
+
+/* Animations */
+@keyframes pulseGlow {
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(204, 255, 0, 0.6); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(204, 255, 0, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(204, 255, 0, 0); }
+}
+
+.pulse-dot {
+    animation: pulseGlow 2s infinite;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.float-slow {
+    animation: float 5s ease-in-out infinite;
+}
+
+.float-slow-reverse {
+    animation: float 6s ease-in-out infinite reverse;
+}
+
+/* Hide Scrollbar */
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+/* Font Classes */
+.font-headline {
+    font-family: 'Outfit', sans-serif;
+}
+
+.font-body {
+    font-family: 'Geist', sans-serif;
+}
+
+/* Jersey Customizer interactive preview styling */
+.jersey-canvas-container {
+    perspective: 1000px;
+}
+
+.jersey-card-3d {
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-style: preserve-3d;
+}
+
+.jersey-card-3d:hover {
+    transform: rotateY(10deg) rotateX(2deg);
+}
+
+/* Slide Drawer for Cart */
+.cart-drawer {
+    position: fixed;
+    top: 0;
+    right: -420px;
+    width: 420px;
+    max-width: 100%;
+    height: 100%;
+    background: rgba(18, 18, 24, 0.95);
+    backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    z-index: 100;
+    transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cart-drawer.open {
+    right: 0;
+}
+
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    z-index: 99;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.cart-overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* Product Details Zoom Magnifier */
+.zoom-container {
+    overflow: hidden;
+    cursor: zoom-in;
+}
+
+.zoom-img {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.zoom-container:hover .zoom-img {
+    transform: scale(1.45);
+}

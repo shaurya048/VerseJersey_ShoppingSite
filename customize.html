@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Verse Jersey | Futuristic Jersey Customizer Studio</title>
+    
+    <!-- Tailwind CSS & Icons -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="styles.css" rel="stylesheet"/>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#CCFF00",
+                        secondary: "#1C1C24",
+                        tertiary: "#0B0B0F",
+                        textWhite: "#FFFFFF",
+                        textSlate: "#8F8F9F"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    fontFamily: {
+                        headline: ["Outfit", "sans-serif"],
+                        body: ["Geist", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body overflow-x-hidden min-h-screen flex flex-col relative pt-20">
+
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 h-20 bg-tertiary/90 backdrop-blur-xl border-b border-secondary shadow-[0_4px_30px_rgba(204,255,0,0.05)]">
+        <div class="flex items-center gap-8">
+            <a class="text-2xl font-black italic tracking-tighter text-primary font-headline" href="index.html">VERSE JERSEY</a>
+            <div class="hidden md:flex gap-6 font-headline font-bold uppercase tracking-wider text-sm">
+                <a class="text-white/70 hover:text-primary transition-all duration-300" href="index.html">Home</a>
+                <a class="text-white/70 hover:text-primary transition-all duration-300" href="collection.html">Kits</a>
+                <a class="text-primary border-b-2 border-primary pb-1" href="customize.html">Customizer</a>
+                <a class="text-white/70 hover:text-primary transition-all duration-300" href="about.html">Tech Specs</a>
+            </div>
+        </div>
+        <div class="flex items-center gap-6">
+            <button class="text-textWhite hover:text-primary transition-colors scale-95 active:scale-90 relative" id="cart-btn">
+                <span class="material-symbols-outlined">shopping_cart</span>
+                <span class="absolute -top-1 -right-1 bg-primary text-tertiary text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center" id="cart-badge">0</span>
+            </button>
+            <button class="text-textWhite hover:text-primary transition-colors scale-95 active:scale-90">
+                <span class="material-symbols-outlined">person</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Workspace Area -->
+    <main class="flex-grow pb-32 px-4 md:px-8 relative z-10 flex flex-col lg:flex-row gap-8 items-stretch max-w-screen-2xl mx-auto w-full pt-8">
+        <!-- Background glows -->
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[100px]"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px]"></div>
+        </div>
+
+        <!-- Left Panel: Kit Selection -->
+        <aside class="glass-panel rounded-xl w-full lg:w-80 flex-shrink-0 flex flex-col p-6 z-10 border border-white/5 bg-secondary/20">
+            <h2 class="font-headline font-black italic text-xl uppercase mb-6 text-primary tracking-wider border-b border-white/5 pb-4">Kit Selection</h2>
+            
+            <!-- Team Selection Dropdown -->
+            <div class="mb-8">
+                <h3 class="text-xs text-textSlate uppercase tracking-widest mb-3 font-bold">Select Team</h3>
+                <div class="relative">
+                    <select class="w-full bg-secondary/80 border border-white/10 rounded-xl px-4 py-3.5 pr-10 font-headline font-bold text-sm focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-textWhite transition-all appearance-none cursor-pointer" id="team-select-dropdown">
+                        <option value="algeria">Algeria</option>
+                        <option value="argentina" selected>Argentina</option>
+                        <option value="australia">Australia</option>
+                        <option value="belgium">Belgium</option>
+                        <option value="brazil">Brazil</option>
+                        <option value="cameroon">Cameroon</option>
+                        <option value="canada">Canada</option>
+                        <option value="chile">Chile</option>
+                        <option value="colombia">Colombia</option>
+                        <option value="costarica">Costa Rica</option>
+                        <option value="croatia">Croatia</option>
+                        <option value="denmark">Denmark</option>
+                        <option value="ecuador">Ecuador</option>
+                        <option value="egypt">Egypt</option>
+                        <option value="england">England</option>
+                        <option value="france">France</option>
+                        <option value="germany">Germany</option>
+                        <option value="ghana">Ghana</option>
+                        <option value="iran">Iran</option>
+                        <option value="italy">Italy</option>
+                        <option value="japan">Japan</option>
+                        <option value="mexico">Mexico</option>
+                        <option value="morocco">Morocco</option>
+                        <option value="netherlands">Netherlands</option>
+                        <option value="nigeria">Nigeria</option>
+                        <option value="paraguay">Paraguay</option>
+                        <option value="peru">Peru</option>
+                        <option value="poland">Poland</option>
+                        <option value="portugal">Portugal</option>
+                        <option value="qatar">Qatar</option>
+                        <option value="saudiarabia">Saudi Arabia</option>
+                        <option value="senegal">Senegal</option>
+                        <option value="southkorea">South Korea</option>
+                        <option value="spain">Spain</option>
+                        <option value="switzerland">Switzerland</option>
+                        <option value="unitedstates">United States</option>
+                        <option value="uruguay">Uruguay</option>
+                    </select>
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-primary">
+                        <span class="material-symbols-outlined text-sm">keyboard_arrow_down</span>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Version Selector -->
+            <div class="space-y-4">
+                <h3 class="text-xs text-textSlate uppercase tracking-widest mb-2 font-bold">Jersey Edition</h3>
+                <div class="flex flex-col gap-3">
+                    <label class="cursor-pointer relative block">
+                        <input checked class="peer sr-only" name="edition" type="radio" value="player"/>
+                        <div class="p-4 rounded-lg bg-secondary/40 border border-transparent peer-checked:border-primary peer-checked:bg-secondary/80 transition-all">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-headline font-bold text-sm text-textWhite uppercase tracking-wide">Player Edition</span>
+                                <span class="text-primary font-bold text-sm">+$40</span>
+                            </div>
+                            <p class="text-[11px] text-textSlate leading-relaxed">Athletic body-mapping fit, aero-weave cooling mesh, heat-pressed badges.</p>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer relative block">
+                        <input class="peer sr-only" name="edition" type="radio" value="fan"/>
+                        <div class="p-4 rounded-lg bg-secondary/40 border border-transparent peer-checked:border-primary peer-checked:bg-secondary/80 transition-all">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="font-headline font-bold text-sm text-textWhite uppercase tracking-wide">Fan Edition</span>
+                                <span class="text-textSlate font-bold text-sm">Standard</span>
+                            </div>
+                            <p class="text-[11px] text-textSlate leading-relaxed">Relaxed standard fit, heavy-duty doubleknit fabric, embroidered crests.</p>
+                        </div>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Tech Details Banner -->
+            <div class="mt-6 rounded-lg overflow-hidden border border-white/5 relative h-32 group">
+                <div class="absolute inset-0 bg-cover bg-center transition-transform duration-700 group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBLcDaLxSuvcdQRMl3t1pEZZmUGFupdLWeHKizbu7K_20VX03-lZOwb24PdBK027ImOp0ABLA3WsGc4uHV2p57aipxBG20fbeOIfiz9KvGQHBojpnkBNWr7b4ATR5PKjHd_aUgZ9Rx0h4ARytnCZsYaqe8csZVqzrZJqLrJiDcUAeKsssQwoDxBjjR6EQKNM397GEyyn9VZH7NwVLL0M2VgqxGisntgfeRkum-nWHXH-cPiM6vphVV9a5v5PZYYBhzWlE5tKglDBGfP');"></div>
+                <div class="absolute inset-0 bg-tertiary/75 flex flex-col justify-end p-4">
+                    <span class="text-[10px] text-primary font-bold uppercase tracking-widest mb-1">High Tech Fabric</span>
+                    <h4 class="font-headline font-black text-sm uppercase text-white leading-none">Aero-Weave Mesh</h4>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Center Workspace: Live Preview Canvas -->
+        <section class="flex-grow flex flex-col relative z-10 min-h-[550px] justify-center items-center">
+            <div class="absolute top-4 right-4 flex items-center gap-2 z-20 glass-card px-4 py-2 rounded-full border-white/5">
+                <div class="w-2.5 h-2.5 rounded-full bg-primary pulse-dot"></div>
+                <span class="text-[10px] text-primary uppercase tracking-widest font-black font-headline">Live Preview Studio</span>
+            </div>
+
+            <!-- Interactive Toggle for Front vs Back -->
+            <div class="absolute top-4 left-4 z-20 flex gap-1 bg-secondary/80 p-1 rounded-full border border-white/5">
+                <button class="px-4 py-1.5 rounded-full font-headline text-xs font-bold uppercase tracking-wider text-tertiary bg-primary" id="view-front-btn">Front</button>
+                <button class="px-4 py-1.5 rounded-full font-headline text-xs font-bold uppercase tracking-wider text-textSlate hover:text-white" id="view-back-btn">Back</button>
+            </div>
+
+            <!-- Preview stage -->
+            <div class="w-full flex justify-center items-center py-12 relative jersey-canvas-container">
+                <!-- Outer decorative lines -->
+                <div class="absolute w-[450px] h-[450px] border border-secondary/20 rounded-full blur-[1px] transform rotate-12 scale-110"></div>
+                <div class="absolute w-[400px] h-[400px] border border-primary/10 rounded-full blur-[2px] transform -rotate-12 scale-95"></div>
+                
+                <!-- Front Preview Stage -->
+                <div class="z-10 w-[320px] h-[400px] flex items-center justify-center jersey-card-3d" id="jersey-front-stage">
+                    <!-- SVG Front Render (Dynamic script injection) -->
+                    <svg class="w-full h-full drop-shadow-[0_25px_50px_rgba(0,0,0,0.8)]" id="jersey-svg-front" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Filled by JS -->
+                    </svg>
+                </div>
+
+                <!-- Back Preview Stage (Hidden by default) -->
+                <div class="z-10 w-[320px] h-[400px] flex items-center justify-center jersey-card-3d hidden" id="jersey-back-stage">
+                    <!-- SVG Back Render -->
+                    <svg class="w-full h-full drop-shadow-[0_25px_50px_rgba(0,0,0,0.8)]" id="jersey-svg-back" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Filled by JS -->
+                    </svg>
+                </div>
+            </div>
+            
+            <!-- Quick Helper Indicator -->
+            <div class="text-center z-10 text-xs text-textSlate font-body flex items-center gap-1 opacity-70">
+                <span class="material-symbols-outlined text-sm">3d_rotation</span>
+                <span>Change views using the Front/Back selector</span>
+            </div>
+        </section>
+
+        <!-- Right Panel: Personalization & Details -->
+        <aside class="glass-panel rounded-xl w-full lg:w-80 flex-shrink-0 flex flex-col p-6 z-10 border border-white/5 bg-secondary/20">
+            <h2 class="font-headline font-black italic text-xl uppercase mb-6 text-textWhite tracking-wider border-b border-white/5 pb-4">Personalization</h2>
+            
+            <!-- Custom Name and Number -->
+            <div class="mb-8 space-y-4">
+                <div>
+                    <label class="text-[10px] text-textSlate uppercase tracking-widest block mb-2 font-bold">Name on Back</label>
+                    <input class="w-full bg-tertiary border border-white/10 rounded-lg px-4 py-3 font-headline font-bold text-lg uppercase focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-textWhite placeholder-white/20 transition-all" id="custom-name" maxlength="12" placeholder="ENTER NAME" type="text" value="MESSI"/>
+                </div>
+                <div>
+                    <label class="text-[10px] text-textSlate uppercase tracking-widest block mb-2 font-bold">Kit Number</label>
+                    <input class="w-full bg-tertiary border border-white/10 rounded-lg px-4 py-3 font-headline font-black text-2xl uppercase focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-textWhite placeholder-00 transition-all" id="custom-number" max="99" min="1" placeholder="10" type="number" value="10"/>
+                </div>
+            </div>
+
+            <!-- Sleeve Patches -->
+            <div class="mb-8">
+                <h3 class="text-xs text-textSlate uppercase tracking-widest mb-4 font-bold">Tournament Patches</h3>
+                <div class="grid grid-cols-1 gap-2">
+                    <label class="cursor-pointer relative flex items-center justify-between p-3.5 rounded-lg bg-secondary/40 border border-transparent hover:border-secondary transition-all" id="patch-wc-label">
+                        <div class="flex items-center gap-3">
+                            <input checked class="rounded border-white/10 text-primary focus:ring-primary bg-tertiary patch-checkbox" id="patch-wc" type="checkbox" value="15"/>
+                            <span class="font-headline font-bold text-sm text-textWhite">World Cup 2026</span>
+                        </div>
+                        <span class="text-primary font-bold text-xs">+$15</span>
+                    </label>
+                    <label class="cursor-pointer relative flex items-center justify-between p-3.5 rounded-lg bg-secondary/40 border border-transparent hover:border-secondary transition-all" id="patch-gold-label">
+                        <div class="flex items-center gap-3">
+                            <input class="rounded border-white/10 text-primary focus:ring-primary bg-tertiary patch-checkbox" id="patch-gold" type="checkbox" value="15"/>
+                            <span class="font-headline font-bold text-sm text-textSlate">FIFA Gold Champions</span>
+                        </div>
+                        <span class="text-textSlate font-bold text-xs">+$15</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Size Selector -->
+            <div>
+                <div class="flex justify-between items-center mb-4">
+                    <h3 class="text-xs text-textSlate uppercase tracking-widest font-bold">Select Size</h3>
+                    <a class="text-xs text-primary underline hover:text-white transition-colors" href="#">Size Guide</a>
+                </div>
+                <div class="flex justify-between gap-2" id="size-select-container">
+                    <button class="w-10 h-10 rounded-full bg-secondary/40 border border-transparent flex items-center justify-center font-headline font-bold text-xs hover:border-primary transition-colors text-textSlate hover:text-white size-btn" data-size="S">S</button>
+                    <button class="w-10 h-10 rounded-full bg-secondary/40 border border-transparent flex items-center justify-center font-headline font-bold text-xs hover:border-primary transition-colors text-textSlate hover:text-white size-btn" data-size="M">M</button>
+                    <button class="w-10 h-10 rounded-full bg-primary border border-primary flex items-center justify-center font-headline font-bold text-xs text-tertiary neon-glow size-btn active" data-size="L">L</button>
+                    <button class="w-10 h-10 rounded-full bg-secondary/40 border border-transparent flex items-center justify-center font-headline font-bold text-xs hover:border-primary transition-colors text-textSlate hover:text-white size-btn" data-size="XL">XL</button>
+                    <button class="w-10 h-10 rounded-full bg-secondary/40 border border-transparent flex items-center justify-center font-headline font-bold text-xs hover:border-primary transition-colors text-textSlate hover:text-white size-btn" data-size="2XL">XXL</button>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Bottom Action Bar (Floating checkout trigger) -->
+    <div class="fixed bottom-0 left-0 w-full z-40 bg-secondary/95 backdrop-blur-2xl border-t border-white/5 py-4 px-6 md:px-12 flex justify-between items-center shadow-[0_-4px_30px_rgba(0,0,0,0.6)]">
+        <div class="flex flex-col">
+            <span class="font-headline font-black italic text-lg md:text-xl uppercase tracking-wider text-white" id="bar-kit-name">Argentina Home 2026</span>
+            <span class="text-xs text-textSlate tracking-wider" id="bar-kit-details">Player Edition + Customization (L)</span>
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="flex flex-col items-end">
+                <span class="font-headline font-black text-2xl md:text-3xl text-primary" id="bar-kit-price">$164.99</span>
+            </div>
+            <button class="bg-primary text-tertiary px-6 md:px-8 py-3.5 rounded-xl font-headline font-black italic uppercase text-sm md:text-base tracking-wider hover:bg-white transition-all transform active:scale-95 flex items-center gap-2 neon-btn" id="custom-add-to-cart">
+                <span class="material-symbols-outlined font-bold text-sm md:text-base">add_shopping_cart</span>
+                Add Kit to Cart
+            </button>
+        </div>
+    </div>
+
+    <!-- Cart Overlay & Slide Drawer -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-drawer flex flex-col" id="cart-drawer">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center">
+            <h3 class="font-headline font-black italic text-xl uppercase text-white tracking-wider">Shopping Cart</h3>
+            <button class="text-white hover:text-primary transition-colors flex items-center justify-center" id="cart-close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <!-- Cart Items List -->
+        <div class="flex-grow overflow-y-auto p-6 space-y-4" id="cart-items-container">
+            <p class="text-textSlate text-sm italic font-body text-center mt-8">Your cart is empty.</p>
+        </div>
+        
+        <!-- Cart Summary Footer -->
+        <div class="p-6 border-t border-white/10 bg-secondary/40 space-y-4">
+            <div class="flex justify-between items-center">
+                <span class="text-textSlate text-xs font-label uppercase tracking-wider">Subtotal</span>
+                <span class="font-headline font-black text-2xl text-primary" id="cart-subtotal">$0.00</span>
+            </div>
+            <a class="w-full bg-primary text-tertiary hover:bg-white py-4 rounded-xl font-headline font-black italic uppercase text-center block tracking-wider transition-all transform active:scale-95 neon-btn flex items-center justify-center gap-2" href="cart.html">
+                View Cart Details
+                <span class="material-symbols-outlined text-sm font-black">arrow_forward</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Core App Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Verse Jersey | Our Story & Tech Specs</title>
+    
+    <!-- Tailwind CSS & Icons -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="styles.css" rel="stylesheet"/>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#CCFF00",
+                        secondary: "#1C1C24",
+                        tertiary: "#0B0B0F",
+                        textWhite: "#FFFFFF",
+                        textSlate: "#8F8F9F"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    fontFamily: {
+                        headline: ["Outfit", "sans-serif"],
+                        body: ["Geist", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body antialiased bg-tertiary text-white overflow-x-hidden pt-20">
+
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-tertiary/90 backdrop-blur-md border-b border-white/10 shadow-2xl">
+        <div class="flex justify-between items-center w-full px-6 py-4 max-w-screen-2xl mx-auto">
+            <div class="flex items-center gap-8">
+                <a class="text-2xl font-black italic tracking-tighter text-primary font-headline" href="index.html">VERSE JERSEY</a>
+                <div class="hidden md:flex gap-6 font-headline font-bold uppercase tracking-wider text-sm">
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="index.html#collections">COLLECTIONS</a>
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="collection.html">KITS</a>
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="customize.html">CUSTOMIZER</a>
+                    <a class="text-primary border-b-2 border-primary pb-1" href="about.html">TECH Specs</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <!-- Actions -->
+                <button class="text-white hover:text-primary transition-colors active:scale-95 relative" id="cart-btn">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="absolute -top-1 -right-1 bg-primary text-tertiary text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center" id="cart-badge">0</span>
+                </button>
+                <button class="text-white hover:text-primary transition-colors active:scale-95">
+                    <span class="material-symbols-outlined">person</span>
+                </button>
+                <!-- Mobile Menu Toggle -->
+                <button class="md:hidden text-white hover:text-primary transition-colors" id="mobile-menu-toggle">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Dropdown Navigation -->
+        <div class="hidden bg-tertiary border-b border-white/10 p-6 flex-col gap-4 font-headline font-bold text-lg uppercase tracking-wider" id="mobile-nav">
+            <a class="text-white/70 hover:text-primary transition-colors" href="index.html#collections">Collections</a>
+            <a class="text-white/70 hover:text-primary transition-colors" href="collection.html">Kits Collection</a>
+            <a class="text-white/70 hover:text-primary transition-colors" href="customize.html">Customizer</a>
+            <a class="text-primary transition-colors" href="about.html">Tech Specifications</a>
+        </div>
+    </nav>
+
+    <!-- Cinematic Hero Section -->
+    <header class="relative w-full h-[60vh] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 z-0">
+            <div class="absolute inset-0 bg-gradient-to-t from-tertiary via-tertiary/60 to-transparent z-10"></div>
+            <img alt="Stadium atmosphere flare" class="w-full h-full object-cover object-center scale-105 select-none grayscale contrast-125 brightness-50" src="https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1600&auto=format&fit=crop"/>
+        </div>
+        <div class="relative z-20 text-center max-w-4xl px-6">
+            <span class="inline-block px-4 py-1.5 bg-primary/10 border border-primary/30 text-primary text-xs font-bold uppercase tracking-widest mb-6 rounded-full font-headline">
+                Est. 2022 / Football Culture Brand
+            </span>
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black font-headline tracking-tighter leading-[0.95] uppercase text-white mb-6">
+                WE BREATHE THE GAME.<br/>
+                <span class="text-primary italic">WE WEAR THE CULTURE.</span>
+            </h1>
+            <p class="text-textSlate text-sm sm:text-base font-body max-w-lg mx-auto leading-relaxed">
+                Born on the asphalt pitches, refined for the grandest stage. Verse Jersey bridges the gap between high-performance design and raw football lifestyle.
+            </p>
+        </div>
+    </header>
+
+    <!-- Content Workspace -->
+    <main class="max-w-screen-2xl mx-auto px-6 py-12 relative z-10 w-full">
+
+        <!-- Section 1: Story & Mission -->
+        <section class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center py-16">
+            <div class="space-y-6">
+                <div class="inline-flex items-center gap-2 glass-card px-4 py-1.5 rounded-full w-max border-primary/30">
+                    <span class="w-2 h-2 rounded-full bg-primary"></span>
+                    <span class="text-xs font-bold tracking-widest text-primary uppercase font-headline">Our Roots</span>
+                </div>
+                <h2 class="text-4xl font-black font-headline tracking-tighter uppercase text-white leading-tight">
+                    THE STREETS ARE <br/>OUR <span class="text-primary italic">STADIUM</span>
+                </h2>
+                <p class="text-textSlate text-sm font-body leading-relaxed">
+                    Verse Jersey was founded in 2022 by a collective of players, designers, and season ticket holders. We grew tired of generic sportswear templates that lacked identity, soul, and custom expression.
+                </p>
+                <p class="text-textSlate text-sm font-body leading-relaxed">
+                    We believe the jersey is more than a kit—it is a banner. It carries the weight of history, the pulse of the terrace chants, and the unique identity of the fan wearing it. That is why we built a premium workspace that puts high-fidelity printing and customization directly in your hands.
+                </p>
+                <div class="p-6 border-l-2 border-primary bg-secondary/20 rounded-r-xl">
+                    <p class="font-headline font-bold uppercase text-xs tracking-wider text-primary mb-1">Our Mission</p>
+                    <p class="text-white text-sm font-body italic leading-relaxed">
+                        "To equip football purists and casual creators with bespoke, high-performance jerseys that blend stadium pedigree with streetwear relevance."
+                    </p>
+                </div>
+            </div>
+            
+            <div class="relative max-w-md mx-auto aspect-square w-full">
+                <div class="absolute inset-0 bg-primary/10 blur-[80px] rounded-full z-0"></div>
+                <div class="relative z-10 glass-card p-3 rounded-2xl border-white/10 shadow-2xl transform rotate-1 hover:rotate-0 transition-transform duration-500 bg-secondary/15">
+                    <img alt="Macro stitching detail" class="rounded-xl w-full h-full object-cover grayscale opacity-90 contrast-125" src="https://images.unsplash.com/photo-1508344928928-7165b67de128?q=80&w=800&auto=format&fit=crop"/>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2: Craft & Tech Specs -->
+        <section class="py-20 border-t border-white/5">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-xs text-primary font-headline tracking-widest uppercase font-black">Behind the Brand</span>
+                <h2 class="text-4xl font-black font-headline tracking-tighter uppercase text-white mt-2">
+                    THE CRAFT OF <span class="text-primary italic">PERFORMANCE</span>
+                </h2>
+                <p class="text-textSlate text-sm font-body mt-2">
+                    Every jersey is built from the ground up to meet professional player standards and withstand lifestyle wear.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Tech Spec 1 -->
+                <div class="glass-card p-8 rounded-xl border border-white/5 bg-secondary/10 flex flex-col justify-between hover:border-primary/40 transition-colors group">
+                    <div class="mb-6">
+                        <span class="material-symbols-outlined text-primary text-4xl mb-4 block group-hover:scale-110 transition-transform">airwave</span>
+                        <h3 class="font-headline font-black uppercase text-lg text-white mb-2">Aero-Weave Fabric</h3>
+                        <p class="text-textSlate text-xs leading-relaxed font-body">
+                            Engineered with 100% recycled polyester doubleknit weaves. Features localized mesh zones on high-heat sweat panels to optimize cooling under performance pressure.
+                        </p>
+                    </div>
+                    <span class="text-[10px] text-textSlate/60 uppercase tracking-widest font-black font-headline">01 / Fabric Engineering</span>
+                </div>
+
+                <!-- Tech Spec 2 -->
+                <div class="glass-card p-8 rounded-xl border border-white/5 bg-secondary/10 flex flex-col justify-between hover:border-primary/40 transition-colors group">
+                    <div class="mb-6">
+                        <span class="material-symbols-outlined text-primary text-4xl mb-4 block group-hover:scale-110 transition-transform">draw</span>
+                        <h3 class="font-headline font-black uppercase text-lg text-white mb-2">Bespoke Namesets</h3>
+                        <p class="text-textSlate text-xs leading-relaxed font-body">
+                            Our dynamic live preview renders customized details on the back of the jersey. Using premium heat-pressed vinyl namesets, we apply authentic tournament typography that never cracks or peels.
+                        </p>
+                    </div>
+                    <span class="text-[10px] text-textSlate/60 uppercase tracking-widest font-black font-headline">02 / Custom Printing</span>
+                </div>
+
+                <!-- Tech Spec 3 -->
+                <div class="glass-card p-8 rounded-xl border border-white/5 bg-secondary/10 flex flex-col justify-between hover:border-primary/40 transition-colors group">
+                    <div class="mb-6">
+                        <span class="material-symbols-outlined text-primary text-4xl mb-4 block group-hover:scale-110 transition-transform">workspace_premium</span>
+                        <h3 class="font-headline font-black uppercase text-lg text-white mb-2">Dual Badge Finishes</h3>
+                        <p class="text-textSlate text-xs leading-relaxed font-body">
+                            Choose between Player Edition heat-sealed silicon shields that reduce friction on the pitch, or Fan Replica embroidered crests built for long-term comfort and classic style.
+                        </p>
+                    </div>
+                    <span class="text-[10px] text-textSlate/60 uppercase tracking-widest font-black font-headline">03 / Premium Trims</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 3: Brand Timeline -->
+        <section class="py-20 border-t border-white/5">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-xs text-primary font-headline tracking-widest uppercase font-black">History Roadmap</span>
+                <h2 class="text-4xl font-black font-headline tracking-tighter uppercase text-white mt-2">
+                    OUR BRAND <span class="text-primary italic">TIMELINE</span>
+                </h2>
+            </div>
+
+            <div class="relative border-l border-white/10 max-w-3xl mx-auto pl-8 space-y-12 py-4">
+                
+                <!-- Milestone 1 -->
+                <div class="relative group">
+                    <!-- Dot -->
+                    <div class="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full bg-tertiary border border-white/20 group-hover:border-primary transition-colors flex items-center justify-center">
+                        <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+                    </div>
+                    <div>
+                        <span class="text-xs font-headline font-black text-primary uppercase tracking-widest">November 2022</span>
+                        <h3 class="font-headline font-black uppercase text-lg text-white mt-1">The Spark / Qatar World Cup</h3>
+                        <p class="text-textSlate text-xs leading-relaxed font-body mt-2">
+                            Founded in London during the winter World Cup. A group of designers launched a small batch of custom hand-printed retro jerseys that sold out in minutes, revealing a deep fan desire for customized expression.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Milestone 2 -->
+                <div class="relative group">
+                    <!-- Dot -->
+                    <div class="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full bg-tertiary border border-white/20 group-hover:border-primary transition-colors flex items-center justify-center">
+                        <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+                    </div>
+                    <div>
+                        <span class="text-xs font-headline font-black text-primary uppercase tracking-widest">March 2024</span>
+                        <h3 class="font-headline font-black uppercase text-lg text-white mt-1">Customizer Studio Launch</h3>
+                        <p class="text-textSlate text-xs leading-relaxed font-body mt-2">
+                            Launched our futuristic customization platform, allowing users to enter custom details and preview them instantly in vector formats. Standardized global size selectors and sleeve patch upgrades.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Milestone 3 -->
+                <div class="relative group">
+                    <!-- Dot -->
+                    <div class="absolute -left-[41px] top-1.5 w-6 h-6 rounded-full bg-tertiary border border-white/20 group-hover:border-primary transition-colors flex items-center justify-center">
+                        <span class="w-2.5 h-2.5 rounded-full bg-primary"></span>
+                    </div>
+                    <div>
+                        <span class="text-xs font-headline font-black text-primary uppercase tracking-widest">May 2026</span>
+                        <h3 class="font-headline font-black uppercase text-lg text-white mt-1">World Cup 2026 Collection</h3>
+                        <p class="text-textSlate text-xs leading-relaxed font-body mt-2">
+                            Officially branded as **Verse Jersey**, expanding our digital collection to cover club integrations, retro edits, goalkeeper kits, training zip-ups, and global delivery channels to 150+ countries.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Section 4: Lifestyle Gallery -->
+        <section class="py-20 border-t border-white/5">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-xs text-primary font-headline tracking-widest uppercase font-black">Lifestyle & Atmosphere</span>
+                <h2 class="text-4xl font-black font-headline tracking-tighter uppercase text-white mt-2">
+                    WEAR THE <span class="text-primary italic">PASSION</span>
+                </h2>
+            </div>
+
+            <!-- Bento Grid Gallery -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 h-[700px]">
+                
+                <!-- Large vertical panel -->
+                <div class="md:col-span-1 md:row-span-2 relative rounded-2xl overflow-hidden glass-card border border-white/10 group h-full">
+                    <img alt="Tunnel exit shot" class="w-full h-full object-cover grayscale group-hover:scale-105 transition-transform duration-700 select-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCd6CjABK4z7Bma0scDHZTcuOOQzoTN8LzuWV7UZ7fQ8VfkU0vlPUfDSFGeW30RIKxzeAELx7NXjOhYeM5HEpcxgj9NVp6WzvHHQys_5jr522dvaA-u62pOv0FdGyxGjYw3GYaL6Um-Qjexg6kZdrzXjnVY1fA8RL6m60TBDCQtrduFTg9oAadUx6gpAT7icZH2vdEPVIbViZKV9zmCnt_QftSTb219Dli28yUIIsAxGUJGTPcUnMfVWuoFYesETpoLbYHFgzYFsC6q"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-tertiary via-transparent to-transparent z-10"></div>
+                    <div class="absolute bottom-6 left-6 z-20">
+                        <span class="bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">#TunnelWalk</span>
+                    </div>
+                </div>
+
+                <!-- Top right landscape -->
+                <div class="md:col-span-2 relative rounded-2xl overflow-hidden glass-card border border-white/10 group h-full">
+                    <img alt="Stadium lights stadium crowd" class="w-full h-full object-cover grayscale brightness-90 group-hover:scale-105 transition-transform duration-700 select-none" src="https://images.unsplash.com/photo-1522778119026-d647f0596c20?q=80&w=800&auto=format&fit=crop"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-tertiary via-transparent to-transparent z-10"></div>
+                    <div class="absolute bottom-6 left-6 z-20">
+                        <span class="bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">#Matchday</span>
+                    </div>
+                </div>
+
+                <!-- Bottom mid landscape -->
+                <div class="relative rounded-2xl overflow-hidden glass-card border border-white/10 group h-full">
+                    <img alt="stretching jersey custom back" class="w-full h-full object-cover grayscale brightness-90 group-hover:scale-105 transition-transform duration-700 select-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9vKug53OysMN3IuKeUoV0ljnF9z7NYtITpuZpKxiEhDmc1iMinNyNmscdXRtI1fQd2uYlS-f2NUug0mJc5P1FFzibULZPl58trhTzVX3mIgWNH4OwaV7nEBzJZsCp-so3hQfNORLGk2kDZTYkEbSaVwPNqs_mZ8dGKhhRzj9MXDsw1rRuXsEHSuGu-FymBCN8I8E-nXGF938ln5Gkno1Bh6vNbTLnmENKojupvkYA9oD8UhXEe3DC2EIBkOKcFV7AMkk7y-1TaAqk"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-tertiary via-transparent to-transparent z-10"></div>
+                    <div class="absolute bottom-6 left-6 z-20">
+                        <span class="bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">#StreetWear</span>
+                    </div>
+                </div>
+
+                <!-- Bottom right landscape -->
+                <div class="relative rounded-2xl overflow-hidden glass-card border border-white/10 group h-full">
+                    <img alt="fans celebrating in stand" class="w-full h-full object-cover grayscale group-hover:scale-105 transition-transform duration-700 select-none" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAB0pWISZbpv83yLstwcAyig8Kz9r-G66RjJF5fKWdp65zTFxUtcC6adcvuck_nDo3lKU5CIQ2S_E0FKIftbh0IfapiH5mU5aean5rZxd_IHlkNWcx3Mc6s9WM5L8jFvck03iPpINX3HeoVjbmAEXQCOpRYxg7fe2HFB5hHOHbG2SG566Y5XIxKf0WtMgPV09dcf7KsDhb_woLQbu_Xw96NlxOYCwZuut0LH8tHSZ0cq_qM1zbcmvn2OAjgD0Brby4VRw1z5sMYcJB_"/>
+                    <div class="absolute inset-0 bg-gradient-to-t from-tertiary via-transparent to-transparent z-10"></div>
+                    <div class="absolute bottom-6 left-6 z-20">
+                        <span class="bg-primary/20 backdrop-blur-md border border-primary/30 text-primary text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-full">#TheCrowd</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary/50 w-full py-12 px-6 border-t border-white/5 mt-12">
+        <div class="max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-body text-white/30 uppercase tracking-widest">
+            <p>© 2026 VERSE JERSEY. ALL RIGHTS RESERVED.</p>
+            <div class="flex gap-6 font-headline font-bold text-white/40">
+                <a class="hover:text-primary transition-colors" href="support.html">SUPPORT</a>
+                <a class="hover:text-primary transition-colors" href="support.html#faq-accordions-list">FAQs</a>
+                <a class="hover:text-primary transition-colors" href="about.html">ABOUT</a>
+            </div>
+            <div class="flex gap-4">
+                <span>Visa</span>
+                <span>Mastercard</span>
+                <span>Apple Pay</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Overlay & Slide Drawer -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-drawer flex flex-col" id="cart-drawer">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center">
+            <h3 class="font-headline font-black italic text-xl uppercase text-white tracking-wider">Shopping Cart</h3>
+            <button class="text-white hover:text-primary transition-colors flex items-center justify-center" id="cart-close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <div class="flex-grow overflow-y-auto p-6 space-y-4" id="cart-items-container">
+            <p class="text-textSlate text-sm italic font-body text-center mt-8">Your cart is empty.</p>
+        </div>
+        
+        <div class="p-6 border-t border-white/10 bg-secondary/40 space-y-4">
+            <div class="flex justify-between items-center">
+                <span class="text-textSlate text-xs font-label uppercase tracking-wider">Subtotal</span>
+                <span class="font-headline font-black text-2xl text-primary" id="cart-subtotal">$0.00</span>
+            </div>
+            <a class="w-full bg-primary text-tertiary hover:bg-white py-4 rounded-xl font-headline font-black italic uppercase text-center block tracking-wider transition-all transform active:scale-95 neon-btn flex items-center justify-center gap-2" href="cart.html">
+                View Cart Details
+                <span class="material-symbols-outlined text-sm font-black">arrow_forward</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Core App Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>

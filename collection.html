@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Verse Jersey | Football Jersey Collection</title>
+    
+    <!-- Tailwind CSS & Icons -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="styles.css" rel="stylesheet"/>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#CCFF00",
+                        secondary: "#1C1C24",
+                        tertiary: "#0B0B0F",
+                        textWhite: "#FFFFFF",
+                        textSlate: "#8F8F9F"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    fontFamily: {
+                        headline: ["Outfit", "sans-serif"],
+                        body: ["Geist", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Sidebar transition rules on mobile */
+        @media (max-width: 767px) {
+            .filter-sidebar {
+                position: fixed;
+                top: 0;
+                left: -100%;
+                width: 280px;
+                height: 100vh;
+                z-index: 100;
+                transition: left 0.3s ease-in-out;
+            }
+            .filter-sidebar.open {
+                left: 0;
+            }
+        }
+        
+        .filter-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 90;
+        }
+        .filter-backdrop.open {
+            display: block;
+        }
+    </style>
+</head>
+<body class="font-body antialiased bg-tertiary text-white overflow-x-hidden pt-20">
+
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-tertiary/90 backdrop-blur-md border-b border-white/10 shadow-2xl">
+        <div class="flex justify-between items-center w-full px-6 py-4 max-w-screen-2xl mx-auto">
+            <div class="flex items-center gap-8">
+                <a class="text-2xl font-black italic tracking-tighter text-primary font-headline" href="index.html">VERSE JERSEY</a>
+                <div class="hidden md:flex gap-6 font-headline font-bold uppercase tracking-wider text-sm">
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="index.html#collections">COLLECTIONS</a>
+                    <a class="text-primary border-b-2 border-primary pb-1" href="collection.html">KITS</a>
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="customize.html">CUSTOMIZER</a>
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="about.html">TECH Specs</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <!-- Actions -->
+                <button class="text-white hover:text-primary transition-colors active:scale-95 relative" id="cart-btn">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="absolute -top-1 -right-1 bg-primary text-tertiary text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center" id="cart-badge">0</span>
+                </button>
+                <button class="text-white hover:text-primary transition-colors active:scale-95">
+                    <span class="material-symbols-outlined">person</span>
+                </button>
+                <!-- Mobile Menu Toggle -->
+                <button class="md:hidden text-white hover:text-primary transition-colors" id="mobile-menu-toggle">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Dropdown Navigation -->
+        <div class="hidden bg-tertiary border-b border-white/10 p-6 flex-col gap-4 font-headline font-bold text-lg uppercase tracking-wider" id="mobile-nav">
+            <a class="text-white/70 hover:text-primary transition-colors" href="index.html#collections">Collections</a>
+            <a class="text-primary transition-colors" href="collection.html">Trending Kits</a>
+            <a class="text-white/70 hover:text-primary transition-colors" href="customize.html">Customizer</a>
+            <a class="text-white/70 hover:text-primary transition-colors" href="about.html">Tech Specifications</a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-screen-2xl mx-auto px-6 py-8 relative z-10 w-full min-h-screen">
+        
+        <!-- Background glows -->
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            <div class="absolute top-10 left-10 w-72 h-72 bg-primary/5 rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-primary/5 rounded-full blur-[150px]"></div>
+        </div>
+
+        <!-- Breadcrumbs -->
+        <nav class="flex text-xs text-textSlate uppercase tracking-wider gap-2 mb-8 font-headline relative z-10">
+            <a class="hover:text-white transition-colors" href="index.html">Home</a>
+            <span>/</span>
+            <span class="text-white font-bold">Jerseys Collection</span>
+        </nav>
+
+        <header class="mb-10 relative z-10">
+            <h1 class="text-4xl md:text-5xl font-black font-headline tracking-tighter uppercase mb-2">
+                Football <span class="text-primary italic">Jerseys</span> Collection
+            </h1>
+            <p class="text-textSlate text-sm max-w-xl font-body">
+                Browse our high-performance player editions, fan replicas, classic retro drops, training zip-ups, and goalkeeper layers designed for the 2026 season.
+            </p>
+        </header>
+
+        <!-- Search Bar Header (Mobile) -->
+        <div class="md:hidden mb-6 flex gap-4 relative z-10">
+            <div class="flex-grow flex items-center glass-card rounded-xl px-4 py-3 border border-white/5 bg-secondary/20">
+                <span class="material-symbols-outlined text-textSlate text-sm mr-2">search</span>
+                <input class="bg-transparent border-none focus:ring-0 text-sm text-white placeholder-textSlate/60 w-full font-body outline-none" id="mobile-search-input" placeholder="Search team names, details..." type="text"/>
+            </div>
+            <button class="bg-primary text-tertiary px-4 py-3 rounded-xl flex items-center justify-center font-bold" id="mobile-filter-trigger">
+                <span class="material-symbols-outlined">filter_list</span>
+            </button>
+        </div>
+
+        <!-- Workspace Section (Sidebar + Grid) -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start relative z-10">
+            
+            <!-- Filter Sidebar -->
+            <aside class="md:col-span-3 glass-panel rounded-xl p-6 border border-white/5 bg-secondary/15 space-y-6 filter-sidebar overflow-y-auto" id="filter-sidebar">
+                
+                <!-- Close Button (Mobile only) -->
+                <div class="flex justify-between items-center md:hidden pb-4 border-b border-white/5 mb-4">
+                    <h3 class="font-headline font-black uppercase text-sm text-primary">Filters</h3>
+                    <button class="text-white flex items-center justify-center" id="mobile-filter-close">
+                        <span class="material-symbols-outlined text-xl">close</span>
+                    </button>
+                </div>
+
+                <!-- 1. Search (Desktop) -->
+                <div class="hidden md:block">
+                    <h4 class="font-headline font-bold text-xs uppercase tracking-wider text-primary mb-3">Search Jersey</h4>
+                    <div class="flex items-center glass-card rounded-lg px-3 py-2 border border-white/10 bg-secondary/40 focus-within:border-primary/50 transition-colors">
+                        <span class="material-symbols-outlined text-textSlate text-sm mr-2">search</span>
+                        <input class="bg-transparent border-none focus:ring-0 text-xs text-white placeholder-textSlate/60 w-full font-body outline-none" id="desktop-search-input" placeholder="Search..." type="text"/>
+                    </div>
+                </div>
+
+                <!-- 2. Availability Filters -->
+                <div>
+                    <h4 class="font-headline font-bold text-xs uppercase tracking-wider text-primary mb-3">Availability</h4>
+                    <div class="space-y-2 text-xs font-body text-textSlate">
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary focus:ring-offset-0 focus:ring-opacity-0 h-4 w-4 availability-checkbox" data-val="inStock" type="checkbox"/>
+                            <span>In Stock Only</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary focus:ring-offset-0 focus:ring-opacity-0 h-4 w-4 availability-checkbox" data-val="limited" type="checkbox"/>
+                            <span>Limited Drops</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 3. Team Filters -->
+                <div>
+                    <h4 class="font-headline font-bold text-xs uppercase tracking-wider text-primary mb-3">National Team</h4>
+                    <div class="space-y-2 text-xs font-body text-textSlate max-h-60 overflow-y-auto pr-2">
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="algeria" type="checkbox"/>
+                            <span>Algeria</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="argentina" type="checkbox"/>
+                            <span>Argentina</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="australia" type="checkbox"/>
+                            <span>Australia</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="belgium" type="checkbox"/>
+                            <span>Belgium</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="brazil" type="checkbox"/>
+                            <span>Brazil</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="cameroon" type="checkbox"/>
+                            <span>Cameroon</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="canada" type="checkbox"/>
+                            <span>Canada</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="chile" type="checkbox"/>
+                            <span>Chile</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="colombia" type="checkbox"/>
+                            <span>Colombia</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="costarica" type="checkbox"/>
+                            <span>Costa Rica</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="croatia" type="checkbox"/>
+                            <span>Croatia</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="denmark" type="checkbox"/>
+                            <span>Denmark</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="ecuador" type="checkbox"/>
+                            <span>Ecuador</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="egypt" type="checkbox"/>
+                            <span>Egypt</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="england" type="checkbox"/>
+                            <span>England</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="france" type="checkbox"/>
+                            <span>France</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="germany" type="checkbox"/>
+                            <span>Germany</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="ghana" type="checkbox"/>
+                            <span>Ghana</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="iran" type="checkbox"/>
+                            <span>Iran</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="italy" type="checkbox"/>
+                            <span>Italy</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="japan" type="checkbox"/>
+                            <span>Japan</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="mexico" type="checkbox"/>
+                            <span>Mexico</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="morocco" type="checkbox"/>
+                            <span>Morocco</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="netherlands" type="checkbox"/>
+                            <span>Netherlands</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="nigeria" type="checkbox"/>
+                            <span>Nigeria</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="paraguay" type="checkbox"/>
+                            <span>Paraguay</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="peru" type="checkbox"/>
+                            <span>Peru</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="poland" type="checkbox"/>
+                            <span>Poland</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="portugal" type="checkbox"/>
+                            <span>Portugal</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="qatar" type="checkbox"/>
+                            <span>Qatar</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="saudiarabia" type="checkbox"/>
+                            <span>Saudi Arabia</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="senegal" type="checkbox"/>
+                            <span>Senegal</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="southkorea" type="checkbox"/>
+                            <span>South Korea</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="spain" type="checkbox"/>
+                            <span>Spain</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="switzerland" type="checkbox"/>
+                            <span>Switzerland</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="unitedstates" type="checkbox"/>
+                            <span>United States</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 team-checkbox" data-team="uruguay" type="checkbox"/>
+                            <span>Uruguay</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 4. Price Bracket Filters -->
+                <div>
+                    <h4 class="font-headline font-bold text-xs uppercase tracking-wider text-primary mb-3">Price Range</h4>
+                    <div class="space-y-2 text-xs font-body text-textSlate">
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input checked class="rounded-full bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 price-radio" name="priceRange" value="all" type="radio"/>
+                            <span>All Prices</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded-full bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 price-radio" name="priceRange" value="under100" type="radio"/>
+                            <span>Under $100</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded-full bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 price-radio" name="priceRange" value="100to150" type="radio"/>
+                            <span>$100 - $150</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded-full bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 price-radio" name="priceRange" value="over150" type="radio"/>
+                            <span>Over $150</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- 5. Size Tag Filters -->
+                <div>
+                    <h4 class="font-headline font-bold text-xs uppercase tracking-wider text-primary mb-3">Sizes</h4>
+                    <div class="flex flex-wrap gap-2" id="size-filter-picker">
+                        <button class="w-9 h-9 rounded bg-secondary/40 border border-transparent flex items-center justify-center font-headline font-bold text-xs hover:border-primary transition-colors text-textSlate hover:text-white size-filter-btn" data-size="S">S</button>
+                        <button class="w-9 h-9 rounded bg-secondary/40 border border-transparent flex items-center justify-center font-headline font-bold text-xs hover:border-primary transition-colors text-textSlate hover:text-white size-filter-btn" data-size="M">M</button>
+                        <button class="w-9 h-9 rounded bg-secondary/40 border border-transparent flex items-center justify-center font-headline font-bold text-xs hover:border-primary transition-colors text-textSlate hover:text-white size-filter-btn" data-size="L">L</button>
+                        <button class="w-9 h-9 rounded bg-secondary/40 border border-transparent flex items-center justify-center font-headline font-bold text-xs hover:border-primary transition-colors text-textSlate hover:text-white size-filter-btn" data-size="XL">XL</button>
+                        <button class="w-9 h-9 rounded bg-secondary/40 border border-transparent flex items-center justify-center font-headline font-bold text-xs hover:border-primary transition-colors text-textSlate hover:text-white size-filter-btn" data-size="2XL">XXL</button>
+                    </div>
+                </div>
+
+                <!-- 6. Edition Filters -->
+                <div>
+                    <h4 class="font-headline font-bold text-xs uppercase tracking-wider text-primary mb-3">Specifications</h4>
+                    <div class="space-y-2 text-xs font-body text-textSlate">
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 edition-checkbox" data-version="Player Edition" type="checkbox"/>
+                            <span>Player Edition Fit</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 edition-checkbox" data-version="Fan Edition" type="checkbox"/>
+                            <span>Fan replica comfort</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 edition-checkbox" data-version="Retro Collection" type="checkbox"/>
+                            <span>Retro Embroidered</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 edition-checkbox" data-version="Goalkeeper Edition" type="checkbox"/>
+                            <span>Goalkeeper Protective</span>
+                        </label>
+                        <label class="flex items-center gap-2 hover:text-white cursor-pointer transition-colors">
+                            <input class="rounded bg-tertiary border-white/10 text-primary focus:ring-primary h-4 w-4 edition-checkbox" data-version="Training Kit" type="checkbox"/>
+                            <span>Training Lifestyle</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Reset Button -->
+                <button class="w-full border border-white/10 hover:border-primary text-textSlate hover:text-white py-2.5 rounded font-headline text-xs font-bold uppercase transition-colors" id="btn-reset-filters">
+                    Reset Filters
+                </button>
+            </aside>
+            
+            <!-- Products Viewport -->
+            <div class="md:col-span-9 space-y-6">
+                
+                <!-- Sort and grid details -->
+                <div class="flex justify-between items-center bg-secondary/10 p-4 rounded-xl border border-white/5 flex-wrap gap-4">
+                    <div class="text-xs font-headline tracking-widest text-textSlate uppercase">
+                        Showing <span class="text-white font-black" id="filtered-count">0</span> matching kits
+                    </div>
+                    
+                    <div class="flex items-center gap-3">
+                        <label class="text-xs text-textSlate uppercase font-bold tracking-wider font-headline">Sort By</label>
+                        <select class="bg-tertiary border border-white/10 rounded-lg text-xs font-headline font-bold text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary py-1.5 px-3 uppercase tracking-wider" id="sort-selector">
+                            <option value="featured">Featured Drops</option>
+                            <option value="priceLowHigh">Price: Low to High</option>
+                            <option value="priceHighLow">Price: High to Low</option>
+                            <option value="rating">Top Rated</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Product Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="collection-products-grid">
+                    <!-- Loaded dynamically via JS -->
+                </div>
+            </div>
+            
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary/50 w-full py-12 px-6 border-t border-white/5 mt-20">
+        <div class="max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-body text-white/30 uppercase tracking-widest">
+            <p>© 2026 VERSE JERSEY. ALL RIGHTS RESERVED.</p>
+            <div class="flex gap-6 font-headline font-bold text-white/40">
+                <a class="hover:text-primary transition-colors" href="support.html">SUPPORT</a>
+                <a class="hover:text-primary transition-colors" href="support.html#faq-accordions-list">FAQs</a>
+                <a class="hover:text-primary transition-colors" href="about.html">ABOUT</a>
+            </div>
+            <div class="flex gap-4">
+                <span>Visa</span>
+                <span>Mastercard</span>
+                <span>Apple Pay</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Mobile Filter Backdrop -->
+    <div class="filter-backdrop" id="filter-backdrop"></div>
+
+    <!-- Cart Overlay & Slide Drawer -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-drawer flex flex-col" id="cart-drawer">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center">
+            <h3 class="font-headline font-black italic text-xl uppercase text-white tracking-wider">Shopping Cart</h3>
+            <button class="text-white hover:text-primary transition-colors flex items-center justify-center" id="cart-close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <div class="flex-grow overflow-y-auto p-6 space-y-4" id="cart-items-container">
+            <p class="text-textSlate text-sm italic font-body text-center mt-8">Your cart is empty.</p>
+        </div>
+        
+        <div class="p-6 border-t border-white/10 bg-secondary/40 space-y-4">
+            <div class="flex justify-between items-center">
+                <span class="text-textSlate text-xs font-label uppercase tracking-wider">Subtotal</span>
+                <span class="font-headline font-black text-2xl text-primary" id="cart-subtotal">$0.00</span>
+            </div>
+            <a class="w-full bg-primary text-tertiary hover:bg-white py-4 rounded-xl font-headline font-black italic uppercase text-center block tracking-wider transition-all transform active:scale-95 neon-btn flex items-center justify-center gap-2" href="cart.html">
+                View Cart Details
+                <span class="material-symbols-outlined text-sm font-black">arrow_forward</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Core App Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>

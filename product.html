@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Verse Jersey | Premium Product Detail</title>
+    
+    <!-- Tailwind CSS & Icons -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="styles.css" rel="stylesheet"/>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#CCFF00",
+                        secondary: "#1C1C24",
+                        tertiary: "#0B0B0F",
+                        textWhite: "#FFFFFF",
+                        textSlate: "#8F8F9F"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    fontFamily: {
+                        headline: ["Outfit", "sans-serif"],
+                        body: ["Geist", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Zoom glass interaction */
+        .zoom-container {
+            overflow: hidden;
+            position: relative;
+            cursor: zoom-in;
+        }
+        .zoom-img {
+            transition: transform 0.2s ease-out;
+            transform-origin: center center;
+        }
+        .zoom-container:hover .zoom-img {
+            transform: scale(1.6);
+        }
+        
+        /* Accordion slide-in transition */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .accordion-item.active .accordion-content {
+            max-height: 150px;
+        }
+        .accordion-item.active .accordion-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="font-body antialiased bg-tertiary text-white overflow-x-hidden pt-20">
+
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-tertiary/90 backdrop-blur-md border-b border-white/10 shadow-2xl">
+        <div class="flex justify-between items-center w-full px-6 py-4 max-w-screen-2xl mx-auto">
+            <div class="flex items-center gap-8">
+                <a class="text-2xl font-black italic tracking-tighter text-primary font-headline" href="index.html">VERSE JERSEY</a>
+                <div class="hidden md:flex gap-6 font-headline font-bold uppercase tracking-wider text-sm">
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="index.html#collections">COLLECTIONS</a>
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="collection.html">KITS</a>
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="customize.html">CUSTOMIZER</a>
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="about.html">TECH Specs</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <!-- Actions -->
+                <button class="text-white hover:text-primary transition-colors active:scale-95 relative" id="cart-btn">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="absolute -top-1 -right-1 bg-primary text-tertiary text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center" id="cart-badge">0</span>
+                </button>
+                <button class="text-white hover:text-primary transition-colors active:scale-95">
+                    <span class="material-symbols-outlined">person</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-screen-2xl mx-auto px-6 py-8 relative z-10 w-full">
+        <!-- Background glows -->
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            <div class="absolute top-1/4 left-1/3 w-80 h-80 bg-primary/5 rounded-full blur-[100px]"></div>
+        </div>
+
+        <!-- Breadcrumbs -->
+        <nav class="flex text-xs text-textSlate uppercase tracking-wider gap-2 mb-8 font-headline">
+            <a class="hover:text-white transition-colors" href="index.html">Home</a>
+            <span>/</span>
+            <a class="hover:text-white transition-colors" href="index.html#trending">World Cup Kits</a>
+            <span>/</span>
+            <span class="text-white font-bold" id="crumb-product-name">Argentina Home 2026</span>
+        </nav>
+
+        <!-- Product Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start relative z-10">
+            
+            <!-- Left Side: Interactive Gallery & Previews -->
+            <div class="lg:col-span-7 space-y-6">
+                <div class="glass-card rounded-xl p-6 border border-white/5 relative bg-secondary/15 flex flex-col items-center">
+                    
+                    <!-- View toggle front vs back -->
+                    <div class="absolute top-4 left-4 z-20 flex gap-1 bg-secondary/80 p-1 rounded-full border border-white/5">
+                        <button class="px-4 py-1 rounded-full font-headline text-xs font-bold uppercase tracking-wider text-tertiary bg-primary" id="prod-view-front">Front</button>
+                        <button class="px-4 py-1 rounded-full font-headline text-xs font-bold uppercase tracking-wider text-textSlate hover:text-white" id="prod-view-back">Back</button>
+                    </div>
+
+                    <!-- Pulse indicator -->
+                    <div class="absolute top-4 right-4 flex items-center gap-2 z-20 glass-card px-3 py-1 rounded-full border-white/5">
+                        <span class="material-symbols-outlined text-xs text-primary animate-pulse">center_focus_strong</span>
+                        <span class="text-[9px] text-primary uppercase tracking-widest font-black font-headline">Hover to zoom</span>
+                    </div>
+
+                    <!-- Canvas Workspace Container -->
+                    <div class="w-full flex justify-center items-center py-8 relative zoom-container" id="prod-zoom-wrapper">
+                        <!-- Front Stage SVG -->
+                        <div class="w-[300px] h-[380px] flex items-center justify-center zoom-img" id="prod-front-stage">
+                            <svg class="w-full h-full drop-shadow-[0_20px_40px_rgba(0,0,0,0.7)]" id="prod-svg-front" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Loaded dynamically -->
+                            </svg>
+                        </div>
+
+                        <!-- Back Stage SVG (Hidden) -->
+                        <div class="w-[300px] h-[380px] flex items-center justify-center zoom-img hidden" id="prod-back-stage">
+                            <svg class="w-full h-full drop-shadow-[0_20px_40px_rgba(0,0,0,0.7)]" id="prod-svg-back" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Loaded dynamically -->
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Secondary Gallery Thumbnails -->
+                <div class="flex gap-4 justify-center">
+                    <button class="w-20 h-20 bg-secondary/30 rounded-lg p-2 border border-primary flex items-center justify-center transition-all" id="thumb-front">
+                        <span class="material-symbols-outlined text-primary text-2xl">check_box_outline_blank</span>
+                    </button>
+                    <button class="w-20 h-20 bg-secondary/30 rounded-lg p-2 border border-transparent hover:border-white/20 flex items-center justify-center transition-all" id="thumb-back">
+                        <span class="material-symbols-outlined text-textSlate text-2xl">crop_portrait</span>
+                    </button>
+                    <button class="w-20 h-20 bg-secondary/30 rounded-lg overflow-hidden border border-transparent hover:border-white/20 flex items-center justify-center transition-all">
+                        <img alt="Fabric detail thumbnail" class="w-full h-full object-cover grayscale opacity-70" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBLcDaLxSuvcdQRMl3t1pEZZmUGFupdLWeHKizbu7K_20VX03-lZOwb24PdBK027ImOp0ABLA3WsGc4uHV2p57aipxBG20fbeOIfiz9KvGQHBojpnkBNWr7b4ATR5PKjHd_aUgZ9Rx0h4ARytnCZsYaqe8csZVqzrZJqLrJiDcUAeKsssQwoDxBjjR6EQKNM397GEyyn9VZH7NwVLL0M2VgqxGisntgfeRkum-nWHXH-cPiM6vphVV9a5v5PZYYBhzWlE5tKglDBGfP"/>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Right Side: Product Configuration & Details -->
+            <div class="lg:col-span-5 space-y-6">
+                <!-- Basic details header -->
+                <div>
+                    <span class="text-xs text-primary font-headline tracking-widest uppercase font-black" id="prod-type-label">National Kits</span>
+                    <h1 class="text-4xl md:text-5xl font-black font-headline tracking-tighter uppercase text-white leading-tight mt-1" id="prod-title">Argentina Home 2026</h1>
+                    
+                    <div class="flex items-center gap-4 mt-3">
+                        <div class="flex items-center gap-1 text-primary">
+                            <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="text-sm font-black font-headline" id="prod-rating">4.9</span>
+                        </div>
+                        <span class="text-xs text-textSlate">|</span>
+                        <span class="text-xs text-textSlate uppercase tracking-wider">Free Shipping Over $150</span>
+                    </div>
+
+                    <div class="font-headline font-black text-3xl text-white mt-4" id="prod-price">$149.99</div>
+                </div>
+
+                <p class="text-sm text-white/80 leading-relaxed font-body" id="prod-desc">
+                    Official FIFA World Cup 2026 player edition national team kit. Engineered with high-performance breathable aero-weave mesh technology, designed to optimize agility and keep you cool on the pitch or on the streets.
+                </p>
+
+                <!-- Custom Personalization Panel -->
+                <div class="glass-card rounded-xl p-5 border border-white/5 bg-secondary/10 space-y-4">
+                    <h3 class="font-headline font-bold text-xs uppercase tracking-wider text-primary">Optional Kit Customization</h3>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-[10px] text-textSlate uppercase tracking-widest block mb-1 font-bold">Custom Name</label>
+                            <input class="w-full bg-tertiary border border-white/10 rounded px-3 py-2 font-headline font-bold text-sm uppercase focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-textWhite placeholder-white/10" id="prod-custom-name" maxlength="12" placeholder="ENTER NAME" type="text"/>
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-textSlate uppercase tracking-widest block mb-1 font-bold">Kit Number</label>
+                            <input class="w-full bg-tertiary border border-white/10 rounded px-3 py-2 font-headline font-black text-lg focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary text-textWhite placeholder-10" id="prod-custom-number" max="99" min="1" placeholder="10" type="number"/>
+                        </div>
+                    </div>
+                    <p class="text-[10px] text-textSlate">Type a name/number and toggle the Back view to preview your customized kit.</p>
+                </div>
+
+                <!-- Size Picker -->
+                <div>
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-xs font-label uppercase tracking-widest font-bold text-textSlate">Select Size</span>
+                        <a class="text-xs text-primary underline hover:text-white transition-colors" href="#">Size Guide</a>
+                    </div>
+                    <div class="flex gap-2" id="prod-size-picker">
+                        <button class="w-11 h-11 rounded bg-secondary/40 border border-transparent flex items-center justify-center font-headline font-bold text-xs hover:border-primary transition-colors text-textSlate hover:text-white" data-size="S">S</button>
+                        <button class="w-11 h-11 rounded bg-secondary/40 border border-transparent flex items-center justify-center font-headline font-bold text-xs hover:border-primary transition-colors text-textSlate hover:text-white" data-size="M">M</button>
+                        <button class="w-11 h-11 rounded bg-primary border border-primary flex items-center justify-center font-headline font-bold text-xs text-tertiary neon-glow" data-size="L">L</button>
+                        <button class="w-11 h-11 rounded bg-secondary/40 border border-transparent flex items-center justify-center font-headline font-bold text-xs hover:border-primary transition-colors text-textSlate hover:text-white" data-size="XL">XL</button>
+                        <button class="w-11 h-11 rounded bg-secondary/40 border border-transparent flex items-center justify-center font-headline font-bold text-xs hover:border-primary transition-colors text-textSlate hover:text-white" data-size="2XL">XXL</button>
+                    </div>
+                </div>
+
+                <!-- Quantity & Actions -->
+                <div class="space-y-4 pt-2">
+                    <div class="flex items-center gap-4">
+                        <!-- Quantity Counter -->
+                        <div class="flex items-center bg-secondary/50 border border-white/10 rounded-lg p-1">
+                            <button class="w-10 h-10 flex items-center justify-center text-textSlate hover:text-white active:scale-90 transition-all font-bold" id="prod-qty-minus">-</button>
+                            <span class="w-8 text-center text-sm font-headline font-bold text-white" id="prod-qty-value">1</span>
+                            <button class="w-10 h-10 flex items-center justify-center text-textSlate hover:text-white active:scale-90 transition-all font-bold" id="prod-qty-plus">+</button>
+                        </div>
+
+                        <!-- Add to Cart -->
+                        <button class="flex-grow bg-primary text-tertiary hover:bg-white py-3.5 rounded-xl font-headline font-black italic uppercase tracking-wider active:scale-95 transition-all flex items-center justify-center gap-2 neon-btn" id="prod-add-to-cart">
+                            <span class="material-symbols-outlined text-sm font-bold">add_shopping_cart</span>
+                            Add to Cart
+                        </button>
+                        
+                        <!-- Wishlist button -->
+                        <button class="w-12 h-12 rounded-xl bg-secondary/40 hover:bg-secondary border border-white/10 flex items-center justify-center text-white hover:text-primary transition-colors active:scale-95">
+                            <span class="material-symbols-outlined">favorite</span>
+                        </button>
+                    </div>
+
+                    <!-- Buy Now -->
+                    <button class="w-full bg-white text-tertiary hover:bg-primary py-4 rounded-xl font-headline font-black italic uppercase tracking-wider active:scale-95 transition-all flex items-center justify-center gap-2" id="prod-buy-now">
+                        <span class="material-symbols-outlined text-sm font-bold">bolt</span>
+                        Buy Now
+                    </button>
+                </div>
+
+                <!-- Technical Details Accordion -->
+                <div class="border-t border-white/10 pt-6 space-y-3 font-body text-sm">
+                    
+                    <!-- Item 1: Fabric Spec -->
+                    <div class="accordion-item border-b border-white/5 pb-3">
+                        <button class="w-full flex justify-between items-center text-left py-2 font-headline font-bold uppercase tracking-wider text-xs text-white hover:text-primary transition-colors" onclick="toggleAccordion(this)">
+                            <span>Fabric Specifications</span>
+                            <span class="material-symbols-outlined text-sm accordion-icon transition-transform">expand_more</span>
+                        </button>
+                        <div class="accordion-content text-textSlate text-xs leading-relaxed pl-1 pt-1">
+                            Engineered with 100% recycled polyester doubleknit fabric. Features targeted jacquard ventilation zones, ribbed crewneck collar, and heat-pressed matching vinyl decals to optimize movement under speed.
+                        </div>
+                    </div>
+
+                    <!-- Item 2: Care Instructions -->
+                    <div class="accordion-item border-b border-white/5 pb-3">
+                        <button class="w-full flex justify-between items-center text-left py-2 font-headline font-bold uppercase tracking-wider text-xs text-white hover:text-primary transition-colors" onclick="toggleAccordion(this)">
+                            <span>Care & Washing Instructions</span>
+                            <span class="material-symbols-outlined text-sm accordion-icon transition-transform">expand_more</span>
+                        </button>
+                        <div class="accordion-content text-textSlate text-xs leading-relaxed pl-1 pt-1">
+                            - Machine wash cold on a delicate cycle.<br/>
+                            - Wash inside out with similar colors.<br/>
+                            - Do not iron heat-applied decals or badges.<br/>
+                            - Do not tumble dry. Line dry in the shade.
+                        </div>
+                    </div>
+
+                    <!-- Item 3: Shipping & Delivery -->
+                    <div class="accordion-item border-b border-white/5 pb-3">
+                        <button class="w-full flex justify-between items-center text-left py-2 font-headline font-bold uppercase tracking-wider text-xs text-white hover:text-primary transition-colors" onclick="toggleAccordion(this)">
+                            <span>Shipping & Timeline</span>
+                            <span class="material-symbols-outlined text-sm accordion-icon transition-transform">expand_more</span>
+                        </button>
+                        <div class="accordion-content text-textSlate text-xs leading-relaxed pl-1 pt-1">
+                            We ship worldwide. Custom printing requires 1-2 business days to manufacture. Estimated shipping times:
+                            - Standard Domestic: 3-5 business days.<br/>
+                            - Express International: 4-6 business days.
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Related Products Section -->
+        <section class="py-20 mt-12 border-t border-white/5" id="related-kits-section">
+            <h2 class="text-3xl font-black font-headline tracking-tighter uppercase mb-8">Related <span class="text-primary italic">Kits</span></h2>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="related-kits-grid">
+                <!-- Dynamic cards injected via JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="bg-secondary/50 w-full py-12 px-6 border-t border-white/5 mt-12">
+        <div class="max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-body text-white/30 uppercase tracking-widest">
+            <p>© 2026 VERSE JERSEY. ALL RIGHTS RESERVED.</p>
+            <div class="flex gap-6 font-headline font-bold text-white/40">
+                <a class="hover:text-primary transition-colors" href="support.html">SUPPORT</a>
+                <a class="hover:text-primary transition-colors" href="support.html#faq-accordions-list">FAQs</a>
+                <a class="hover:text-primary transition-colors" href="about.html">ABOUT</a>
+            </div>
+            <div class="flex gap-4">
+                <span>Visa</span>
+                <span>Mastercard</span>
+                <span>Apple Pay</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Overlay & Slide Drawer -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-drawer flex flex-col" id="cart-drawer">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center">
+            <h3 class="font-headline font-black italic text-xl uppercase text-white tracking-wider">Shopping Cart</h3>
+            <button class="text-white hover:text-primary transition-colors flex items-center justify-center" id="cart-close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <div class="flex-grow overflow-y-auto p-6 space-y-4" id="cart-items-container">
+            <p class="text-textSlate text-sm italic font-body text-center mt-8">Your cart is empty.</p>
+        </div>
+        
+        <div class="p-6 border-t border-white/10 bg-secondary/40 space-y-4">
+            <div class="flex justify-between items-center">
+                <span class="text-textSlate text-xs font-label uppercase tracking-wider">Subtotal</span>
+                <span class="font-headline font-black text-2xl text-primary" id="cart-subtotal">$0.00</span>
+            </div>
+            <a class="w-full bg-primary text-tertiary hover:bg-white py-4 rounded-xl font-headline font-black italic uppercase text-center block tracking-wider transition-all transform active:scale-95 neon-btn flex items-center justify-center gap-2" href="cart.html">
+                View Cart Details
+                <span class="material-symbols-outlined text-sm font-black">arrow_forward</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Core App Scripts -->
+    <script src="app.js"></script>
+    <script>
+        function toggleAccordion(button) {
+            const item = button.closest('.accordion-item');
+            const isActive = item.classList.contains('active');
+            
+            // Close all
+            document.querySelectorAll('.accordion-item').forEach(i => i.classList.remove('active'));
+            
+            // Toggle current
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>

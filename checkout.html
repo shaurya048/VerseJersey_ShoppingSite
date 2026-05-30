@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Verse Jersey | Secure Checkout</title>
+    
+    <!-- Tailwind CSS & Icons -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="styles.css" rel="stylesheet"/>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#CCFF00",
+                        secondary: "#1C1C24",
+                        tertiary: "#0B0B0F",
+                        textWhite: "#FFFFFF",
+                        textSlate: "#8F8F9F"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    fontFamily: {
+                        headline: ["Outfit", "sans-serif"],
+                        body: ["Geist", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-body overflow-x-hidden min-h-screen bg-tertiary text-white flex flex-col relative pt-20">
+
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-8 h-20 bg-tertiary/90 backdrop-blur-xl border-b border-white/5 shadow-[0_4px_30px_rgba(204,255,0,0.05)]">
+        <div class="flex items-center gap-8 animate-[fadeIn_0.5s_ease-out]">
+            <a class="text-2xl font-black italic tracking-tighter text-primary font-headline" href="index.html">VERSE JERSEY</a>
+            <div class="hidden md:flex gap-6 font-headline font-bold uppercase tracking-wider text-sm">
+                <a class="text-white/70 hover:text-primary transition-all duration-300" href="index.html">Home</a>
+                <a class="text-white/70 hover:text-primary transition-all duration-300" href="collection.html">Kits</a>
+                <a class="text-white/70 hover:text-primary transition-all duration-300" href="customize.html">Customizer</a>
+            </div>
+        </div>
+        <div class="flex items-center gap-6">
+            <span class="text-xs text-textSlate font-headline font-bold tracking-widest uppercase flex items-center gap-1.5 bg-secondary/40 px-3 py-1.5 rounded-lg border border-white/5">
+                <span class="material-symbols-outlined text-sm text-primary animate-pulse">lock</span>
+                Secure 256-Bit SSL Checkout
+            </span>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-screen-xl mx-auto w-full px-6 py-10 relative z-10" id="checkout-main-container">
+        
+        <!-- Background glows -->
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            <div class="absolute top-1/4 left-1/4 w-80 h-80 bg-primary/5 rounded-full blur-[120px]"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[140px]"></div>
+        </div>
+
+        <!-- Normal Checkout Form State -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10" id="checkout-form-row">
+            
+            <!-- Left Side: Shipping & Payment Forms -->
+            <div class="lg:col-span-7 space-y-6">
+
+                <!-- Express Checkout shortcuts -->
+                <div class="glass-card rounded-2xl p-6 border border-white/5 bg-secondary/15 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="text-[10px] text-textSlate uppercase tracking-widest font-bold">Express Checkout</span>
+                        <span class="text-[9px] text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded font-bold uppercase">1-Click Option</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <button class="bg-black hover:bg-white hover:text-black border border-white/10 text-white py-3 rounded-xl font-headline font-black uppercase text-sm tracking-wider transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.98] express-pay-btn" data-method="Apple Pay">
+                            <span class="material-symbols-outlined text-base">apple</span>
+                            Apple Pay
+                        </button>
+                        <button class="bg-[#FFB703] hover:bg-[#F2A600] text-[#003087] py-3 rounded-xl font-headline font-black italic uppercase text-sm tracking-wider transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.98] express-pay-btn" data-method="PayPal">
+                            <span class="material-symbols-outlined text-base">payments</span>
+                            PayPal Express
+                        </button>
+                    </div>
+                </div>
+
+                <div class="relative flex py-2 items-center">
+                    <div class="flex-grow border-t border-white/5"></div>
+                    <span class="flex-shrink mx-4 text-[10px] text-textSlate uppercase tracking-widest font-bold font-headline">Or pay with card</span>
+                    <div class="flex-grow border-t border-white/5"></div>
+                </div>
+
+                <form class="space-y-6" id="checkout-payment-form" novalidate>
+                    <!-- Shipping Address Card -->
+                    <div class="glass-card rounded-2xl p-6 border border-white/5 bg-secondary/15 space-y-6">
+                        <h3 class="font-headline font-black italic text-lg uppercase tracking-wider text-white border-b border-white/5 pb-3 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-primary text-tertiary flex items-center justify-center font-headline font-black text-xs">1</span>
+                            Shipping Information
+                        </h3>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="relative">
+                                <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">First Name</label>
+                                <input required id="shipping-firstname" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" type="text"/>
+                                <span class="material-symbols-outlined absolute right-3 top-[34px] text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
+                            </div>
+                            <div class="relative">
+                                <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Last Name</label>
+                                <input required id="shipping-lastname" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" type="text"/>
+                                <span class="material-symbols-outlined absolute right-3 top-[34px] text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
+                            </div>
+                            <div class="sm:col-span-2 relative">
+                                <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Street Address</label>
+                                <input required id="shipping-address" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Apt, Suite, Unit, House number" type="text"/>
+                                <span class="material-symbols-outlined absolute right-3 top-[34px] text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
+                            </div>
+                            <div class="relative">
+                                <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">City</label>
+                                <input required id="shipping-city" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" type="text"/>
+                                <span class="material-symbols-outlined absolute right-3 top-[34px] text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
+                            </div>
+                            <div class="relative">
+                                <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Postal Code</label>
+                                <input required id="shipping-postal" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" type="text"/>
+                                <span class="material-symbols-outlined absolute right-3 top-[34px] text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
+                            </div>
+                            <div class="sm:col-span-2 relative">
+                                <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Email Address</label>
+                                <input required id="shipping-email" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="for secure order tracking & receipts" type="email"/>
+                                <span class="material-symbols-outlined absolute right-3 top-[34px] text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Payment Details Card -->
+                    <div class="glass-card rounded-2xl p-6 border border-white/5 bg-secondary/15 space-y-6">
+                        <h3 class="font-headline font-black italic text-lg uppercase tracking-wider text-white border-b border-white/5 pb-3 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-primary text-tertiary flex items-center justify-center font-headline font-black text-xs">2</span>
+                            Secure Payment Options
+                        </h3>
+
+                        <!-- Payment Method Tabs -->
+                        <div class="grid grid-cols-3 gap-2 bg-tertiary border border-white/5 p-1 rounded-xl">
+                            <button type="button" id="tab-btn-card" class="py-2.5 rounded-lg text-xs font-headline font-black uppercase tracking-wider transition-all duration-300 text-center active-tab bg-secondary text-primary border border-primary/20">
+                                Card
+                            </button>
+                            <button type="button" id="tab-btn-paypal" class="py-2.5 rounded-lg text-xs font-headline font-black uppercase tracking-wider transition-all duration-300 text-center text-textSlate hover:text-white">
+                                PayPal
+                            </button>
+                            <button type="button" id="tab-btn-apple" class="py-2.5 rounded-lg text-xs font-headline font-black uppercase tracking-wider transition-all duration-300 text-center text-textSlate hover:text-white">
+                                Apple Pay
+                            </button>
+                        </div>
+
+                        <!-- Panel 1: Card payment -->
+                        <div id="payment-panel-card" class="space-y-4 pt-2">
+                            <div class="relative">
+                                <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Cardholder Name</label>
+                                <input required id="card-name" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Full name on card" type="text"/>
+                                <span class="material-symbols-outlined absolute right-3 top-[34px] text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
+                            </div>
+                            <div class="relative">
+                                <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Card Number</label>
+                                <div class="relative">
+                                    <input required id="card-number" class="w-full bg-tertiary border border-white/10 rounded-lg pl-10 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-mono" placeholder="4000 1234 5678 9010" type="text"/>
+                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-textSlate text-base">credit_card</span>
+                                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="relative">
+                                    <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Expiry Date</label>
+                                    <input required id="card-expiry" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-mono" placeholder="MM/YY" type="text"/>
+                                    <span class="material-symbols-outlined absolute right-3 top-[34px] text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
+                                </div>
+                                <div class="relative">
+                                    <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">CVC Code</label>
+                                    <input required id="card-cvc" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-mono" placeholder="000" type="text"/>
+                                    <span class="material-symbols-outlined absolute right-3 top-[34px] text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panel 2: PayPal -->
+                        <div id="payment-panel-paypal" class="hidden space-y-4 pt-2 text-center py-6">
+                            <span class="material-symbols-outlined text-primary text-4xl block animate-bounce">account_balance_wallet</span>
+                            <p class="text-xs text-textSlate font-body max-w-sm mx-auto leading-relaxed">
+                                You will be redirected to PayPal's secure portal to authorize your transaction. You can complete the checkout using your balance or bank account.
+                            </p>
+                            <div class="inline-block bg-[#FFB703] text-[#003087] px-6 py-2.5 rounded-lg font-headline font-black italic uppercase text-xs tracking-wider">
+                                PayPal Check out
+                            </div>
+                        </div>
+
+                        <!-- Panel 3: Apple Pay -->
+                        <div id="payment-panel-apple" class="hidden space-y-4 pt-2 text-center py-6">
+                            <span class="material-symbols-outlined text-white text-4xl block">fingerprint</span>
+                            <p class="text-xs text-textSlate font-body max-w-sm mx-auto leading-relaxed">
+                                Authorize payment securely using your biometric passcode (Touch ID / Face ID) linked to your Apple account.
+                            </p>
+                            <div class="inline-flex bg-black text-white px-6 py-2.5 rounded-lg border border-white/10 items-center gap-1.5 font-headline font-black uppercase text-xs tracking-wider">
+                                <span class="material-symbols-outlined text-sm">apple</span>
+                                Apple Pay
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button class="w-full bg-primary text-tertiary hover:bg-white py-4.5 rounded-xl font-headline font-black italic uppercase text-center block tracking-wider transition-all transform active:scale-95 neon-btn flex items-center justify-center gap-2 text-lg shadow-[0_0_30px_rgba(204,255,0,0.15)]" type="submit">
+                        <span class="material-symbols-outlined text-base">lock</span>
+                        Complete Secure Order
+                    </button>
+
+                    <!-- Trust indicators under submit -->
+                    <div class="flex justify-center items-center gap-4 text-[10px] text-textSlate font-headline font-bold uppercase tracking-wider text-center py-2">
+                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-primary text-xs">shield</span> PCI-DSS Compliant</span>
+                        <span>•</span>
+                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-primary text-xs">verified</span> SSL Encrypted</span>
+                        <span>•</span>
+                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-primary text-xs">lock_reset</span> 3DS 2.0</span>
+                    </div>
+                </form>
+
+            </div>
+
+            <!-- Right Side: Order Summary & Trust Signals -->
+            <div class="lg:col-span-5 space-y-6">
+                
+                <!-- Order summary -->
+                <div class="glass-card rounded-2xl p-6 border border-white/5 bg-secondary/15">
+                    <h3 class="font-headline font-black italic text-lg uppercase tracking-wider text-white border-b border-white/5 pb-3 mb-6">
+                        Order Summary
+                    </h3>
+                    
+                    <!-- Items scroll window -->
+                    <div class="space-y-4 max-h-[320px] overflow-y-auto pr-2 mb-6" id="checkout-summary-items">
+                        <p class="text-textSlate text-sm italic font-body text-center py-8">Your cart is empty.</p>
+                    </div>
+
+                    <!-- Calculations Breakdown -->
+                    <div class="border-t border-white/5 pt-4 space-y-3 text-sm font-body text-textSlate">
+                        <div class="flex justify-between items-center">
+                            <span>Subtotal</span>
+                            <span class="text-white font-headline font-bold" id="checkout-subtotal">$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center text-primary" id="checkout-discount-row">
+                            <span>Coupon discount</span>
+                            <span class="font-headline font-bold" id="checkout-discount">-$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="flex items-center gap-1">Shipping <span class="text-[9px] text-primary border border-primary/20 bg-primary/5 px-1.5 py-0.5 rounded uppercase font-bold" id="checkout-shipping-badge">Over $150 Free</span></span>
+                            <span class="text-white font-headline font-bold" id="checkout-shipping">$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span>Taxes (Estimated)</span>
+                            <span class="text-white font-headline font-bold" id="checkout-tax">$0.00</span>
+                        </div>
+                        <div class="flex justify-between items-center pt-4 border-t border-white/5 text-white">
+                            <span class="font-headline font-black uppercase tracking-wider">Grand Total</span>
+                            <span class="font-headline font-black text-2xl text-primary" id="checkout-total">$0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Trust Guarantee Panel -->
+                <div class="glass-card rounded-2xl p-6 border border-white/5 bg-secondary/15 space-y-4">
+                    <h4 class="font-headline font-black italic text-xs uppercase tracking-wider text-white border-b border-white/5 pb-2">
+                        Verse Guarantee & Security
+                    </h4>
+                    <div class="space-y-3">
+                        <div class="flex gap-3 items-start">
+                            <span class="material-symbols-outlined text-primary text-xl mt-0.5">local_shipping</span>
+                            <div>
+                                <h5 class="text-xs font-headline font-bold text-white uppercase">Insured Tracked Delivery</h5>
+                                <p class="text-[10px] text-textSlate leading-normal mt-0.5">Every kit order is tracked with full real-time manufacturing and shipping steppers.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 items-start">
+                            <span class="material-symbols-outlined text-primary text-xl mt-0.5">change_circle</span>
+                            <div>
+                                <h5 class="text-xs font-headline font-bold text-white uppercase">30-Day Hassle-Free Returns</h5>
+                                <p class="text-[10px] text-textSlate leading-normal mt-0.5">Not your perfect size? Exchange non-customized drops completely free of charge.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-3 items-start">
+                            <span class="material-symbols-outlined text-primary text-xl mt-0.5">workspace_premium</span>
+                            <div>
+                                <h5 class="text-xs font-headline font-bold text-white uppercase">Premium Aero-Weave Authenticity</h5>
+                                <p class="text-[10px] text-textSlate leading-normal mt-0.5">Silicon badge crests and heat-infused decals guaranteed to withstand heavy washes.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Success Confirmation State (Hidden by default) -->
+        <div class="hidden max-w-2xl mx-auto py-12 animate-[fadeIn_0.6s_ease-out]" id="checkout-success-container">
+            
+            <div class="glass-card rounded-3xl p-8 border border-white/10 bg-secondary/15 text-center space-y-8 relative overflow-hidden">
+                <!-- Glowing volt backdrops -->
+                <div class="absolute -top-12 -left-12 w-48 h-48 bg-primary/10 rounded-full blur-[60px] pointer-events-none"></div>
+                <div class="absolute -bottom-12 -right-12 w-48 h-48 bg-primary/10 rounded-full blur-[60px] pointer-events-none"></div>
+
+                <!-- Checked Circle -->
+                <div class="relative w-20 h-20 mx-auto bg-primary text-tertiary rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(204,255,0,0.4)] animate-[pulse_2s_infinite]">
+                    <span class="material-symbols-outlined text-4xl font-black">done_all</span>
+                </div>
+                
+                <div class="space-y-3 relative z-10">
+                    <h2 class="font-headline font-black italic text-4xl md:text-5xl uppercase text-white tracking-tighter leading-none">ORDER CONFIRMED</h2>
+                    <div class="inline-flex items-center gap-2 bg-secondary border border-white/5 px-4 py-1.5 rounded-lg">
+                        <span class="text-xs text-textSlate font-headline font-bold uppercase tracking-wider">Receipt ID:</span>
+                        <span class="text-xs text-primary font-headline font-black uppercase tracking-wider" id="confirm-order-number">VK-4982-2026</span>
+                        <button id="btn-copy-order" class="text-textSlate hover:text-white transition-colors cursor-pointer flex items-center">
+                            <span class="material-symbols-outlined text-xs">content_copy</span>
+                        </button>
+                    </div>
+                    <p class="text-textSlate text-sm leading-relaxed max-w-md mx-auto pt-2">
+                        Your payment has been successfully processed! We have queued your order for custom print calibration. A copy of your invoice details has been sent to your email.
+                    </p>
+                </div>
+
+                <!-- Bento-style Order summary & Tracking info -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-left pt-4 relative z-10">
+                    <div class="bg-secondary/40 border border-white/5 rounded-xl p-5 space-y-2">
+                        <span class="material-symbols-outlined text-primary text-2xl">local_shipping</span>
+                        <h4 class="font-headline font-black text-xs text-white uppercase tracking-wider">Estimated Delivery</h4>
+                        <p class="text-sm font-headline font-bold text-white" id="success-delivery-date">June 4 - June 8, 2026</p>
+                        <p class="text-[10px] text-textSlate">Express insured air transport</p>
+                    </div>
+                    <div class="bg-secondary/40 border border-white/5 rounded-xl p-5 space-y-2 flex flex-col justify-between">
+                        <div>
+                            <span class="material-symbols-outlined text-primary text-2xl">track_changes</span>
+                            <h4 class="font-headline font-black text-xs text-white uppercase tracking-wider">Order Stepper</h4>
+                            <p class="text-[10px] text-textSlate mt-1">Track the manufacturing,nameset press, and shipping steps live.</p>
+                        </div>
+                        <button id="btn-track-redirect" class="bg-primary/10 border border-primary/20 text-primary hover:bg-primary hover:text-tertiary text-[10px] font-headline font-black uppercase tracking-widest py-2 rounded-lg text-center transition-all duration-300 w-full active:scale-95">
+                            Track Order Status
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Back button -->
+                <div class="pt-6 relative z-10">
+                    <a class="bg-primary text-tertiary hover:bg-white px-8 py-4.5 rounded-xl font-headline font-black italic uppercase tracking-wider text-center inline-flex items-center justify-center gap-2 transition-all transform active:scale-95 shadow-[0_0_20px_rgba(204,255,0,0.1)] text-sm" href="index.html">
+                        Continue Shopping
+                        <span class="material-symbols-outlined text-sm font-black">arrow_right_alt</span>
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary/50 w-full py-6 px-6 border-t border-white/5 mt-auto">
+        <div class="max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-body text-white/30 uppercase tracking-widest">
+            <p>© 2026 VERSE JERSEY. SECURE ENCRYPTED CHECKOUT.</p>
+            <div class="flex gap-4">
+                <span>PCI-DSS Compliant</span>
+                <span>SSL Encrypted</span>
+                <span>3D Secure 2.0</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Core App Scripts -->
+    <script src="app.js"></script>
+</body>
+</html>

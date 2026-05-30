@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Verse Jersey | Support & FAQ Center</title>
+    
+    <!-- Tailwind CSS & Icons -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link href="styles.css" rel="stylesheet"/>
+
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#CCFF00",
+                        secondary: "#1C1C24",
+                        tertiary: "#0B0B0F",
+                        textWhite: "#FFFFFF",
+                        textSlate: "#8F8F9F"
+                    },
+                    borderRadius: {
+                        DEFAULT: "0.125rem",
+                        lg: "0.25rem",
+                        xl: "0.5rem",
+                        full: "0.75rem"
+                    },
+                    fontFamily: {
+                        headline: ["Outfit", "sans-serif"],
+                        body: ["Geist", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        /* Accordion transition specifications */
+        .faq-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .faq-item.active .faq-content {
+            max-height: 150px;
+            margin-top: 12px;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(180deg);
+        }
+    </style>
+</head>
+<body class="font-body antialiased bg-tertiary text-white overflow-x-hidden pt-20">
+
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-tertiary/90 backdrop-blur-md border-b border-white/10 shadow-2xl">
+        <div class="flex justify-between items-center w-full px-6 py-4 max-w-screen-2xl mx-auto">
+            <div class="flex items-center gap-8">
+                <a class="text-2xl font-black italic tracking-tighter text-primary font-headline" href="index.html">VERSE JERSEY</a>
+                <div class="hidden md:flex gap-6 font-headline font-bold uppercase tracking-wider text-sm">
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="index.html#collections">COLLECTIONS</a>
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="collection.html">KITS</a>
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="customize.html">CUSTOMIZER</a>
+                    <a class="text-white/70 hover:text-primary transition-all duration-300" href="about.html">TECH Specs</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <!-- Actions -->
+                <button class="text-white hover:text-primary transition-colors active:scale-95 relative" id="cart-btn">
+                    <span class="material-symbols-outlined">shopping_cart</span>
+                    <span class="absolute -top-1 -right-1 bg-primary text-tertiary text-[10px] font-bold h-4 w-4 rounded-full flex items-center justify-center" id="cart-badge">0</span>
+                </button>
+                <button class="text-white hover:text-primary transition-colors active:scale-95">
+                    <span class="material-symbols-outlined">person</span>
+                </button>
+                <!-- Mobile Menu Toggle -->
+                <button class="md:hidden text-white hover:text-primary transition-colors" id="mobile-menu-toggle">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Dropdown Navigation -->
+        <div class="hidden bg-tertiary border-b border-white/10 p-6 flex-col gap-4 font-headline font-bold text-lg uppercase tracking-wider" id="mobile-nav">
+            <a class="text-white/70 hover:text-primary transition-colors" href="index.html#collections">Collections</a>
+            <a class="text-white/70 hover:text-primary transition-colors" href="collection.html">Kits Collection</a>
+            <a class="text-white/70 hover:text-primary transition-colors" href="customize.html">Customizer</a>
+            <a class="text-white/70 hover:text-primary transition-colors" href="about.html">Tech Specifications</a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="max-w-screen-2xl mx-auto px-6 py-8 relative z-10 w-full min-h-screen">
+        
+        <!-- Background glows -->
+        <div class="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+            <div class="absolute top-1/4 left-1/4 w-80 h-80 bg-primary/5 rounded-full blur-[100px]"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-primary/5 rounded-full blur-[120px]"></div>
+        </div>
+
+        <!-- Breadcrumbs -->
+        <nav class="flex text-xs text-textSlate uppercase tracking-wider gap-2 mb-8 font-headline relative z-10">
+            <a class="hover:text-white transition-colors" href="index.html">Home</a>
+            <span>/</span>
+            <span class="text-white font-bold">Support Center</span>
+        </nav>
+
+        <header class="text-center max-w-2xl mx-auto mb-12 relative z-10">
+            <span class="text-xs text-primary font-headline tracking-widest uppercase font-black">Help Center</span>
+            <h1 class="text-4xl md:text-5xl font-black font-headline tracking-tighter uppercase text-white mt-2">
+                HOW CAN WE <span class="text-primary italic">HELP YOU?</span>
+            </h1>
+            <p class="text-textSlate text-sm font-body mt-2">
+                Track your package status, browse our FAQs, or open a ticket directly with our customized support crew.
+            </p>
+        </header>
+
+        <!-- Dynamic Order Tracking Box -->
+        <section class="max-w-3xl mx-auto glass-card rounded-2xl p-6 border border-white/5 bg-secondary/15 relative z-10 mb-16 shadow-2xl">
+            <h3 class="font-headline font-black uppercase text-sm text-primary tracking-wider mb-4 flex items-center gap-2">
+                <span class="material-symbols-outlined text-sm">local_shipping</span>
+                Track Your Order
+            </h3>
+            
+            <div class="flex flex-col sm:flex-row gap-4 mb-2">
+                <input class="flex-grow bg-tertiary border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary placeholder-textSlate/50 font-headline uppercase font-bold" id="tracking-id-input" placeholder="ENTER ORDER NUMBER (e.g. VK-4821-2026)" type="text"/>
+                <button class="bg-primary text-tertiary hover:bg-white px-8 py-3.5 rounded-xl font-headline font-black italic uppercase tracking-wider transition-all active:scale-95 text-center flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(204,255,0,0.2)] hover:shadow-white/20" id="btn-track-order">
+                    Track Status
+                    <span class="material-symbols-outlined text-sm font-black">arrow_forward</span>
+                </button>
+            </div>
+            <p class="text-[10px] text-textSlate">Your order code is printed in your email confirmation (e.g., VK-[4 digits]-2026).</p>
+
+            <!-- Visual Stepper Progress Container (Shown dynamically) -->
+            <div class="mt-8 border-t border-white/5 pt-8 hidden" id="tracking-status-container">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <span class="text-[10px] text-textSlate uppercase tracking-wider block font-headline">Order Reference</span>
+                        <span class="text-xs font-headline font-black uppercase text-white" id="tracking-order-ref">VK-4821-2026</span>
+                    </div>
+                    <div class="text-right">
+                        <span class="text-[10px] text-textSlate uppercase tracking-wider block font-headline">Carrier Status</span>
+                        <span class="text-xs font-headline font-black uppercase text-primary" id="tracking-carrier-status">In Transit</span>
+                    </div>
+                </div>
+
+                <!-- Custom visual timeline progress stepper -->
+                <div class="relative flex justify-between items-center w-full max-w-2xl mx-auto py-4">
+                    <!-- Progress bar line -->
+                    <div class="absolute left-0 right-0 h-1 bg-white/10 top-1/2 -translate-y-1/2 z-0">
+                        <div class="h-full bg-primary transition-all duration-700" id="tracking-progress-bar" style="width: 50%;"></div>
+                    </div>
+
+                    <!-- Step 1 -->
+                    <div class="relative z-10 flex flex-col items-center gap-2" id="step-placed">
+                        <div class="w-8 h-8 rounded-full bg-primary text-tertiary flex items-center justify-center font-bold text-xs">1</div>
+                        <span class="text-[9px] uppercase tracking-wider font-headline font-bold text-white">Placed</span>
+                    </div>
+                    <!-- Step 2 -->
+                    <div class="relative z-10 flex flex-col items-center gap-2" id="step-processing">
+                        <div class="w-8 h-8 rounded-full bg-primary text-tertiary flex items-center justify-center font-bold text-xs">2</div>
+                        <span class="text-[9px] uppercase tracking-wider font-headline font-bold text-white">Processing</span>
+                    </div>
+                    <!-- Step 3 -->
+                    <div class="relative z-10 flex flex-col items-center gap-2" id="step-printing">
+                        <div class="w-8 h-8 rounded-full bg-primary text-tertiary flex items-center justify-center font-bold text-xs">3</div>
+                        <span class="text-[9px] uppercase tracking-wider font-headline font-bold text-white">Customizing</span>
+                    </div>
+                    <!-- Step 4 -->
+                    <div class="relative z-10 flex flex-col items-center gap-2" id="step-shipped">
+                        <div class="w-8 h-8 rounded-full bg-white/10 border border-white/20 text-textSlate flex items-center justify-center font-bold text-xs" id="step-shipped-icon">4</div>
+                        <span class="text-[9px] uppercase tracking-wider font-headline font-bold text-textSlate" id="step-shipped-text">Shipped</span>
+                    </div>
+                    <!-- Step 5 -->
+                    <div class="relative z-10 flex flex-col items-center gap-2" id="step-delivered">
+                        <div class="w-8 h-8 rounded-full bg-white/10 border border-white/20 text-textSlate flex items-center justify-center font-bold text-xs" id="step-delivered-icon">5</div>
+                        <span class="text-[9px] uppercase tracking-wider font-headline font-bold text-textSlate" id="step-delivered-text">Delivered</span>
+                    </div>
+                </div>
+
+                <div class="mt-6 p-4 bg-secondary/30 rounded-xl border border-white/5 text-center text-xs font-body text-textSlate" id="tracking-info-note">
+                    Your customized kit is printed and packaged. Pick-up has been completed, and it is on its way to the shipping facility.
+                </div>
+            </div>
+        </section>
+
+        <!-- Help Workspace: FAQ + Contact Form -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10">
+            
+            <!-- Left Side: FAQs -->
+            <div class="lg:col-span-7 space-y-6">
+                <div class="border-b border-white/10 pb-4 mb-6">
+                    <h2 class="text-2xl font-black font-headline tracking-tighter uppercase text-white flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-xl">quiz</span>
+                        Frequently Asked Questions
+                    </h2>
+                    <p class="text-textSlate text-xs font-body mt-1">Quick answers to shipping, return policies, and nameset personalization.</p>
+                </div>
+
+                <div class="space-y-4" id="faq-accordions-list">
+                    <!-- FAQ 1 -->
+                    <div class="faq-item border border-white/5 bg-secondary/10 rounded-xl p-5 hover:border-white/15 transition-all">
+                        <button class="w-full flex justify-between items-center text-left font-headline font-bold uppercase tracking-wider text-xs text-white hover:text-primary transition-colors focus:outline-none" onclick="toggleFaq(this)">
+                            <span>How long does personalized jersey printing take?</span>
+                            <span class="material-symbols-outlined text-sm faq-icon transition-transform">expand_more</span>
+                        </button>
+                        <div class="faq-content text-textSlate text-xs leading-relaxed font-body">
+                            Personalized jerseys with custom names and numbers require 1-2 business days for precision heat-pressed matching vinyl decals before shipping. Once customization is completed, standard shipping timelines apply.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 2 -->
+                    <div class="faq-item border border-white/5 bg-secondary/10 rounded-xl p-5 hover:border-white/15 transition-all">
+                        <button class="w-full flex justify-between items-center text-left font-headline font-bold uppercase tracking-wider text-xs text-white hover:text-primary transition-colors focus:outline-none" onclick="toggleFaq(this)">
+                            <span>What is your return policy for standard and custom kits?</span>
+                            <span class="material-symbols-outlined text-sm faq-icon transition-transform">expand_more</span>
+                        </button>
+                        <div class="faq-content text-textSlate text-xs leading-relaxed font-body">
+                            Standard, non-customized jerseys can be returned inside 30 days in brand new condition with original tags. Personalized name/number shirts are custom manufactured and are final sale (no returns/exchanges) unless there is a manufacturer printing defect.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 3 -->
+                    <div class="faq-item border border-white/5 bg-secondary/10 rounded-xl p-5 hover:border-white/15 transition-all">
+                        <button class="w-full flex justify-between items-center text-left font-headline font-bold uppercase tracking-wider text-xs text-white hover:text-primary transition-colors focus:outline-none" onclick="toggleFaq(this)">
+                            <span>How do I qualify for free shipping?</span>
+                            <span class="material-symbols-outlined text-sm faq-icon transition-transform">expand_more</span>
+                        </button>
+                        <div class="faq-content text-textSlate text-xs leading-relaxed font-body">
+                            Free shipping is automatically triggered in the checkout cart for all orders totaling $150 or more. For orders below $150, a standard shipping fee of $9.99 applies.
+                        </div>
+                    </div>
+
+                    <!-- FAQ 4 -->
+                    <div class="faq-item border border-white/5 bg-secondary/10 rounded-xl p-5 hover:border-white/15 transition-all">
+                        <button class="w-full flex justify-between items-center text-left font-headline font-bold uppercase tracking-wider text-xs text-white hover:text-primary transition-colors focus:outline-none" onclick="toggleFaq(this)">
+                            <span>What payments do you accept and are they secure?</span>
+                            <span class="material-symbols-outlined text-sm faq-icon transition-transform">expand_more</span>
+                        </button>
+                        <div class="faq-content text-textSlate text-xs leading-relaxed font-body">
+                            We support Visa, Mastercard, Apple Pay, Google Pay, and major cryptocurrencies. All transactions are securely processed through 256-bit SSL encrypted connections to guarantee complete security.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Right Side: Contact Form & Contacts -->
+            <div class="lg:col-span-5 space-y-6">
+                <!-- Form container -->
+                <div class="glass-card rounded-xl p-6 border border-white/5 bg-secondary/10">
+                    <h3 class="font-headline font-black italic text-sm uppercase tracking-wider text-white mb-6 border-b border-white/5 pb-3">Submit a Query</h3>
+                    
+                    <form class="space-y-4" id="support-query-form">
+                        <div>
+                            <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Your Name</label>
+                            <input required class="w-full bg-tertiary border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="support-name" placeholder="Enter your full name" type="text"/>
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Email Address</label>
+                            <input required class="w-full bg-tertiary border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" id="support-email" placeholder="email@example.com" type="email"/>
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Order Number (Optional)</label>
+                            <input class="w-full bg-tertiary border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-headline uppercase placeholder-textSlate/30" id="support-order-id" placeholder="VK-XXXX-2026" type="text"/>
+                        </div>
+                        <div>
+                            <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Message</label>
+                            <textarea required class="w-full bg-tertiary border border-white/10 rounded-lg px-4 py-2.5 text-xs text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors h-32" id="support-message" placeholder="Describe your query in detail..."></textarea>
+                        </div>
+                        <button class="w-full bg-primary text-tertiary hover:bg-white py-3 rounded-lg font-headline font-black italic uppercase tracking-wider text-xs active:scale-95 transition-all text-center flex items-center justify-center gap-2" id="btn-submit-support" type="submit">
+                            <span class="material-symbols-outlined text-sm font-bold">send</span>
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Direct Contacts -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 bg-secondary/30 p-4 rounded-xl border border-white/5">
+                        <div class="w-10 h-10 rounded-full bg-tertiary flex items-center justify-center text-primary border border-white/10 flex-shrink-0">
+                            <span class="material-symbols-outlined text-base">mail</span>
+                        </div>
+                        <div class="flex-grow min-w-0">
+                            <h4 class="font-headline font-bold text-xs uppercase text-white">Email Support</h4>
+                            <p class="text-[10px] text-textSlate truncate">support@versejersey.com</p>
+                        </div>
+                        <a class="text-[10px] text-primary hover:text-white underline font-headline font-bold" href="mailto:support@versejersey.com">EMAIL US</a>
+                    </div>
+
+                    <div class="flex items-center gap-4 bg-secondary/30 p-4 rounded-xl border border-white/5">
+                        <div class="w-10 h-10 rounded-full bg-tertiary flex items-center justify-center text-primary border border-white/10 flex-shrink-0">
+                            <span class="material-symbols-outlined text-base">schedule</span>
+                        </div>
+                        <div>
+                            <h4 class="font-headline font-bold text-xs uppercase text-white">Support Hours</h4>
+                            <p class="text-[10px] text-textSlate">Monday - Friday: 9AM - 6PM GMT</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-secondary/50 w-full py-12 px-6 border-t border-white/5 mt-20">
+        <div class="max-w-screen-xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-body text-white/30 uppercase tracking-widest">
+            <p>© 2026 VERSE JERSEY. ALL RIGHTS RESERVED.</p>
+            <div class="flex gap-6 font-headline font-bold text-white/40">
+                <a class="hover:text-primary transition-colors" href="support.html">SUPPORT</a>
+                <a class="hover:text-primary transition-colors" href="support.html#faq-accordions-list">FAQs</a>
+                <a class="hover:text-primary transition-colors" href="about.html">ABOUT</a>
+            </div>
+            <div class="flex gap-4">
+                <span>Visa</span>
+                <span>Mastercard</span>
+                <span>Apple Pay</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Overlay & Slide Drawer -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-drawer flex flex-col" id="cart-drawer">
+        <div class="p-6 border-b border-white/10 flex justify-between items-center">
+            <h3 class="font-headline font-black italic text-xl uppercase text-white tracking-wider">Shopping Cart</h3>
+            <button class="text-white hover:text-primary transition-colors flex items-center justify-center" id="cart-close">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        
+        <div class="flex-grow overflow-y-auto p-6 space-y-4" id="cart-items-container">
+            <p class="text-textSlate text-sm italic font-body text-center mt-8">Your cart is empty.</p>
+        </div>
+        
+        <div class="p-6 border-t border-white/10 bg-secondary/40 space-y-4">
+            <div class="flex justify-between items-center">
+                <span class="text-textSlate text-xs font-label uppercase tracking-wider">Subtotal</span>
+                <span class="font-headline font-black text-2xl text-primary" id="cart-subtotal">$0.00</span>
+            </div>
+            <a class="w-full bg-primary text-tertiary hover:bg-white py-4 rounded-xl font-headline font-black italic uppercase text-center block tracking-wider transition-all transform active:scale-95 neon-btn flex items-center justify-center gap-2" href="cart.html">
+                View Cart Details
+                <span class="material-symbols-outlined text-sm font-black">arrow_forward</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Core App Scripts -->
+    <script src="app.js"></script>
+    <script>
+        // Inline layout toggling for FAQs
+        function toggleFaq(button) {
+            const item = button.closest('.faq-item');
+            const isActive = item.classList.contains('active');
+            
+            // Close all
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+            
+            // Toggle current
+            if (!isActive) {
+                item.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
