@@ -9,6 +9,8 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <link href="styles.css" rel="stylesheet"/>
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
 
     <script id="tailwind-config">
         tailwind.config = {
@@ -49,11 +51,15 @@
                 <a class="text-white/70 hover:text-primary transition-all duration-300" href="customize.html">Customizer</a>
             </div>
         </div>
-        <div class="flex items-center gap-6">
+        <div class="flex items-center gap-4">
             <span class="text-xs text-textSlate font-headline font-bold tracking-widest uppercase flex items-center gap-1.5 bg-secondary/40 px-3 py-1.5 rounded-lg border border-white/5">
                 <span class="material-symbols-outlined text-sm text-primary animate-pulse">lock</span>
                 Secure 256-Bit SSL Checkout
             </span>
+            <!-- Auth Profile Icon -->
+            <button id="auth-btn" class="text-white hover:text-primary transition-colors active:scale-95 relative" title="Sign In / Account">
+                <span class="material-symbols-outlined" id="auth-icon">person</span>
+            </button>
         </div>
     </nav>
 
@@ -68,35 +74,13 @@
 
         <!-- Normal Checkout Form State -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10" id="checkout-form-row">
-            
-            <!-- Left Side: Shipping & Payment Forms -->
+
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- LEFT COLUMN: Shipping Information Form         -->
+            <!-- ═══════════════════════════════════════════════ -->
             <div class="lg:col-span-7 space-y-6">
-
-                <!-- Express Checkout shortcuts -->
-                <div class="glass-card rounded-2xl p-6 border border-white/5 bg-secondary/15 space-y-4">
-                    <div class="flex items-center justify-between">
-                        <span class="text-[10px] text-textSlate uppercase tracking-widest font-bold">Express Checkout</span>
-                        <span class="text-[9px] text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded font-bold uppercase">1-Click Option</span>
-                    </div>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <button class="bg-black hover:bg-white hover:text-black border border-white/10 text-white py-3 rounded-xl font-headline font-black uppercase text-sm tracking-wider transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.98] express-pay-btn" data-method="Apple Pay">
-                            <span class="material-symbols-outlined text-base">apple</span>
-                            Apple Pay
-                        </button>
-                        <button class="bg-[#FFB703] hover:bg-[#F2A600] text-[#003087] py-3 rounded-xl font-headline font-black italic uppercase text-sm tracking-wider transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.98] express-pay-btn" data-method="PayPal">
-                            <span class="material-symbols-outlined text-base">payments</span>
-                            PayPal Express
-                        </button>
-                    </div>
-                </div>
-
-                <div class="relative flex py-2 items-center">
-                    <div class="flex-grow border-t border-white/5"></div>
-                    <span class="flex-shrink mx-4 text-[10px] text-textSlate uppercase tracking-widest font-bold font-headline">Or pay with card</span>
-                    <div class="flex-grow border-t border-white/5"></div>
-                </div>
-
                 <form class="space-y-6" id="checkout-payment-form" novalidate>
+
                     <!-- Shipping Address Card -->
                     <div class="glass-card rounded-2xl p-6 border border-white/5 bg-secondary/15 space-y-6">
                         <h3 class="font-headline font-black italic text-lg uppercase tracking-wider text-white border-b border-white/5 pb-3 flex items-center gap-2">
@@ -129,114 +113,38 @@
                                 <input required id="shipping-postal" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" type="text"/>
                                 <span class="material-symbols-outlined absolute right-3 top-[34px] text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
                             </div>
-                            <div class="sm:col-span-2 relative">
+                            <div class="relative">
                                 <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Email Address</label>
-                                <input required id="shipping-email" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="for secure order tracking & receipts" type="email"/>
+                                <input required id="shipping-email" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="for secure tracking" type="email"/>
+                                <span class="material-symbols-outlined absolute right-3 top-[34px] text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
+                            </div>
+                            <div class="relative">
+                                <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Phone Number</label>
+                                <input required id="shipping-phone" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="+91 99999 00000" type="tel"/>
                                 <span class="material-symbols-outlined absolute right-3 top-[34px] text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
                             </div>
                         </div>
                     </div>
 
-                    <!-- Payment Details Card -->
-                    <div class="glass-card rounded-2xl p-6 border border-white/5 bg-secondary/15 space-y-6">
-                        <h3 class="font-headline font-black italic text-lg uppercase tracking-wider text-white border-b border-white/5 pb-3 flex items-center gap-2">
-                            <span class="w-6 h-6 rounded-full bg-primary text-tertiary flex items-center justify-center font-headline font-black text-xs">2</span>
-                            Secure Payment Options
-                        </h3>
-
-                        <!-- Payment Method Tabs -->
-                        <div class="grid grid-cols-3 gap-2 bg-tertiary border border-white/5 p-1 rounded-xl">
-                            <button type="button" id="tab-btn-card" class="py-2.5 rounded-lg text-xs font-headline font-black uppercase tracking-wider transition-all duration-300 text-center active-tab bg-secondary text-primary border border-primary/20">
-                                Card
-                            </button>
-                            <button type="button" id="tab-btn-paypal" class="py-2.5 rounded-lg text-xs font-headline font-black uppercase tracking-wider transition-all duration-300 text-center text-textSlate hover:text-white">
-                                PayPal
-                            </button>
-                            <button type="button" id="tab-btn-apple" class="py-2.5 rounded-lg text-xs font-headline font-black uppercase tracking-wider transition-all duration-300 text-center text-textSlate hover:text-white">
-                                Apple Pay
-                            </button>
-                        </div>
-
-                        <!-- Panel 1: Card payment -->
-                        <div id="payment-panel-card" class="space-y-4 pt-2">
-                            <div class="relative">
-                                <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Cardholder Name</label>
-                                <input required id="card-name" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Full name on card" type="text"/>
-                                <span class="material-symbols-outlined absolute right-3 top-[34px] text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
-                            </div>
-                            <div class="relative">
-                                <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Card Number</label>
-                                <div class="relative">
-                                    <input required id="card-number" class="w-full bg-tertiary border border-white/10 rounded-lg pl-10 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-mono" placeholder="4000 1234 5678 9010" type="text"/>
-                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-textSlate text-base">credit_card</span>
-                                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="relative">
-                                    <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">Expiry Date</label>
-                                    <input required id="card-expiry" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-mono" placeholder="MM/YY" type="text"/>
-                                    <span class="material-symbols-outlined absolute right-3 top-[34px] text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
-                                </div>
-                                <div class="relative">
-                                    <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold block mb-1">CVC Code</label>
-                                    <input required id="card-cvc" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-mono" placeholder="000" type="text"/>
-                                    <span class="material-symbols-outlined absolute right-3 top-[34px] text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Panel 2: PayPal -->
-                        <div id="payment-panel-paypal" class="hidden space-y-4 pt-2 text-center py-6">
-                            <span class="material-symbols-outlined text-primary text-4xl block animate-bounce">account_balance_wallet</span>
-                            <p class="text-xs text-textSlate font-body max-w-sm mx-auto leading-relaxed">
-                                You will be redirected to PayPal's secure portal to authorize your transaction. You can complete the checkout using your balance or bank account.
-                            </p>
-                            <div class="inline-block bg-[#FFB703] text-[#003087] px-6 py-2.5 rounded-lg font-headline font-black italic uppercase text-xs tracking-wider">
-                                PayPal Check out
-                            </div>
-                        </div>
-
-                        <!-- Panel 3: Apple Pay -->
-                        <div id="payment-panel-apple" class="hidden space-y-4 pt-2 text-center py-6">
-                            <span class="material-symbols-outlined text-white text-4xl block">fingerprint</span>
-                            <p class="text-xs text-textSlate font-body max-w-sm mx-auto leading-relaxed">
-                                Authorize payment securely using your biometric passcode (Touch ID / Face ID) linked to your Apple account.
-                            </p>
-                            <div class="inline-flex bg-black text-white px-6 py-2.5 rounded-lg border border-white/10 items-center gap-1.5 font-headline font-black uppercase text-xs tracking-wider">
-                                <span class="material-symbols-outlined text-sm">apple</span>
-                                Apple Pay
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Submit Button -->
-                    <button class="w-full bg-primary text-tertiary hover:bg-white py-4.5 rounded-xl font-headline font-black italic uppercase text-center block tracking-wider transition-all transform active:scale-95 neon-btn flex items-center justify-center gap-2 text-lg shadow-[0_0_30px_rgba(204,255,0,0.15)]" type="submit">
-                        <span class="material-symbols-outlined text-base">lock</span>
-                        Complete Secure Order
+                    <!-- Proceed to Payment CTA (Step 1 gate) -->
+                    <button id="proceedToPaymentBtn" type="button" class="w-full bg-[#ccff00] text-black font-bold py-3 rounded-lg uppercase tracking-wider text-sm hover:bg-[#b5e600] transition cursor-pointer shadow-lg shadow-[#ccff00]/10">
+                        Proceed to Payment
                     </button>
 
-                    <!-- Trust indicators under submit -->
-                    <div class="flex justify-center items-center gap-4 text-[10px] text-textSlate font-headline font-bold uppercase tracking-wider text-center py-2">
-                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-primary text-xs">shield</span> PCI-DSS Compliant</span>
-                        <span>•</span>
-                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-primary text-xs">verified</span> SSL Encrypted</span>
-                        <span>•</span>
-                        <span class="flex items-center gap-1"><span class="material-symbols-outlined text-primary text-xs">lock_reset</span> 3DS 2.0</span>
-                    </div>
                 </form>
-
             </div>
 
-            <!-- Right Side: Order Summary & Trust Signals -->
-            <div class="lg:col-span-5 space-y-6">
-                
-                <!-- Order summary -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <!-- RIGHT COLUMN: Order Summary + Payment Panel   -->
+            <!-- ═══════════════════════════════════════════════ -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+
+                <!-- Order Summary Card -->
                 <div class="glass-card rounded-2xl p-6 border border-white/5 bg-secondary/15">
                     <h3 class="font-headline font-black italic text-lg uppercase tracking-wider text-white border-b border-white/5 pb-3 mb-6">
                         Order Summary
                     </h3>
-                    
+
                     <!-- Items scroll window -->
                     <div class="space-y-4 max-h-[320px] overflow-y-auto pr-2 mb-6" id="checkout-summary-items">
                         <p class="text-textSlate text-sm italic font-body text-center py-8">Your cart is empty.</p>
@@ -246,23 +154,157 @@
                     <div class="border-t border-white/5 pt-4 space-y-3 text-sm font-body text-textSlate">
                         <div class="flex justify-between items-center">
                             <span>Subtotal</span>
-                            <span class="text-white font-headline font-bold" id="checkout-subtotal">$0.00</span>
+                            <span class="text-white font-headline font-bold" id="checkout-subtotal">Rs. 0.00</span>
                         </div>
                         <div class="flex justify-between items-center text-primary" id="checkout-discount-row">
                             <span>Coupon discount</span>
-                            <span class="font-headline font-bold" id="checkout-discount">-$0.00</span>
+                            <span class="font-headline font-bold" id="checkout-discount">-Rs. 0.00</span>
                         </div>
                         <div class="flex justify-between items-center">
-                            <span class="flex items-center gap-1">Shipping <span class="text-[9px] text-primary border border-primary/20 bg-primary/5 px-1.5 py-0.5 rounded uppercase font-bold" id="checkout-shipping-badge">Over $150 Free</span></span>
-                            <span class="text-white font-headline font-bold" id="checkout-shipping">$0.00</span>
+                            <span class="flex items-center gap-1">Shipping <span class="text-[9px] text-primary border border-primary/20 bg-primary/5 px-1.5 py-0.5 rounded uppercase font-bold" id="checkout-shipping-badge">Free Above Rs. 500</span></span>
+                            <span class="text-white font-headline font-bold" id="checkout-shipping">Rs. 0.00</span>
                         </div>
                         <div class="flex justify-between items-center">
                             <span>Taxes (Estimated)</span>
-                            <span class="text-white font-headline font-bold" id="checkout-tax">$0.00</span>
+                            <span class="text-white font-headline font-bold" id="checkout-tax">Rs. 0.00</span>
                         </div>
                         <div class="flex justify-between items-center pt-4 border-t border-white/5 text-white">
                             <span class="font-headline font-black uppercase tracking-wider">Grand Total</span>
-                            <span class="font-headline font-black text-2xl text-primary" id="checkout-total">$0.00</span>
+                            <span class="font-headline font-black text-2xl text-primary" id="checkout-total">Rs. 0.00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ─────────────────────────────────────────── -->
+                <!-- SECURE PAYMENT OPTIONS (Step 2 — hidden    -->
+                <!-- until Supabase insert succeeds)            -->
+                <!-- ─────────────────────────────────────────── -->
+                <div id="secure-payment-section" class="hidden flex flex-col gap-5 animate-[fadeIn_0.4s_ease-out]">
+
+                    <!-- Express Checkout shortcuts -->
+                    <div class="glass-card rounded-2xl p-6 border border-white/5 bg-secondary/15 space-y-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-[10px] text-textSlate uppercase tracking-widest font-bold">Express Checkout</span>
+                            <span class="text-[9px] text-primary bg-primary/10 border border-primary/20 px-2 py-0.5 rounded font-bold uppercase">1-Click Option</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button type="button" class="w-full bg-black hover:bg-white hover:text-black border border-white/10 text-white py-3 rounded-xl font-headline font-black uppercase text-sm tracking-wider transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.98] express-pay-btn" data-method="Apple Pay">
+                                <span class="material-symbols-outlined text-base">apple</span>
+                                Apple Pay
+                            </button>
+                            <button type="button" class="w-full bg-[#FFB703] hover:bg-[#F2A600] text-[#003087] py-3 rounded-xl font-headline font-black italic uppercase text-sm tracking-wider transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.98] express-pay-btn" data-method="PayPal">
+                                <span class="material-symbols-outlined text-base">payments</span>
+                                PayPal Express
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="relative flex items-center py-1">
+                        <div class="flex-grow border-t border-white/5"></div>
+                        <span class="flex-shrink mx-4 text-[10px] text-textSlate uppercase tracking-widest font-bold font-headline">Or pay with UPI / Card</span>
+                        <div class="flex-grow border-t border-white/5"></div>
+                    </div>
+
+                    <!-- Payment Details Card -->
+                    <div class="glass-card rounded-2xl p-6 border border-white/5 bg-secondary/15 space-y-5">
+                        <h3 class="font-headline font-black italic text-base uppercase tracking-wider text-white border-b border-white/5 pb-3 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded-full bg-primary text-tertiary flex items-center justify-center font-headline font-black text-xs">2</span>
+                            Secure Payment Options
+                        </h3>
+
+                        <!-- Payment Method Tabs -->
+                        <div class="grid grid-cols-4 gap-2 bg-tertiary border border-white/5 p-1 rounded-xl">
+                            <button type="button" id="tab-btn-card" class="py-2.5 rounded-lg text-xs font-headline font-black uppercase tracking-wider transition-all duration-300 text-center active-tab bg-secondary text-primary border border-primary/20">Card</button>
+                            <button type="button" id="tab-btn-upi"  class="py-2.5 rounded-lg text-xs font-headline font-black uppercase tracking-wider transition-all duration-300 text-center text-textSlate hover:text-white">UPI / QR</button>
+                            <button type="button" id="tab-btn-paypal" class="py-2.5 rounded-lg text-xs font-headline font-black uppercase tracking-wider transition-all duration-300 text-center text-textSlate hover:text-white">PayPal</button>
+                            <button type="button" id="tab-btn-apple" class="py-2.5 rounded-lg text-xs font-headline font-black uppercase tracking-wider transition-all duration-300 text-center text-textSlate hover:text-white">Apple Pay</button>
+                        </div>
+
+                        <!-- Panel 1: Card payment -->
+                        <div id="payment-panel-card" class="space-y-4 pt-1">
+                            <div class="relative flex flex-col">
+                                <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold mb-1">Cardholder Name</label>
+                                <input required id="card-name" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors" placeholder="Full name on card" type="text"/>
+                                <span class="material-symbols-outlined absolute right-3 bottom-2.5 text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
+                            </div>
+                            <div class="relative flex flex-col">
+                                <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold mb-1">Card Number</label>
+                                <div class="relative">
+                                    <input required id="card-number" class="w-full bg-tertiary border border-white/10 rounded-lg pl-10 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-mono" placeholder="4000 1234 5678 9010" type="text"/>
+                                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-textSlate text-base">credit_card</span>
+                                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
+                                </div>
+                            </div>
+                            <!-- Expiry + CVV side-by-side -->
+                            <div class="flex gap-4">
+                                <div class="relative flex flex-col flex-1">
+                                    <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold mb-1">Expiry Date</label>
+                                    <input required id="card-expiry" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-mono" placeholder="MM/YY" type="text"/>
+                                    <span class="material-symbols-outlined absolute right-3 bottom-2.5 text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
+                                </div>
+                                <div class="relative flex flex-col flex-1">
+                                    <label class="text-[10px] text-textSlate uppercase tracking-widest font-bold mb-1">CVC Code</label>
+                                    <input required id="card-cvc" class="w-full bg-tertiary border border-white/10 rounded-lg pl-4 pr-10 py-2.5 text-sm text-white focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-colors font-mono" placeholder="000" type="text"/>
+                                    <span class="material-symbols-outlined absolute right-3 bottom-2.5 text-primary opacity-0 transition-opacity text-sm pointer-events-none validation-check">check_circle</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Panel: UPI / QR (Dynamic, injected at runtime) -->
+                        <div id="payment-panel-upi" class="hidden pt-2 text-center space-y-4">
+                            <h4 class="text-white font-headline font-bold text-sm">Scan QR Code with any UPI App</h4>
+                            <div class="bg-white p-4 rounded-xl inline-block mx-auto border-2 border-primary/20 shadow-[0_0_20px_rgba(204,255,0,0.2)]">
+                                <img id="upi-qr-img" src="" alt="UPI QR Code" class="w-40 h-40 mx-auto"/>
+                            </div>
+                            <div class="bg-secondary/40 border border-primary/20 rounded-lg px-4 py-2 inline-flex items-center gap-2">
+                                <span class="text-xs text-textSlate font-body">Amount Due:</span>
+                                <span class="text-primary font-headline font-black text-lg" id="upi-amount-due">Rs. 0.00</span>
+                            </div>
+                            <p class="text-xs text-textSlate font-body">UPI ID: <span class="text-primary font-bold">versejersey@okaxis</span></p>
+                            <!-- I Have Paid button -->
+                            <button id="completeOrderBtn" type="button" class="w-full mt-2 bg-primary text-tertiary hover:bg-white font-headline font-black italic uppercase tracking-wider py-3.5 rounded-xl flex items-center justify-center gap-2 transition-all active:scale-95 shadow-[0_0_20px_rgba(204,255,0,0.2)]">
+                                <span class="material-symbols-outlined text-base">check_circle</span>
+                                I Have Paid — Confirm Order
+                            </button>
+                        </div>
+
+                        <!-- Panel: PayPal -->
+                        <div id="payment-panel-paypal" class="hidden pt-2 text-center space-y-4 py-6">
+                            <span class="material-symbols-outlined text-primary text-4xl block animate-bounce">account_balance_wallet</span>
+                            <p class="text-xs text-textSlate font-body max-w-sm mx-auto leading-relaxed">
+                                You will be redirected to PayPal's secure portal to authorize your transaction. You can complete the checkout using your balance or bank account.
+                            </p>
+                            <div class="inline-block bg-[#FFB703] text-[#003087] px-6 py-2.5 rounded-lg font-headline font-black italic uppercase text-xs tracking-wider">
+                                PayPal Checkout
+                            </div>
+                        </div>
+
+                        <!-- Panel: Apple Pay -->
+                        <div id="payment-panel-apple" class="hidden pt-2 text-center space-y-4 py-6">
+                            <span class="material-symbols-outlined text-white text-4xl block">fingerprint</span>
+                            <p class="text-xs text-textSlate font-body max-w-sm mx-auto leading-relaxed">
+                                Authorize payment securely using your biometric passcode (Touch ID / Face ID) linked to your Apple account.
+                            </p>
+                            <div class="inline-flex bg-black text-white px-6 py-2.5 rounded-lg border border-white/10 items-center gap-1.5 font-headline font-black uppercase text-xs tracking-wider">
+                                <span class="material-symbols-outlined text-sm">apple</span>
+                                Apple Pay
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button class="w-full bg-primary text-tertiary hover:bg-white py-4 rounded-xl font-headline font-black italic uppercase text-center block tracking-wider transition-all transform active:scale-95 neon-btn flex items-center justify-center gap-2 text-base shadow-[0_0_30px_rgba(204,255,0,0.15)]" type="submit">
+                            <span class="material-symbols-outlined text-base">lock</span>
+                            Complete Secure Order
+                        </button>
+
+                        <!-- Trust indicators -->
+                        <div class="flex justify-center items-center gap-4 text-[10px] text-textSlate font-headline font-bold uppercase tracking-wider text-center pt-1">
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-primary text-xs">shield</span> PCI-DSS</span>
+                            <span>•</span>
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-primary text-xs">verified</span> SSL Encrypted</span>
+                            <span>•</span>
+                            <span class="flex items-center gap-1"><span class="material-symbols-outlined text-primary text-xs">lock_reset</span> 3DS 2.0</span>
                         </div>
                     </div>
                 </div>
@@ -270,7 +312,7 @@
                 <!-- Trust Guarantee Panel -->
                 <div class="glass-card rounded-2xl p-6 border border-white/5 bg-secondary/15 space-y-4">
                     <h4 class="font-headline font-black italic text-xs uppercase tracking-wider text-white border-b border-white/5 pb-2">
-                        Verse Guarantee & Security
+                        Verse Guarantee &amp; Security
                     </h4>
                     <div class="space-y-3">
                         <div class="flex gap-3 items-start">
@@ -298,6 +340,7 @@
                 </div>
 
             </div>
+            <!-- END RIGHT COLUMN -->
 
         </div>
 
@@ -375,5 +418,91 @@
 
     <!-- Core App Scripts -->
     <script src="app.js"></script>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- AUTH MODAL: Sign In / Create Account                       -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div id="auth-modal" class="hidden fixed inset-0 z-[200] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4 animate-[fadeIn_0.2s_ease-out]">
+        <div class="bg-[#0E0E14] border border-white/10 rounded-2xl p-8 w-full max-w-md relative shadow-[0_0_60px_rgba(204,255,0,0.08)] animate-[fadeIn_0.25s_ease-out]">
+            <!-- Close -->
+            <button id="auth-modal-close" class="absolute top-4 right-4 text-white/40 hover:text-white transition-colors cursor-pointer">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+
+            <!-- Logo mark -->
+            <div class="mb-6">
+                <span class="text-xl font-black italic tracking-tighter text-primary font-headline">VERSE JERSEY</span>
+                <p class="text-[10px] text-white/40 uppercase tracking-widest font-headline font-bold mt-0.5">Customer Account Portal</p>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex bg-secondary/60 rounded-xl p-1 mb-6 border border-white/5">
+                <button id="auth-tab-signin" class="flex-1 py-2.5 text-xs font-headline font-black uppercase tracking-wider rounded-lg transition-all bg-primary text-tertiary">Sign In</button>
+                <button id="auth-tab-signup" class="flex-1 py-2.5 text-xs font-headline font-black uppercase tracking-wider rounded-lg transition-all text-textSlate hover:text-white">Create Account</button>
+            </div>
+
+            <!-- Sign In Form -->
+            <form id="auth-signin-form" class="space-y-4" novalidate>
+                <div>
+                    <label class="text-[10px] text-white/50 uppercase tracking-widest font-bold block mb-1.5">Email Address</label>
+                    <input type="email" id="auth-email" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-colors placeholder-white/20" placeholder="you@example.com"/>
+                </div>
+                <div class="relative">
+                    <label class="text-[10px] text-white/50 uppercase tracking-widest font-bold block mb-1.5">Password</label>
+                    <input type="password" id="auth-password" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-colors placeholder-white/20" placeholder="••••••••"/>
+                </div>
+                <div id="auth-error-msg" class="hidden text-red-400 text-xs font-bold bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2"></div>
+                <button type="submit" id="auth-signin-btn" class="w-full bg-primary text-tertiary hover:bg-white font-headline font-black italic uppercase tracking-wider py-3.5 rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-base">login</span>
+                    Sign In
+                </button>
+                <p class="text-center text-[10px] text-white/30 font-body">By signing in you agree to our Terms &amp; Privacy Policy</p>
+            </form>
+
+            <!-- Sign Up Form (same fields, hidden by default) -->
+            <form id="auth-signup-form" class="space-y-4 hidden" novalidate>
+                <div>
+                    <label class="text-[10px] text-white/50 uppercase tracking-widest font-bold block mb-1.5">Email Address</label>
+                    <input type="email" id="auth-signup-email" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-colors placeholder-white/20" placeholder="you@example.com"/>
+                </div>
+                <div class="relative">
+                    <label class="text-[10px] text-white/50 uppercase tracking-widest font-bold block mb-1.5">Password</label>
+                    <input type="password" id="auth-signup-password" required class="w-full bg-white/5 border border-white/10 rounded-lg px-4 py-3 text-white text-sm focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-colors placeholder-white/20" placeholder="Min. 6 characters"/>
+                </div>
+                <div id="auth-signup-error-msg" class="hidden text-red-400 text-xs font-bold bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2"></div>
+                <div id="auth-signup-success-msg" class="hidden text-primary text-xs font-bold bg-primary/10 border border-primary/20 rounded-lg px-3 py-2 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm">mark_email_read</span>
+                    Account created! Check your email to confirm.
+                </div>
+                <button type="submit" id="auth-signup-btn" class="w-full bg-primary text-tertiary hover:bg-white font-headline font-black italic uppercase tracking-wider py-3.5 rounded-xl transition-all active:scale-95 flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-base">person_add</span>
+                    Create Account
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <!-- SOFT LOGIN PROMPT (for anonymous checkout users)          -->
+    <!-- ═══════════════════════════════════════════════════════════ -->
+    <div id="login-prompt-modal" class="hidden fixed inset-0 z-[150] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-[#0E0E14] border border-white/10 rounded-2xl p-7 w-full max-w-sm relative shadow-[0_0_40px_rgba(204,255,0,0.07)] animate-[fadeIn_0.25s_ease-out] text-center">
+            <span class="material-symbols-outlined text-primary text-4xl block mb-3">account_circle</span>
+            <h3 class="font-headline font-black italic text-xl uppercase text-white mb-2">Sign In to Track Your Order</h3>
+            <p class="text-xs text-textSlate font-body leading-relaxed mb-5">
+                Sign in to link this order to your account and access real-time tracking. You can still check out as a guest.
+            </p>
+            <div class="flex flex-col gap-2.5">
+                <button id="prompt-signin-btn" class="w-full bg-primary text-tertiary font-headline font-black italic uppercase tracking-wider py-3 rounded-xl active:scale-95 transition-all">
+                    Sign In to My Account
+                </button>
+                <button id="prompt-continue-guest" class="w-full border border-white/10 text-textSlate hover:text-white font-headline font-bold uppercase tracking-wider py-2.5 rounded-xl text-xs transition-colors">
+                    Continue as Guest
+                </button>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
+

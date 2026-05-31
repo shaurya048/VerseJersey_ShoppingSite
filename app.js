@@ -1,12 +1,31 @@
 // Verse Jersey - World Cup 2026 Core E-Commerce Script
 
+// Supabase Initialization
+// ⚠️ WARNING: NEVER COMMIT SECRET TOKENS OR API KEYS TO VERSION CONTROL!
+// Always use environment variables or a secure vault in production.
+// Using var + window guard to prevent 'Identifier already declared' SyntaxError
+// when checkout.html loads the Supabase CDN before app.js runs.
+var SUPABASE_URL = 'https://toouswxggkvbngjkwnjq.supabase.co';
+var SUPABASE_ANON_KEY = 'sb_publishable_ogrbkBNdmTlIzDCjOPsTJA_q0bW6jLL';
+var supabaseClient = (window.supabase && window.supabase.createClient)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
+
+// ─── UNIVERSAL CURRENCY FORMATTER ────────────────────────────────────────────
+// All price display throughout the site should use this function.
+// Outputs: "Rs. 649.00"
+function formatCurrency(amount) {
+    return `Rs. ${parseFloat(amount).toFixed(2)}`;
+}
+
+
 // 1. Products Database
 const PRODUCTS = [
     {
         id: 101,
         name: "Argentina Home 2026",
         version: "Player Edition",
-        price: 149.99,
+        price: 641.99,
         rating: 4.9,
         type: "National Kits",
         teamKey: "argentina",
@@ -21,7 +40,7 @@ const PRODUCTS = [
         id: 102,
         name: "France Away 2026",
         version: "Player Edition",
-        price: 149.99,
+        price: 774.99,
         rating: 4.8,
         type: "National Kits",
         teamKey: "france",
@@ -36,7 +55,7 @@ const PRODUCTS = [
         id: 103,
         name: "Brazil Home 2026",
         version: "Fan Edition",
-        price: 99.99,
+        price: 586.99,
         rating: 4.9,
         type: "National Kits",
         teamKey: "brazil",
@@ -51,7 +70,7 @@ const PRODUCTS = [
         id: 104,
         name: "Germany Home 2026",
         version: "Player Edition",
-        price: 149.99,
+        price: 769.99,
         rating: 4.7,
         type: "National Kits",
         teamKey: "germany",
@@ -66,7 +85,7 @@ const PRODUCTS = [
         id: 105,
         name: "Japan Home 2026",
         version: "Player Edition",
-        price: 149.99,
+        price: 544.99,
         rating: 4.9,
         type: "National Kits",
         teamKey: "japan",
@@ -81,7 +100,7 @@ const PRODUCTS = [
         id: 106,
         name: "Spain Home 2026",
         version: "Player Edition",
-        price: 149.99,
+        price: 516.99,
         rating: 4.8,
         type: "National Kits",
         teamKey: "spain",
@@ -96,7 +115,7 @@ const PRODUCTS = [
         id: 107,
         name: "Portugal Home 2026",
         version: "Fan Edition",
-        price: 99.99,
+        price: 795.99,
         rating: 4.6,
         type: "National Kits",
         teamKey: "portugal",
@@ -111,7 +130,7 @@ const PRODUCTS = [
         id: 108,
         name: "Real Madrid Home 2026",
         version: "Player Edition",
-        price: 159.99,
+        price: 558.99,
         rating: 4.9,
         type: "Club Kits",
         teamKey: "",
@@ -126,7 +145,7 @@ const PRODUCTS = [
         id: 109,
         name: "Manchester City Away 2026",
         version: "Fan Edition",
-        price: 94.99,
+        price: 549.99,
         rating: 4.7,
         type: "Club Kits",
         teamKey: "",
@@ -141,7 +160,7 @@ const PRODUCTS = [
         id: 110,
         name: "Argentina Retro 1986",
         version: "Retro Collection",
-        price: 119.99,
+        price: 788.99,
         rating: 4.9,
         type: "Retro Kits",
         teamKey: "argentina",
@@ -156,7 +175,7 @@ const PRODUCTS = [
         id: 111,
         name: "Germany Goalkeeper 2026",
         version: "Goalkeeper Edition",
-        price: 139.99,
+        price: 670.99,
         rating: 4.8,
         type: "Goalkeeper Kits",
         teamKey: "germany",
@@ -171,7 +190,7 @@ const PRODUCTS = [
         id: 112,
         name: "Verse Training Half-Zip",
         version: "Training Kit",
-        price: 79.99,
+        price: 722.99,
         rating: 4.5,
         type: "Training & Lifestyle",
         teamKey: "",
@@ -186,7 +205,7 @@ const PRODUCTS = [
         id: 113,
         name: "Australia Home 2026",
         version: "Player Edition",
-        price: 139.99,
+        price: 640.99,
         rating: 4.6,
         type: "National Kits",
         teamKey: "australia",
@@ -201,7 +220,7 @@ const PRODUCTS = [
         id: 114,
         name: "Belgium Home 2026",
         version: "Player Edition",
-        price: 144.99,
+        price: 748.99,
         rating: 4.7,
         type: "National Kits",
         teamKey: "belgium",
@@ -216,7 +235,7 @@ const PRODUCTS = [
         id: 115,
         name: "Cameroon Home 2026",
         version: "Fan Edition",
-        price: 94.99,
+        price: 725.99,
         rating: 4.5,
         type: "National Kits",
         teamKey: "cameroon",
@@ -231,7 +250,7 @@ const PRODUCTS = [
         id: 116,
         name: "Canada Home 2026",
         version: "Player Edition",
-        price: 139.99,
+        price: 549.99,
         rating: 4.6,
         type: "National Kits",
         teamKey: "canada",
@@ -246,7 +265,7 @@ const PRODUCTS = [
         id: 117,
         name: "Chile Home 2026",
         version: "Fan Edition",
-        price: 94.99,
+        price: 556.99,
         rating: 4.5,
         type: "National Kits",
         teamKey: "chile",
@@ -261,7 +280,7 @@ const PRODUCTS = [
         id: 118,
         name: "Colombia Home 2026",
         version: "Player Edition",
-        price: 144.99,
+        price: 763.99,
         rating: 4.8,
         type: "National Kits",
         teamKey: "colombia",
@@ -276,7 +295,7 @@ const PRODUCTS = [
         id: 119,
         name: "Costa Rica Home 2026",
         version: "Fan Edition",
-        price: 89.99,
+        price: 644.99,
         rating: 4.4,
         type: "National Kits",
         teamKey: "costarica",
@@ -291,7 +310,7 @@ const PRODUCTS = [
         id: 120,
         name: "Croatia Home 2026",
         version: "Player Edition",
-        price: 149.99,
+        price: 658.99,
         rating: 4.8,
         type: "National Kits",
         teamKey: "croatia",
@@ -306,7 +325,7 @@ const PRODUCTS = [
         id: 121,
         name: "Denmark Home 2026",
         version: "Fan Edition",
-        price: 94.99,
+        price: 728.99,
         rating: 4.5,
         type: "National Kits",
         teamKey: "denmark",
@@ -321,7 +340,7 @@ const PRODUCTS = [
         id: 122,
         name: "Ecuador Home 2026",
         version: "Fan Edition",
-        price: 89.99,
+        price: 510.99,
         rating: 4.5,
         type: "National Kits",
         teamKey: "ecuador",
@@ -336,7 +355,7 @@ const PRODUCTS = [
         id: 123,
         name: "Egypt Home 2026",
         version: "Player Edition",
-        price: 139.99,
+        price: 682.99,
         rating: 4.7,
         type: "National Kits",
         teamKey: "egypt",
@@ -351,7 +370,7 @@ const PRODUCTS = [
         id: 124,
         name: "England Home 2026",
         version: "Player Edition",
-        price: 149.99,
+        price: 682.99,
         rating: 4.8,
         type: "National Kits",
         teamKey: "england",
@@ -366,7 +385,7 @@ const PRODUCTS = [
         id: 125,
         name: "Ghana Home 2026",
         version: "Fan Edition",
-        price: 94.99,
+        price: 587.99,
         rating: 4.6,
         type: "National Kits",
         teamKey: "ghana",
@@ -381,7 +400,7 @@ const PRODUCTS = [
         id: 126,
         name: "Iran Home 2026",
         version: "Fan Edition",
-        price: 89.99,
+        price: 543.99,
         rating: 4.3,
         type: "National Kits",
         teamKey: "iran",
@@ -396,7 +415,7 @@ const PRODUCTS = [
         id: 127,
         name: "Italy Home 2026",
         version: "Player Edition",
-        price: 149.99,
+        price: 776.99,
         rating: 4.8,
         type: "National Kits",
         teamKey: "italy",
@@ -411,7 +430,7 @@ const PRODUCTS = [
         id: 128,
         name: "Mexico Home 2026",
         version: "Player Edition",
-        price: 144.99,
+        price: 775.99,
         rating: 4.7,
         type: "National Kits",
         teamKey: "mexico",
@@ -426,7 +445,7 @@ const PRODUCTS = [
         id: 129,
         name: "Morocco Home 2026",
         version: "Player Edition",
-        price: 139.99,
+        price: 770.99,
         rating: 4.7,
         type: "National Kits",
         teamKey: "morocco",
@@ -441,7 +460,7 @@ const PRODUCTS = [
         id: 130,
         name: "Netherlands Home 2026",
         version: "Player Edition",
-        price: 149.99,
+        price: 569.99,
         rating: 4.8,
         type: "National Kits",
         teamKey: "netherlands",
@@ -456,7 +475,7 @@ const PRODUCTS = [
         id: 131,
         name: "Nigeria Home 2026",
         version: "Player Edition",
-        price: 144.99,
+        price: 747.99,
         rating: 4.9,
         type: "National Kits",
         teamKey: "nigeria",
@@ -471,7 +490,7 @@ const PRODUCTS = [
         id: 132,
         name: "Paraguay Home 2026",
         version: "Fan Edition",
-        price: 89.99,
+        price: 794.99,
         rating: 4.4,
         type: "National Kits",
         teamKey: "paraguay",
@@ -486,7 +505,7 @@ const PRODUCTS = [
         id: 133,
         name: "Peru Home 2026",
         version: "Player Edition",
-        price: 139.99,
+        price: 553.99,
         rating: 4.6,
         type: "National Kits",
         teamKey: "peru",
@@ -501,7 +520,7 @@ const PRODUCTS = [
         id: 134,
         name: "Poland Home 2026",
         version: "Fan Edition",
-        price: 94.99,
+        price: 668.99,
         rating: 4.5,
         type: "National Kits",
         teamKey: "poland",
@@ -516,7 +535,7 @@ const PRODUCTS = [
         id: 135,
         name: "Qatar Home 2026",
         version: "Fan Edition",
-        price: 89.99,
+        price: 761.99,
         rating: 4.3,
         type: "National Kits",
         teamKey: "qatar",
@@ -531,7 +550,7 @@ const PRODUCTS = [
         id: 136,
         name: "Saudi Arabia Home 2026",
         version: "Player Edition",
-        price: 134.99,
+        price: 626.99,
         rating: 4.6,
         type: "National Kits",
         teamKey: "saudiarabia",
@@ -546,7 +565,7 @@ const PRODUCTS = [
         id: 137,
         name: "Senegal Home 2026",
         version: "Fan Edition",
-        price: 94.99,
+        price: 757.99,
         rating: 4.6,
         type: "National Kits",
         teamKey: "senegal",
@@ -561,7 +580,7 @@ const PRODUCTS = [
         id: 138,
         name: "South Korea Home 2026",
         version: "Player Edition",
-        price: 144.99,
+        price: 500.99,
         rating: 4.7,
         type: "National Kits",
         teamKey: "southkorea",
@@ -576,7 +595,7 @@ const PRODUCTS = [
         id: 139,
         name: "Switzerland Home 2026",
         version: "Fan Edition",
-        price: 94.99,
+        price: 588.99,
         rating: 4.5,
         type: "National Kits",
         teamKey: "switzerland",
@@ -591,7 +610,7 @@ const PRODUCTS = [
         id: 140,
         name: "United States Home 2026",
         version: "Player Edition",
-        price: 144.99,
+        price: 565.99,
         rating: 4.7,
         type: "National Kits",
         teamKey: "unitedstates",
@@ -606,7 +625,7 @@ const PRODUCTS = [
         id: 141,
         name: "Uruguay Home 2026",
         version: "Player Edition",
-        price: 139.99,
+        price: 735.99,
         rating: 4.7,
         type: "National Kits",
         teamKey: "uruguay",
@@ -621,7 +640,7 @@ const PRODUCTS = [
         id: 142,
         name: "Algeria Home 2026",
         version: "Fan Edition",
-        price: 94.99,
+        price: 627.99,
         rating: 4.6,
         type: "National Kits",
         teamKey: "algeria",
@@ -641,7 +660,8 @@ let cart = JSON.parse(localStorage.getItem("verse_cart")) || [];
 document.addEventListener("DOMContentLoaded", () => {
     initGlobalCart();
     initMobileNav();
-    
+    initAuthSystem(); // Auth modal wired on every page
+
     // Page-specific initializers
     if (document.getElementById("trending-carousel")) {
         initHomepage();
@@ -665,6 +685,178 @@ document.addEventListener("DOMContentLoaded", () => {
         initCartPage();
     }
 });
+
+// ─── AUTH SYSTEM ─────────────────────────────────────────────────────────────
+// Handles Sign In / Create Account modal, Supabase Auth, and header icon state.
+// Runs on every page that has the #auth-btn element.
+function initAuthSystem() {
+    const authBtn      = document.getElementById("auth-btn");
+    const authModal    = document.getElementById("auth-modal");
+    const authClose    = document.getElementById("auth-modal-close");
+    const tabSignIn    = document.getElementById("auth-tab-signin");
+    const tabSignUp    = document.getElementById("auth-tab-signup");
+    const signinForm   = document.getElementById("auth-signin-form");
+    const signupForm   = document.getElementById("auth-signup-form");
+    const authIcon     = document.getElementById("auth-icon");
+
+    if (!authBtn || !authModal) return; // Modal not present on this page
+
+    // ── Open / Close modal ────────────────────────────────────────────────────
+    authBtn.addEventListener("click", () => authModal.classList.remove("hidden"));
+    authClose?.addEventListener("click", () => authModal.classList.add("hidden"));
+    authModal.addEventListener("click", (e) => {
+        if (e.target === authModal) authModal.classList.add("hidden");
+    });
+
+    // ── Tab switching ─────────────────────────────────────────────────────────
+    const ACTIVE_TAB   = "bg-primary text-tertiary";
+    const INACTIVE_TAB = "text-textSlate hover:text-white";
+
+    function showSignIn() {
+        signinForm?.classList.remove("hidden");
+        signupForm?.classList.add("hidden");
+        tabSignIn.classList.add("bg-primary", "text-tertiary");
+        tabSignIn.classList.remove("text-textSlate", "hover:text-white");
+        tabSignUp.classList.remove("bg-primary", "text-tertiary");
+        tabSignUp.classList.add("text-textSlate", "hover:text-white");
+    }
+    function showSignUp() {
+        signupForm?.classList.remove("hidden");
+        signinForm?.classList.add("hidden");
+        tabSignUp.classList.add("bg-primary", "text-tertiary");
+        tabSignUp.classList.remove("text-textSlate", "hover:text-white");
+        tabSignIn.classList.remove("bg-primary", "text-tertiary");
+        tabSignIn.classList.add("text-textSlate", "hover:text-white");
+    }
+    tabSignIn?.addEventListener("click", showSignIn);
+    tabSignUp?.addEventListener("click", showSignUp);
+
+    // ── Reflect session state on header icon ──────────────────────────────────
+    async function refreshAuthIcon() {
+        if (!supabaseClient) return;
+        const { data } = await supabaseClient.auth.getSession();
+        const isLoggedIn = !!(data?.session?.user);
+        if (authIcon) {
+            if (isLoggedIn) {
+                // Lime glow to show active session
+                authBtn.style.cssText = "color:#CCFF00; filter:drop-shadow(0 0 6px #CCFF00); transition:all 0.3s";
+                authBtn.title = data.session.user.email + " — Click to sign out";
+                // Store email globally for checkout pre-fill
+                window._vjUserEmail = data.session.user.email;
+                window._vjUserId    = data.session.user.id;
+            } else {
+                authBtn.style.cssText = "";
+                authBtn.title = "Sign In / Account";
+                window._vjUserEmail = null;
+                window._vjUserId    = null;
+            }
+        }
+    }
+    refreshAuthIcon();
+
+    // ── Sign In handler ───────────────────────────────────────────────────────
+    signinForm?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const errEl = document.getElementById("auth-error-msg");
+        const email = document.getElementById("auth-email")?.value.trim();
+        const pass  = document.getElementById("auth-password")?.value;
+        const btn   = document.getElementById("auth-signin-btn");
+
+        if (!email || !pass) return;
+        btn.disabled = true;
+        btn.innerHTML = `<span class="material-symbols-outlined text-base animate-spin">sync</span> Signing In...`;
+        errEl?.classList.add("hidden");
+
+        if (!supabaseClient) {
+            errEl.textContent = "Supabase not initialized.";
+            errEl?.classList.remove("hidden");
+            btn.disabled = false;
+            btn.innerHTML = `<span class="material-symbols-outlined text-base">login</span> Sign In`;
+            return;
+        }
+
+        const { error } = await supabaseClient.auth.signInWithPassword({ email, password: pass });
+        btn.disabled = false;
+        btn.innerHTML = `<span class="material-symbols-outlined text-base">login</span> Sign In`;
+
+        if (error) {
+            errEl.textContent = error.message;
+            errEl?.classList.remove("hidden");
+        } else {
+            authModal.classList.add("hidden");
+            await refreshAuthIcon();
+            // Pre-fill checkout email if on checkout page
+            const emailInput = document.getElementById("shipping-email");
+            if (emailInput && window._vjUserEmail) {
+                emailInput.value = window._vjUserEmail;
+                emailInput.setAttribute("readonly", "true");
+                emailInput.classList.add("opacity-60", "cursor-not-allowed");
+            }
+        }
+    });
+
+    // ── Sign Up handler ───────────────────────────────────────────────────────
+    signupForm?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const errEl   = document.getElementById("auth-signup-error-msg");
+        const succEl  = document.getElementById("auth-signup-success-msg");
+        const email   = document.getElementById("auth-signup-email")?.value.trim();
+        const pass    = document.getElementById("auth-signup-password")?.value;
+        const btn     = document.getElementById("auth-signup-btn");
+
+        if (!email || !pass) return;
+        btn.disabled = true;
+        btn.innerHTML = `<span class="material-symbols-outlined text-base animate-spin">sync</span> Creating Account...`;
+        errEl?.classList.add("hidden");
+        succEl?.classList.add("hidden");
+
+        if (!supabaseClient) { btn.disabled = false; return; }
+
+        const { error } = await supabaseClient.auth.signUp({ email, password: pass });
+        btn.disabled = false;
+        btn.innerHTML = `<span class="material-symbols-outlined text-base">person_add</span> Create Account`;
+
+        if (error) {
+            errEl.textContent = error.message;
+            errEl?.classList.remove("hidden");
+        } else {
+            succEl?.classList.remove("hidden");
+        }
+    });
+
+    // ── Click on icon when logged in = sign out ───────────────────────────────
+    authBtn.addEventListener("click", async () => {
+        if (!supabaseClient) return;
+        const { data } = await supabaseClient.auth.getSession();
+        if (data?.session?.user) {
+            // Logged-in click opens sign-out confirm
+            if (confirm(`Sign out of ${data.session.user.email}?`)) {
+                await supabaseClient.auth.signOut();
+                await refreshAuthIcon();
+            }
+            return; // Don't open modal if already logged in
+        }
+        // Guest click: open the modal
+        authModal.classList.remove("hidden");
+    });
+
+    // ── Login prompt modal (checkout page only) ───────────────────────────────
+    const loginPrompt     = document.getElementById("login-prompt-modal");
+    const promptSignInBtn = document.getElementById("prompt-signin-btn");
+    const promptGuest     = document.getElementById("prompt-continue-guest");
+
+    if (promptSignInBtn) {
+        promptSignInBtn.addEventListener("click", () => {
+            loginPrompt?.classList.add("hidden");
+            authModal.classList.remove("hidden");
+        });
+    }
+    if (promptGuest) {
+        promptGuest.addEventListener("click", () => {
+            loginPrompt?.classList.add("hidden");
+        });
+    }
+}
 
 // Global Nav & Cart Management
 function initGlobalCart() {
@@ -726,11 +918,11 @@ function addToCart(item) {
     // Check if duplicate custom kit or simple item
     let existing;
     if (item.isCustom) {
-        existing = cart.find(i => 
-            i.id === item.id && 
-            i.customName === item.customName && 
-            i.customNumber === item.customNumber && 
-            i.size === item.size && 
+        existing = cart.find(i =>
+            i.id === item.id &&
+            i.customName === item.customName &&
+            i.customNumber === item.customNumber &&
+            i.size === item.size &&
             i.team === item.team &&
             i.version === item.version
         );
@@ -762,7 +954,7 @@ function renderCartItems() {
 
     if (cart.length === 0) {
         container.innerHTML = `<p class="text-textSlate text-sm italic font-body text-center mt-8">Your cart is empty.</p>`;
-        if (subtotalEl) subtotalEl.innerText = "$0.00";
+        if (subtotalEl) subtotalEl.innerText = "Rs. 0.00";
         return;
     }
 
@@ -775,8 +967,8 @@ function renderCartItems() {
         const cartItemHTML = `
             <div class="flex items-center gap-4 bg-secondary/30 p-3 rounded-lg border border-white/5 relative group">
                 <div class="w-16 h-16 bg-secondary/80 rounded flex items-center justify-center overflow-hidden border border-white/5 flex-shrink-0">
-                    ${item.image ? `<img src="${item.image}" class="w-full h-full object-contain" />` : 
-                    `<svg class="w-full h-full" id="svg-cart-item-${index}" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg"></svg>`}
+                    ${item.image ? `<img src="${item.image}" class="w-full h-full object-contain" />` :
+                `<svg class="w-full h-full" id="svg-cart-item-${index}" viewBox="0 0 400 500" xmlns="http://www.w3.org/2000/svg"></svg>`}
                 </div>
                 <div class="flex-grow min-w-0">
                     <h4 class="font-headline font-bold text-sm uppercase text-white truncate">${item.name}</h4>
@@ -784,7 +976,7 @@ function renderCartItems() {
                         ${item.isCustom ? `Name: ${item.customName} | No: ${item.customNumber} (${item.size})` : `Size: ${item.size || 'L'} (${item.version})`}
                     </p>
                     <div class="flex justify-between items-center mt-2">
-                        <span class="text-xs font-headline font-black text-primary">$${item.price.toFixed(2)}</span>
+                        <span class="text-xs font-headline font-black text-primary">Rs. ${item.price.toFixed(2)}</span>
                         <span class="text-[10px] text-textWhite bg-white/5 px-2 py-0.5 rounded">Qty: ${item.quantity}</span>
                     </div>
                 </div>
@@ -814,7 +1006,7 @@ function renderCartItems() {
     });
 
     if (subtotalEl) {
-        subtotalEl.innerText = `$${subtotal.toFixed(2)}`;
+        subtotalEl.innerText = `Rs. ${subtotal.toFixed(2)}`;
     }
 }
 
@@ -872,7 +1064,7 @@ function initHomepage() {
     if (searchInput) {
         const searchContainer = searchInput.parentElement;
         searchContainer.style.position = "relative";
-        
+
         const suggestionsBox = document.createElement("div");
         suggestionsBox.className = "absolute top-full left-0 right-0 mt-2 bg-secondary border border-white/10 rounded-xl overflow-hidden shadow-2xl hidden z-50 max-h-60 overflow-y-auto";
         searchContainer.appendChild(suggestionsBox);
@@ -885,7 +1077,7 @@ function initHomepage() {
             }
 
             const matches = PRODUCTS.filter(p => p.name.toLowerCase().includes(query) || p.type.toLowerCase().includes(query));
-            
+
             if (matches.length === 0) {
                 suggestionsBox.innerHTML = `<div class="p-4 text-xs text-textSlate italic">No kits found</div>`;
             } else {
@@ -928,6 +1120,26 @@ function initHomepage() {
 
 // 5. SECURE CHECKOUT PAGE LOGIC
 function initCheckoutPage() {
+    // Dynamically reload the cart to ensure it represents current state immediately
+    cart = JSON.parse(localStorage.getItem("verse_cart")) || [];
+
+    // Pre-fill email from active Supabase session (async, non-blocking)
+    if (supabaseClient) {
+        supabaseClient.auth.getSession().then(({ data }) => {
+            if (data?.session?.user) {
+                const emailInput = document.getElementById("shipping-email");
+                if (emailInput) {
+                    emailInput.value = data.session.user.email;
+                    emailInput.setAttribute("readonly", "true");
+                    emailInput.classList.add("opacity-60", "cursor-not-allowed");
+                }
+                window._vjUserEmail = data.session.user.email;
+                window._vjUserId    = data.session.user.id;
+            }
+        });
+    }
+
+
     const summaryContainer = document.getElementById("checkout-summary-items");
     const subtotalEl = document.getElementById("checkout-subtotal");
     const discountEl = document.getElementById("checkout-discount");
@@ -976,7 +1188,7 @@ function initCheckoutPage() {
                         </div>
                     </div>
                     <div class="text-right flex-shrink-0 font-headline">
-                        <span class="text-xs font-bold text-white block">$${(item.price * item.quantity).toFixed(2)}</span>
+                        <span class="text-xs font-bold text-white block">Rs. ${(item.price * item.quantity).toFixed(2)}</span>
                         <span class="text-[9px] text-textSlate font-body">Qty: ${item.quantity}</span>
                     </div>
                 </div>
@@ -1015,43 +1227,48 @@ function initCheckoutPage() {
     const tax = subtotalAfterDiscount * 0.08;
     const grandTotal = subtotalAfterDiscount + shipping + tax;
 
-    if (subtotalEl) subtotalEl.innerText = `$${subtotal.toFixed(2)}`;
+    if (subtotalEl) subtotalEl.innerText = `Rs. ${subtotal.toFixed(2)}`;
     if (discountRow) {
         if (discountPercent > 0) {
             discountRow.classList.remove("hidden");
-            if (discountEl) discountEl.innerText = `-$${discountAmt.toFixed(2)}`;
+            if (discountEl) discountEl.innerText = `-Rs. ${discountAmt.toFixed(2)}`;
         } else {
             discountRow.classList.add("hidden");
         }
     }
-    if (shippingEl) shippingEl.innerText = shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`;
-    if (taxEl) taxEl.innerText = `$${tax.toFixed(2)}`;
-    if (totalEl) totalEl.innerText = `$${grandTotal.toFixed(2)}`;
+    if (shippingEl) shippingEl.innerText = shipping === 0 ? "FREE" : `Rs. ${shipping.toFixed(2)}`;
+    if (taxEl) taxEl.innerText = `Rs. ${tax.toFixed(2)}`;
+    if (totalEl) totalEl.innerText = `Rs. ${grandTotal.toFixed(2)}`;
 
     // Payment tab toggler
     let currentPaymentMethod = "card";
     const tabCard = document.getElementById("tab-btn-card");
+    const tabUpi = document.getElementById("tab-btn-upi");
     const tabPaypal = document.getElementById("tab-btn-paypal");
     const tabApple = document.getElementById("tab-btn-apple");
 
     const panelCard = document.getElementById("payment-panel-card");
+    const panelUpi = document.getElementById("payment-panel-upi");
     const panelPaypal = document.getElementById("payment-panel-paypal");
     const panelApple = document.getElementById("payment-panel-apple");
 
     function setPaymentMethod(method) {
         currentPaymentMethod = method;
-        [tabCard, tabPaypal, tabApple].forEach(btn => {
+        [tabCard, tabUpi, tabPaypal, tabApple].forEach(btn => {
             if (btn) {
                 btn.className = "py-2.5 rounded-lg text-xs font-headline font-black uppercase tracking-wider transition-all duration-300 text-center text-textSlate hover:text-white";
             }
         });
-        [panelCard, panelPaypal, panelApple].forEach(panel => {
+        [panelCard, panelUpi, panelPaypal, panelApple].forEach(panel => {
             if (panel) panel.classList.add("hidden");
         });
 
         if (method === "card") {
             if (tabCard) tabCard.className = "py-2.5 rounded-lg text-xs font-headline font-black uppercase tracking-wider transition-all duration-300 text-center active-tab bg-secondary text-primary border border-primary/20";
             if (panelCard) panelCard.classList.remove("hidden");
+        } else if (method === "upi") {
+            if (tabUpi) tabUpi.className = "py-2.5 rounded-lg text-xs font-headline font-black uppercase tracking-wider transition-all duration-300 text-center active-tab bg-secondary text-primary border border-primary/20";
+            if (panelUpi) panelUpi.classList.remove("hidden");
         } else if (method === "paypal") {
             if (tabPaypal) tabPaypal.className = "py-2.5 rounded-lg text-xs font-headline font-black uppercase tracking-wider transition-all duration-300 text-center active-tab bg-secondary text-primary border border-primary/20";
             if (panelPaypal) panelPaypal.classList.remove("hidden");
@@ -1062,6 +1279,7 @@ function initCheckoutPage() {
     }
 
     if (tabCard) tabCard.addEventListener("click", () => setPaymentMethod("card"));
+    if (tabUpi) tabUpi.addEventListener("click", () => setPaymentMethod("upi"));
     if (tabPaypal) tabPaypal.addEventListener("click", () => setPaymentMethod("paypal"));
     if (tabApple) tabApple.addEventListener("click", () => setPaymentMethod("apple"));
 
@@ -1072,7 +1290,8 @@ function initCheckoutPage() {
         document.getElementById("shipping-address"),
         document.getElementById("shipping-city"),
         document.getElementById("shipping-postal"),
-        document.getElementById("shipping-email")
+        document.getElementById("shipping-email"),
+        document.getElementById("shipping-phone")
     ];
 
     const cardInputs = [
@@ -1185,6 +1404,190 @@ function initCheckoutPage() {
         });
     }
 
+    // Proceed to Payment handler — Step 1 Gate
+    const proceedBtn = document.getElementById("proceedToPaymentBtn");
+    if (proceedBtn) {
+        proceedBtn.addEventListener("click", async (e) => {
+            e.preventDefault();
+
+            // ── 1. Validate shipping fields ───────────────────────────────────
+            let isShippingValid = true;
+            shippingInputs.forEach(input => {
+                if (input) {
+                    input.dataset.touched = "true";
+                    if (!validateField(input)) isShippingValid = false;
+                }
+            });
+            if (!isShippingValid) {
+                const firstInvalid = shippingInputs.find(i => i && !validateField(i));
+                if (firstInvalid) firstInvalid.focus();
+                return;
+            }
+
+            // ── 2. Check Supabase session for user_id & email pre-fill ────────
+            let userId = null;
+            if (supabaseClient) {
+                const { data: sessionData } = await supabaseClient.auth.getSession();
+                if (sessionData?.session?.user) {
+                    userId = sessionData.session.user.id;
+                    window._vjUserEmail = sessionData.session.user.email;
+                    // Lock email field to authenticated address
+                    const emailInput = document.getElementById("shipping-email");
+                    if (emailInput && window._vjUserEmail) {
+                        emailInput.value = window._vjUserEmail;
+                        emailInput.setAttribute("readonly", "true");
+                        emailInput.classList.add("opacity-60", "cursor-not-allowed");
+                    }
+                } else {
+                    // Show soft login prompt for guest users
+                    const loginPrompt = document.getElementById("login-prompt-modal");
+                    if (loginPrompt) {
+                        loginPrompt.classList.remove("hidden");
+                        // Wait: guest clicks 'Continue' to dismiss; then we proceed
+                        await new Promise(resolve => {
+                            const guest = document.getElementById("prompt-continue-guest");
+                            const signin = document.getElementById("prompt-signin-btn");
+                            const onDismiss = () => {
+                                guest?.removeEventListener("click", onDismiss);
+                                signin?.removeEventListener("click", onDismiss);
+                                resolve();
+                            };
+                            guest?.addEventListener("click", onDismiss);
+                            signin?.addEventListener("click", onDismiss);
+                        });
+                        // Re-check session after prompt (user may have signed in)
+                        const { data: rsd } = await supabaseClient.auth.getSession();
+                        if (rsd?.session?.user) {
+                            userId = rsd.session.user.id;
+                        }
+                    }
+                }
+            }
+
+            // ── 3. Gather field values & calculate totals ─────────────────────
+            const orderId = `VJ-${new Date().getFullYear()}-${Math.floor(1000 + Math.random() * 9000)}`;
+            sessionStorage.setItem("currentOrderId", orderId);
+            const orderIdEl = document.getElementById("confirm-order-number");
+            if (orderIdEl) orderIdEl.innerText = orderId;
+
+            const fname   = document.getElementById("shipping-firstname")?.value || "";
+            const lname   = document.getElementById("shipping-lastname")?.value  || "";
+            const address = document.getElementById("shipping-address")?.value   || "";
+            const city    = document.getElementById("shipping-city")?.value      || "";
+            const postal  = document.getElementById("shipping-postal")?.value    || "";
+            const phone   = document.getElementById("shipping-phone")?.value     || "";
+            const email   = document.getElementById("shipping-email")?.value     || "";
+
+            const customerName    = `${fname} ${lname}`.trim();
+            const deliveryAddress = `${address}, ${city}, ${postal}`.trim();
+
+            const subtotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            let totalAmount = subtotal;
+            if (subtotal < 150) totalAmount += 9.99;
+            const discountCode = localStorage.getItem("verse_coupon");
+            if (discountCode === "VERSE10") totalAmount *= 0.9;
+            const finalAmount = parseFloat(totalAmount.toFixed(2));
+
+            // ── 4. Insert to Supabase ─────────────────────────────────────────
+            if (supabaseClient) {
+                const payload = {
+                    order_id:         orderId,
+                    customer_name:    customerName,
+                    phone_number:     phone,
+                    delivery_address: deliveryAddress,
+                    email:            email,
+                    cart_items:       cart,
+                    total_amount:     finalAmount,
+                    status:           'Unpaid / Checkout Initiated',
+                    user_id:          userId   // null for guests
+                };
+                try {
+                    const { error } = await supabaseClient.from('orders').insert([payload]);
+                    if (error) {
+                        console.error("Supabase Insert Error:", error);
+                        alert("Supabase Error: " + error.message);
+                        return;
+                    }
+                    console.log("✅ Order inserted:", orderId);
+                } catch (err) {
+                    console.error("Exception during Supabase insert:", err);
+                    alert("Supabase Error: " + err.message);
+                    return;
+                }
+            }
+
+            // ── 5. Generate dynamic Google Chart QR code ──────────────────────
+            const qrImg   = document.getElementById("upi-qr-img");
+            const amtDue  = document.getElementById("upi-amount-due");
+            const amtStr  = finalAmount.toFixed(2);
+            const qrUrl   = `https://chart.googleapis.com/chart?chs=200x200&cht=qr&chl=` +
+                            encodeURIComponent(`upi://pay?pa=versejersey@okaxis&pn=VerseJersey&am=${amtStr}&cu=INR`);
+            if (qrImg)  qrImg.src = qrUrl;
+            if (amtDue) amtDue.textContent = `Rs. ${amtStr}`;
+
+            // Also update UPI tab to show by default
+            if (document.getElementById("tab-btn-upi")) {
+                document.getElementById("tab-btn-upi").click();
+            }
+
+            // ── 6. Reveal payment section ─────────────────────────────────────
+            const paymentSection = document.getElementById("secure-payment-section");
+            if (paymentSection) {
+                paymentSection.classList.remove("hidden");
+                proceedBtn.classList.add("hidden");
+                setTimeout(() => {
+                    paymentSection.scrollIntoView({ behavior: "smooth", block: "start" });
+                }, 100);
+            }
+        });
+    }
+
+    // ── completeOrderBtn: "I Have Paid" ───────────────────────────────────────
+    const completeOrderBtn = document.getElementById("completeOrderBtn");
+    if (completeOrderBtn) {
+        completeOrderBtn.addEventListener("click", async () => {
+            completeOrderBtn.disabled = true;
+            completeOrderBtn.innerHTML = `<span class="material-symbols-outlined text-base animate-spin">sync</span> Confirming...`;
+
+            const savedOrderId = sessionStorage.getItem("currentOrderId");
+            if (supabaseClient && savedOrderId) {
+                try {
+                    const { error } = await supabaseClient
+                        .from('orders')
+                        .update({ status: 'Paid / Pending Shipment' })
+                        .eq('order_id', savedOrderId);
+                    if (error) console.error("Supabase Update Error:", error);
+                    else console.log("✅ Order status updated to Paid:", savedOrderId);
+                } catch (err) {
+                    console.error("Exception during update:", err);
+                }
+            }
+
+            // Clear cart
+            cart = [];
+            saveCart();
+            localStorage.removeItem("verse_coupon");
+            sessionStorage.removeItem("currentOrderId");
+
+            // Transition to success screen
+            document.getElementById("checkout-form-row")?.classList.add("hidden");
+            const successPanel = document.getElementById("checkout-success-container");
+            if (successPanel) {
+                successPanel.classList.remove("hidden");
+                successPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+            }
+
+            // Set delivery date
+            const arrivalDateEl = document.getElementById("success-delivery-date");
+            if (arrivalDateEl) {
+                const dStart = new Date(); dStart.setDate(dStart.getDate() + 5);
+                const dEnd   = new Date(); dEnd.setDate(dEnd.getDate() + 9);
+                const opt = { month: "short", day: "numeric" };
+                arrivalDateEl.innerText = `${dStart.toLocaleDateString("en-US", opt)} - ${dEnd.toLocaleDateString("en-US", { ...opt, year: "numeric" })}`;
+            }
+        });
+    }
+
     // Submit handler
     if (mainForm) {
         mainForm.addEventListener("submit", (e) => {
@@ -1245,18 +1648,30 @@ function initCheckoutPage() {
     });
 
     // Helper to finish order transactions
-    function submitOrder(methodUsed) {
+    async function submitOrder(methodUsed) {
+        const savedOrderId = sessionStorage.getItem("currentOrderId");
+
+        // Update Supabase
+        if (supabaseClient && savedOrderId) {
+            try {
+                const { error } = await supabaseClient
+                    .from('orders')
+                    .update({ status: 'Paid / Pending Shipment' })
+                    .eq('order_id', savedOrderId);
+                
+                if (error) console.error("Supabase Update Error:", error);
+                else console.log("Order successfully updated in Supabase.");
+            } catch (err) {
+                console.error("Exception during Supabase update:", err);
+            }
+        }
+
         // Hide checkout grid
         document.getElementById("checkout-form-row").classList.add("hidden");
-        
+
         // Show success screen
         const successPanel = document.getElementById("checkout-success-container");
         successPanel.classList.remove("hidden");
-
-        // Mock Order ID
-        const orderId = `VK-${Math.floor(1000 + Math.random() * 9000)}-2026`;
-        const orderIdEl = document.getElementById("confirm-order-number");
-        if (orderIdEl) orderIdEl.innerText = orderId;
 
         // Dynamic estimated arrival dates
         const arrivalDateEl = document.getElementById("success-delivery-date");
@@ -1697,7 +2112,7 @@ function initCustomizerPage() {
     const backBtn = document.getElementById("view-back-btn");
     const frontStage = document.getElementById("jersey-front-stage");
     const backStage = document.getElementById("jersey-back-stage");
-    
+
     // Inputs binding
     if (nameInput) {
         nameInput.addEventListener("input", (e) => {
@@ -1822,7 +2237,7 @@ function updatePreview() {
         const patchCount = currentCustomizerState.patches.length > 0 ? `+ ${currentCustomizerState.patches.length} Patch(es)` : "";
         barKitDetails.innerText = `${editionName} | ${currentCustomizerState.customName || 'NAME'} #${currentCustomizerState.customNumber || '00'} (${currentCustomizerState.size}) ${patchCount}`;
     }
-    if (barKitPrice) barKitPrice.innerText = `$${finalPrice.toFixed(2)}`;
+    if (barKitPrice) barKitPrice.innerText = `Rs. ${finalPrice.toFixed(2)}`;
 
     // Render SVGs
     renderJerseySVGFront(config);
@@ -2044,7 +2459,7 @@ function renderJerseySVGBack(config, svgEl = document.getElementById("jersey-svg
 function initProductPage() {
     const urlParams = new URLSearchParams(window.location.search);
     const productId = parseInt(urlParams.get("id")) || 101;
-    
+
     const product = PRODUCTS.find(p => p.id === productId) || PRODUCTS[0];
     const config = TEAM_CONFIGS[product.teamKey];
 
@@ -2068,7 +2483,7 @@ function initProductPage() {
     if (prodType) prodType.innerText = product.type || "National Kits";
     if (prodTitle) prodTitle.innerText = product.name;
     if (prodRating) prodRating.innerText = product.rating.toFixed(1);
-    if (prodPrice) prodPrice.innerText = `$${product.price.toFixed(2)}`;
+    if (prodPrice) prodPrice.innerText = `Rs. ${product.price.toFixed(2)}`;
     if (prodDesc) prodDesc.innerText = product.description;
 
     // SVG Rendering
@@ -2305,7 +2720,7 @@ function initProductPage() {
                         </div>
                         <p class="text-slate-gray text-[10px] font-body mb-4">${p.version}</p>
                         <div class="flex justify-between items-center">
-                            <span class="font-headline font-black text-lg">$${p.price.toFixed(2)}</span>
+                            <span class="font-headline font-black text-lg">Rs. ${p.price.toFixed(2)}</span>
                             <button class="bg-primary text-tertiary hover:bg-white p-2 rounded transition-colors active:scale-95 flex items-center justify-center quick-add-btn" data-id="${p.id}">
                                 <span class="material-symbols-outlined text-xs font-bold">add_shopping_cart</span>
                             </button>
@@ -2405,7 +2820,8 @@ function initCollectionPage() {
 
     function renderCollection() {
         // 1. Filter
-        let filtered = PRODUCTS.filter(p => {
+        const productsToRender = getActiveProducts();
+        let filtered = productsToRender.filter(p => {
             // Search text match
             if (collectionFilters.search) {
                 const query = collectionFilters.search.toLowerCase();
@@ -2513,7 +2929,7 @@ function initCollectionPage() {
                             </div>
                             <p class="text-slate-gray text-[10px] font-body mb-4">${p.version}</p>
                             <div class="flex justify-between items-center">
-                                <span class="font-headline font-black text-lg text-white">$${p.price.toFixed(2)}</span>
+                                <span class="font-headline font-black text-lg text-white">Rs. ${p.price.toFixed(2)}</span>
                                 ${p.inStock ? `
                                     <button class="bg-primary text-tertiary hover:bg-white p-2 rounded transition-colors active:scale-95 flex items-center justify-center quick-add-btn" data-id="${p.id}">
                                         <span class="material-symbols-outlined text-xs font-bold">add_shopping_cart</span>
@@ -2655,9 +3071,9 @@ function initCollectionPage() {
             if (desktopSearch) desktopSearch.value = "";
             if (mobileSearch) mobileSearch.value = "";
             if (sortSelector) sortSelector.value = "featured";
-            
+
             document.querySelectorAll(".availability-checkbox, .team-checkbox, .edition-checkbox").forEach(cb => cb.checked = false);
-            
+
             const firstPriceRadio = document.querySelector('.price-radio[value="all"]');
             if (firstPriceRadio) firstPriceRadio.checked = true;
 
@@ -2735,7 +3151,7 @@ function initSupportPage() {
         const lastDigit = matches ? parseInt(matches[matches.length - 1]) : 5;
 
         const steps = ["placed", "processing", "printing", "shipped", "delivered"];
-        
+
         // Reset all steps
         steps.forEach(step => {
             const stepEl = document.getElementById(`step-${step}`);
@@ -2805,7 +3221,7 @@ function initCartPage() {
     if (localStorage.getItem("verse_coupon") === "VERSE10") {
         cartDiscountPercent = 0.10;
     }
-    
+
     const container = document.getElementById("cart-page-items-list");
     const subtotalEl = document.getElementById("cart-page-subtotal");
     const discountEl = document.getElementById("cart-page-discount");
@@ -2813,7 +3229,7 @@ function initCartPage() {
     const shippingEl = document.getElementById("cart-page-shipping");
     const taxEl = document.getElementById("cart-page-tax");
     const totalEl = document.getElementById("cart-page-total");
-    
+
     const couponInput = document.getElementById("coupon-code-input");
     const applyCouponBtn = document.getElementById("btn-apply-coupon");
     const checkoutBtn = document.getElementById("btn-cart-checkout");
@@ -2845,11 +3261,11 @@ function initCartPage() {
                     </a>
                 </div>
             `;
-            if (subtotalEl) subtotalEl.innerText = "$0.00";
-            if (discountEl) discountEl.innerText = "-$0.00";
-            if (shippingEl) shippingEl.innerText = "$0.00";
-            if (taxEl) taxEl.innerText = "$0.00";
-            if (totalEl) totalEl.innerText = "$0.00";
+            if (subtotalEl) subtotalEl.innerText = "Rs. 0.00";
+            if (discountEl) discountEl.innerText = "-Rs. 0.00";
+            if (shippingEl) shippingEl.innerText = "Rs. 0.00";
+            if (taxEl) taxEl.innerText = "Rs. 0.00";
+            if (totalEl) totalEl.innerText = "Rs. 0.00";
             if (checkoutBtn) {
                 checkoutBtn.classList.add("opacity-50", "pointer-events-none");
             }
@@ -2902,8 +3318,8 @@ function initCartPage() {
 
                         <!-- Price -->
                         <div class="text-right min-w-[70px]">
-                            <span class="font-headline font-black text-sm text-white block">$${itemPriceTally.toFixed(2)}</span>
-                            <span class="text-[9px] text-textSlate font-body block mt-0.5">$${item.price.toFixed(2)} each</span>
+                            <span class="font-headline font-black text-sm text-white block">Rs. ${itemPriceTally.toFixed(2)}</span>
+                            <span class="text-[9px] text-textSlate font-body block mt-0.5">Rs. ${item.price.toFixed(2)} each</span>
                         </div>
 
                         <!-- Delete -->
@@ -2940,11 +3356,11 @@ function initCartPage() {
         const tax = subtotalAfterDiscount * 0.08;
         const grandTotal = subtotalAfterDiscount + shipping + tax;
 
-        if (subtotalEl) subtotalEl.innerText = `$${subtotal.toFixed(2)}`;
-        if (discountEl) discountEl.innerText = `-$${discountAmount.toFixed(2)}`;
-        if (shippingEl) shippingEl.innerText = shipping === 0 ? "FREE" : `$${shipping.toFixed(2)}`;
-        if (taxEl) taxEl.innerText = `$${tax.toFixed(2)}`;
-        if (totalEl) totalEl.innerText = `$${grandTotal.toFixed(2)}`;
+        if (subtotalEl) subtotalEl.innerText = `Rs. ${subtotal.toFixed(2)}`;
+        if (discountEl) discountEl.innerText = `-Rs. ${discountAmount.toFixed(2)}`;
+        if (shippingEl) shippingEl.innerText = shipping === 0 ? "FREE" : `Rs. ${shipping.toFixed(2)}`;
+        if (taxEl) taxEl.innerText = `Rs. ${tax.toFixed(2)}`;
+        if (totalEl) totalEl.innerText = `Rs. ${grandTotal.toFixed(2)}`;
 
         // Bind events
         container.querySelectorAll(".btn-page-qty-minus").forEach(btn => {
@@ -3000,7 +3416,7 @@ function initCartPage() {
     const suggestionsGrid = document.getElementById("cart-page-suggestions");
     if (suggestionsGrid) {
         suggestionsGrid.innerHTML = "";
-        
+
         // Take first 4 items from PRODUCTS
         const suggs = PRODUCTS.slice(0, 4);
         suggs.forEach(p => {
@@ -3027,7 +3443,7 @@ function initCartPage() {
                     <div class="pt-4 border-t border-white/10 mt-auto">
                         <h4 class="font-headline font-bold text-xs uppercase tracking-tight truncate text-white mb-2">${p.name}</h4>
                         <div class="flex justify-between items-center">
-                            <span class="font-headline font-black text-sm text-white">$${p.price.toFixed(2)}</span>
+                            <span class="font-headline font-black text-sm text-white">Rs. ${p.price.toFixed(2)}</span>
                             <button class="bg-primary text-tertiary hover:bg-white p-2 rounded transition-colors active:scale-95 flex items-center justify-center quick-add-btn" data-id="${p.id}">
                                 <span class="material-symbols-outlined text-xs font-bold">add_shopping_cart</span>
                             </button>
@@ -3079,4 +3495,82 @@ function initCartPage() {
     }
 
     renderCartPageItems();
+}
+
+// =========================================================================
+// LOCAL STORAGE DATABASE BRIDGE FOR ADMIN PANEL
+// =========================================================================
+
+// 1. Initialize our product array from local storage using a version stamp.
+// The version stamp ensures prices refresh only once when the code updates,
+// NOT on every page load (which was nuking the cart!).
+const PRICE_VERSION = 'vj-prices-v2';
+if (localStorage.getItem('PRICE_VERSION_KEY') !== PRICE_VERSION) {
+    // Only flush the product cache, NEVER the cart.
+    localStorage.removeItem('LOCAL_STORE_PRODUCTS');
+    localStorage.setItem('PRICE_VERSION_KEY', PRICE_VERSION);
+}
+if (!localStorage.getItem('LOCAL_STORE_PRODUCTS')) {
+    localStorage.setItem('LOCAL_STORE_PRODUCTS', JSON.stringify(PRODUCTS));
+}
+
+// 2. Function to load up and return the active data array
+function getActiveProducts() {
+    return JSON.parse(localStorage.getItem('LOCAL_STORE_PRODUCTS'));
+}
+
+// 3. Admin Function: Handle adding a new jersey out of the form submission
+function adminAddProduct(event) {
+    event.preventDefault();
+
+    // Grab values from our admin form inputs
+    const name = document.getElementById('prodName').value;
+    const price = parseFloat(document.getElementById('prodPrice').value);
+    const edition = document.getElementById('prodEdition').value;
+    const imageName = document.getElementById('prodImage').value;
+
+    // Create a clean unique ID out of the kit name (e.g., "France Home 2026" -> "france-home-2026")
+    const generatedId = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+
+    // Construct the standard product data structure
+    const newProduct = {
+        id: generatedId,
+        name: name.toUpperCase(),
+        price: price,
+        rating: 5.0, // Brand new items start with a perfect score!
+        edition: edition,
+        tag: "NEW",
+        isSoldOut: false,
+        image: `assets-dump/images/${imageName}`
+    };
+
+    // Pull the active array, append our new jersey, and save it back to local storage
+    const currentInventory = getActiveProducts();
+    currentInventory.unshift(newProduct); // Adds it to the top of the list so it drops first!
+    localStorage.setItem('LOCAL_STORE_PRODUCTS', JSON.stringify(currentInventory));
+
+    alert(`🎉 Success! ${name} has been published to the local storefront layout.`);
+
+    // Clear the form fields and refresh the display grid automatically
+    document.getElementById('addProductForm').reset();
+
+    // If we have a rendering loop in admin, call it here to show updates instantly
+    if (typeof renderAdminOrders === "function") {
+        // Placeholder refresh
+    }
+}
+
+// 4. Admin Login Handler
+function handleAdminLogin(event) {
+    event.preventDefault();
+    const email = document.getElementById('adminEmail').value;
+    const password = document.getElementById('adminPassword').value;
+    const errorEl = document.getElementById('adminLoginError');
+
+    if (email === 'admin@versejersey.com' && password === 'adminpass123') {
+        sessionStorage.setItem('isAdminLoggedIn', 'true');
+        window.location.href = 'admin.html';
+    } else {
+        if (errorEl) errorEl.classList.remove('hidden');
+    }
 }

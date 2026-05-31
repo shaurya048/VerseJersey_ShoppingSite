@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerseJersey – Admin Dashboard</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Google Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <style>
+        body { font-family: 'Inter', 'Segoe UI', sans-serif; }
+        .glow-border:focus {
+            border-color: #ccff00;
+            box-shadow: 0 0 10px rgba(204, 255, 0, 0.2);
+            outline: none;
+        }
+        .scrollbar-thin::-webkit-scrollbar { height: 4px; width: 4px; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: #333; border-radius: 4px; }
+    </style>
+</head>
+<body class="bg-[#09090f] text-gray-100 min-h-screen">
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- TOP NAV                                                    -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <nav class="border-b border-gray-800 bg-[#0f0f1a]/80 backdrop-blur-md sticky top-0 z-50 px-6 py-4 flex justify-between items-center">
+        <div class="flex items-center gap-3">
+            <span class="text-xl font-black tracking-wider text-[#ccff00] italic">VERSE JERSEY</span>
+            <span class="bg-gray-800 text-[10px] px-2 py-0.5 rounded text-gray-400 font-mono uppercase tracking-widest">ADMIN v2.0</span>
+        </div>
+        <div class="flex items-center gap-4">
+            <span id="admin-session-email" class="text-xs text-gray-500 font-mono hidden"></span>
+            <button onclick="logout()" class="text-sm text-gray-400 hover:text-red-400 flex items-center gap-1.5 transition border border-gray-800 hover:border-red-900 rounded-lg px-3 py-1.5">
+                <span class="material-icons text-sm">logout</span> Sign Out
+            </button>
+        </div>
+    </nav>
+
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <!-- MAIN GRID                                                  -->
+    <!-- ══════════════════════════════════════════════════════════ -->
+    <main class="max-w-[1400px] mx-auto px-6 py-8 grid grid-cols-1 xl:grid-cols-4 gap-6">
+
+        <!-- ── LEFT PANEL: Add New Product ─────────────────────── -->
+        <section class="xl:col-span-1 bg-[#13131f] border border-gray-800/60 rounded-2xl p-6 h-fit space-y-5">
+            <h2 class="text-base font-bold flex items-center gap-2 text-[#ccff00] uppercase tracking-wider">
+                <span class="material-icons text-base">add_box</span> Add Product
+            </h2>
+            <form id="addProductForm" class="space-y-4" autocomplete="off">
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5">Jersey Name</label>
+                    <input type="text" id="prodName" required placeholder="e.g., France Home 2026"
+                        class="w-full bg-[#09090f] border border-gray-800 rounded-lg px-3 py-2 text-sm text-white glow-border">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <!-- FIXED: Label updated from Price ($) → Price (Rs.) -->
+                        <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5">Price (Rs.)</label>
+                        <input type="number" id="prodPrice" step="0.01" required placeholder="649.00"
+                            class="w-full bg-[#09090f] border border-gray-800 rounded-lg px-3 py-2 text-sm text-white glow-border">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5">Edition</label>
+                        <select id="prodEdition"
+                            class="w-full bg-[#09090f] border border-gray-800 rounded-lg px-3 py-2 text-sm text-white glow-border">
+                            <option value="Player Edition">Player Edition</option>
+                            <option value="Fan Edition">Fan Edition</option>
+                            <option value="Retro Collection">Retro Collection</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[10px] uppercase tracking-widest text-gray-400 mb-1.5">Image Filename</label>
+                    <input type="text" id="prodImage" required placeholder="france_home_2026.png"
+                        class="w-full bg-[#09090f] border border-gray-800 rounded-lg px-3 py-2 text-sm text-gray-400 font-mono glow-border">
+                    <p class="text-[10px] text-gray-600 mt-1">Place file in assets-dump/images/</p>
+                </div>
+                <button type="submit"
+                    class="w-full bg-[#ccff00] text-black font-bold text-sm py-2.5 rounded-xl hover:bg-white transition shadow-lg shadow-[#ccff00]/10 cursor-pointer uppercase tracking-wider">
+                    Publish Product
+                </button>
+            </form>
+
+            <!-- Stats tiles -->
+            <div class="pt-4 border-t border-gray-800/60 space-y-3">
+                <h3 class="text-[10px] text-gray-500 uppercase tracking-widest font-bold">Live Stats</h3>
+                <div class="grid grid-cols-2 gap-2">
+                    <div class="bg-[#09090f] border border-gray-800 rounded-xl p-3 text-center">
+                        <div class="text-[#ccff00] font-black text-xl font-mono" id="stat-total-orders">—</div>
+                        <div class="text-[9px] text-gray-500 uppercase tracking-widest mt-0.5">Orders</div>
+                    </div>
+                    <div class="bg-[#09090f] border border-gray-800 rounded-xl p-3 text-center">
+                        <div class="text-emerald-400 font-black text-xl font-mono" id="stat-paid-orders">—</div>
+                        <div class="text-[9px] text-gray-500 uppercase tracking-widest mt-0.5">Paid</div>
+                    </div>
+                </div>
+                <div class="bg-[#09090f] border border-gray-800 rounded-xl p-3 text-center">
+                    <div class="text-white font-black text-xl font-mono" id="stat-revenue">Rs. —</div>
+                    <div class="text-[9px] text-gray-500 uppercase tracking-widest mt-0.5">Total Revenue</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ── RIGHT PANEL: Orders Table (3 cols) ──────────────── -->
+        <section class="xl:col-span-3 bg-[#13131f] border border-gray-800/60 rounded-2xl p-6 space-y-4">
+            <div class="flex items-center justify-between flex-wrap gap-3">
+                <h2 class="text-base font-bold flex items-center gap-2 text-white uppercase tracking-wider">
+                    <span class="material-icons text-gray-400">receipt_long</span> Customer Orders
+                </h2>
+                <div class="flex items-center gap-3">
+                    <span id="orderCount" class="text-xs bg-gray-800 px-3 py-1 rounded-full text-gray-400 font-mono">Loading…</span>
+                    <button onclick="loadAdminDashboardData()"
+                        class="text-xs bg-[#ccff00]/10 border border-[#ccff00]/20 text-[#ccff00] px-3 py-1.5 rounded-lg font-bold uppercase tracking-wider hover:bg-[#ccff00]/20 transition cursor-pointer flex items-center gap-1">
+                        <span class="material-icons text-sm">refresh</span> Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- Scrollable table wrapper -->
+            <div class="overflow-x-auto scrollbar-thin rounded-xl border border-gray-800/60">
+                <table class="w-full text-left text-sm border-collapse min-w-[900px]">
+                    <thead>
+                        <tr class="bg-[#0f0f1a] text-gray-500 text-[10px] uppercase tracking-widest">
+                            <th class="py-3 px-4 font-bold">Order ID</th>
+                            <th class="py-3 px-4 font-bold">Customer</th>
+                            <th class="py-3 px-4 font-bold">Phone</th>
+                            <th class="py-3 px-4 font-bold">Delivery Address</th>
+                            <th class="py-3 px-4 font-bold">Cart Items</th>
+                            <th class="py-3 px-4 font-bold">Total</th>
+                            <th class="py-3 px-4 font-bold">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTableBody" class="divide-y divide-gray-800/40">
+                        <tr>
+                            <td colspan="7" class="py-12 text-center text-gray-600 text-sm italic">
+                                Loading orders from Supabase…
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- App JS (provides supabaseClient, getActiveProducts, adminAddProduct) -->
+    <script src="app.js"></script>
+
+    <script>
+        // ── Auth guard ──────────────────────────────────────────────────────
+        if (sessionStorage.getItem('isAdminLoggedIn') !== 'true') {
+            alert('Unauthorized access. Redirecting to storefront.');
+            window.location.href = 'index.html';
+        }
+
+        // ── Wire product form ───────────────────────────────────────────────
+        const adminForm = document.getElementById('addProductForm');
+        if (adminForm) {
+            adminForm.addEventListener('submit', adminAddProduct);
+        }
+
+        // ══════════════════════════════════════════════════════════════════
+        // loadAdminDashboardData()
+        // Pulls all orders from Supabase and renders them into the table.
+        // Uses supabaseClient (from app.js), not raw `supabase`.
+        // Maps all schema columns: order_id, customer_name, phone_number,
+        //   delivery_address, cart_items, total_amount, status.
+        // ══════════════════════════════════════════════════════════════════
+        async function loadAdminDashboardData() {
+            const tableBody  = document.getElementById('adminTableBody');
+            const countEl    = document.getElementById('orderCount');
+
+            if (!supabaseClient) {
+                tableBody.innerHTML = `<tr><td colspan="7" class="py-10 text-center text-red-400 text-xs">⚠ Supabase not initialized. Check app.js credentials.</td></tr>`;
+                return;
+            }
+
+            // Loading state
+            tableBody.innerHTML = `<tr><td colspan="7" class="py-10 text-center text-gray-600 text-sm italic">Fetching orders…</td></tr>`;
+
+            const { data: orders, error } = await supabaseClient
+                .from('orders')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                tableBody.innerHTML = `<tr><td colspan="7" class="py-10 text-center text-red-400 text-xs font-mono">Dashboard fetch failed: ${error.message}</td></tr>`;
+                alert("Dashboard fetch failed: " + error.message);
+                return;
+            }
+
+            if (!orders || orders.length === 0) {
+                countEl.textContent = '0 Orders';
+                tableBody.innerHTML = `<tr><td colspan="7" class="py-12 text-center text-gray-600 text-sm italic">No orders found in the database yet.</td></tr>`;
+                return;
+            }
+
+            // ── Update stat tiles ─────────────────────────────────────────
+            const paidOrders  = orders.filter(o => o.status === 'Paid / Pending Shipment');
+            const totalRev    = orders.reduce((sum, o) => sum + (parseFloat(o.total_amount) || 0), 0);
+            document.getElementById('stat-total-orders').textContent = orders.length;
+            document.getElementById('stat-paid-orders').textContent  = paidOrders.length;
+            document.getElementById('stat-revenue').textContent      = `Rs. ${totalRev.toFixed(2)}`;
+            countEl.textContent = `${orders.length} Order${orders.length !== 1 ? 's' : ''}`;
+
+            // ── Render rows ───────────────────────────────────────────────
+            tableBody.innerHTML = '';
+            orders.forEach(order => {
+
+                // Parse cart_items JSON array into a readable label string
+                let itemNamesList = '<span class="text-gray-600 italic">No items</span>';
+                if (order.cart_items && Array.isArray(order.cart_items) && order.cart_items.length > 0) {
+                    itemNamesList = order.cart_items
+                        .map(item => `${item.name || 'Item'} (${item.size || item.selectedSize || 'L'}) x${item.quantity || item.qty || 1}`)
+                        .join('<br>');
+                }
+
+                // Conditional badge colour based on payment status
+                const isPaid = order.status === 'Paid / Pending Shipment';
+                const badgeClass = isPaid
+                    ? 'bg-emerald-950 text-emerald-400 border-emerald-800'
+                    : 'bg-yellow-950 text-yellow-400 border-yellow-800';
+
+                // FIXED: All template literals use ${...} properly
+                tableBody.innerHTML += `
+                    <tr class="border-b border-gray-800/40 hover:bg-[#0f0f1a] transition text-sm text-gray-300">
+                        <td class="p-4 font-mono font-bold text-white whitespace-nowrap">
+                            ${order.order_id || 'N/A'}
+                        </td>
+                        <td class="p-4">
+                            <div class="font-semibold text-white">${order.customer_name || 'Anonymous Guest'}</div>
+                            <div class="text-[10px] text-gray-500 mt-0.5">${order.email || ''}</div>
+                        </td>
+                        <td class="p-4 font-mono text-gray-400 whitespace-nowrap">
+                            ${order.phone_number || '—'}
+                        </td>
+                        <td class="p-4 max-w-[180px] truncate text-gray-400 text-xs" title="${order.delivery_address || ''}">
+                            ${order.delivery_address || '—'}
+                        </td>
+                        <td class="p-4 max-w-[200px] text-gray-400 text-xs leading-relaxed">
+                            ${itemNamesList}
+                        </td>
+                        <!-- FIXED: Forces standard Indian Rupee pricing display -->
+                        <td class="p-4 font-mono font-bold text-[#ccff00] whitespace-nowrap">
+                            Rs. ${parseFloat(order.total_amount || 0).toFixed(2)}
+                        </td>
+                        <td class="p-4">
+                            <span class="px-2.5 py-1 text-[10px] font-mono font-bold rounded-full border whitespace-nowrap ${badgeClass}">
+                                ${order.status || 'Unknown'}
+                            </span>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        // ── Sign out ────────────────────────────────────────────────────────
+        function logout() {
+            sessionStorage.removeItem('isAdminLoggedIn');
+            window.location.href = 'index.html';
+        }
+
+        // ── Auto-load on page ready ─────────────────────────────────────────
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log("Admin Dashboard v2.0 initialized.");
+            loadAdminDashboardData();
+        });
+    </script>
+</body>
+</html>
