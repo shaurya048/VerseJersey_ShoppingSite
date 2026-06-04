@@ -1,5 +1,5 @@
 const fs = require('fs');
-const path = './app.js';
+const path = '../frontend/app.js';
 let content = fs.readFileSync(path, 'utf8');
 
 const replacements = {
