@@ -1,0 +1,12 @@
+{
+  "name": "shopping-site-backend",
+  "version": "1.0.0",
+  "description": "Backend to serve the shopping site frontend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
